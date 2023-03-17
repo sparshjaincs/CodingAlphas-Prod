@@ -1,0 +1,539 @@
+
+{% extends 'Core/snippets/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block header %}
+{% include 'Core/snippets/header.html' %}
+{% endblock %}
+{% block jscss %}
+<script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/decoupled-document/ckeditor.js"></script>
+<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+
+{% endblock %}
+{% block style %}
+#div_id_image label{
+    display:none;
+}
+#div_id_image{
+    width:100%;
+    height:100%;
+  
+  cursor:pointer;
+  opacity:0;
+  cursor:pointer;
+  background-color:#fff;
+
+}
+#div_id_image input{
+    width:100%;
+    height:150px;
+    opacity:0;
+    cursor:pointer;
+    background-color:#fff;
+}
+#div_id_title label{
+    display:none;
+}
+
+#id_title{
+    width:100%;
+   
+    border:none;
+  
+    
+    resize:none;
+  
+   
+   
+}
+#id_title:focus{
+    border-color: #C9A56E;
+    box-shadow: none;
+    outline: 0 none;
+}
+#div_id_tags label{
+    display:none;
+}
+
+#div_id_tags input{
+    width:100%;
+    margin-top:-13px;
+    border:none;
+    height:40px;
+    font-size:20px;
+   
+   
+}
+#div_id_description label{
+    display:none;
+}
+
+#div_id_description input{
+    width:100%;
+    margin-top:-13px;
+    border:none;
+    height:90px;
+    font-size:20px;
+   
+   
+}
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {   
+  border-color: #C9A56E;
+  box-shadow: none;
+  outline: 0 none;
+}
+#div_id_content label{
+    display:none;
+}
+#id_image{
+{% if edit %}
+    margin-top:-200px;
+{% endif %}"
+}
+#editor{
+    border:none;
+    outline:none;
+    box-shadow:none;
+}
+.cke_chrome , .cke_focus, .ck_toolbar{
+   border:0px;
+}
+
+.slider {
+    position: fixed;
+    width: 100%;
+  
+    height: 90%;
+
+ 
+    border-top:1px solid rgb(0,0,0,0.05);
+    bottom:0;
+    overflow: hidden;
+    background-color:#fff;
+    box-shadow:2px 2px 10px rgb(0,0,0,0.2);
+    transition: all 1s;
+    overflow-y:scroll;
+    z-index:1000;
+  }
+  
+  .slider.close {
+
+    height: 0;
+  }
+{% endblock %}
+
+{% block body %}
+<section class="pt-5">
+    <div class="shadow-sm p-0 d-flex justify-content-between align-items-center" style="margin-top: 13px; background-color: #FAFAFA; position: sticky; top:3.75rem; z-index:1000;">
+        <div id="toolbar-container"></div>
+        <div style="width:100%; " class="border p-1 d-flex justify-content-end align-items-center">
+        
+                <a class=" mr-2" style="font-size: 12px;" href="#" id="running"></a>
+            
+           
+               <a class="mr-4" style="font-size:12px;" href="#"> Draft in {{request.user.profile.first_name}} {{request.user.profile.last_name}}</a>
+          
+            <a class="btn btn-sm shadow mr-2 trigger" style="border:1px solid #2EA8E6; color: white; border-radius:20px; background-color: rgb(46, 168, 230,1);"><i class="fa fa-paper-plane"></i> Publish</a>
+        </div>
+    </div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-10 offset-lg-1 mb-4">
+           
+            <form id="myform" method="POST" enctype="multipart/form-data" >
+                {% csrf_token %}
+                <div class="mt-3">
+                    {% if edit %}
+                    <div style="background-color: rgb(243, 242, 239); height:180px; display: none   ;" id="upload" >
+                        <img src="{% static 'svg/upload.svg' %}" style="width:200px; margin-top:30px; position: absolute;  margin-left: auto; margin-right: auto; left: 0;
+                        right: 0; text-align: center;"  alt="Cover Picture">
+                        <input id="div_id_image" name="image" type="file" >
+                    </div>
+                    
+                    <div id="preview"  class="">
+                        <div class="d-flex justify-content-end">
+                            <a class="btn btn-sm" onclick="show()" style="position:absolute; right:2rem; top:2rem; color: white; border:1px solid white; border-radius: 50%; "><i class="fa fa-trash"></i></a>
+                        </div>
+                        <div  class="" style="width: 100%;">
+                            <img id="blah" src="/media/{{link}}/" alt="your image" style=" width:100%;" class="rounded" >
+                        </div>
+            
+                    </div>
+                    {% else %}
+                    <div style="background-color: rgb(243, 242, 239); height:180px;" id="upload" >
+                        <img src="{% static 'svg/upload.svg' %}" style="width:200px; margin-top:30px; position: absolute;  margin-left: auto; margin-right: auto; left: 0;
+                        right: 0; text-align: center;"  alt="Cover Picture">
+                        <input id="div_id_image" name="image" type="file" >
+                    </div>
+                    
+                    <div id="preview" style="display: none;" class="">
+                        <div class="d-flex justify-content-end">
+                            <a class="btn btn-sm" onclick="show()" style="position:absolute; right:2rem; top:2rem; color: white; border:1px solid white; border-radius: 50%; "><i class="fa fa-trash"></i></a>
+                        </div>
+                        <div  class="" style="width: 100%;">
+                            <img id="blah" src="/media/{{link}}/" alt="your image" style="display: none;  width:100%;" class="rounded" >
+                        </div>
+            
+                    </div>
+                    {% endif %}
+                   
+                </div>
+                <input type="hidden" name="instance" value="{{id}}" id="hidden_instance">
+                <div class="mt-3">
+                    <textarea id="title_head" name="title" style="width:100%; height:60px;  border:none; resize: none; font-size: 28px; font-weight: 600;" placeholder="Title of your story" class="pt-2">{{title}}</textarea>
+                </div>
+                <div class="">
+                  
+                    <div id="editor">{{content|safe}}</div>
+                
+                </div>
+                <div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</section>
+<section>
+    
+<div class="section">
+
+    <div class="slider close" style="z-index:1000;">
+        <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-between align-items-center p-2 pl-4" style="background-color: #FAFAFA;">
+                <div class="ml-1 d-flex align-items-center justify-content-start">
+                  <div> 
+                      <img src="/media/{{request.user.profile.avatar}}" style="width:40px; height:40px;" class="rounded-circle">
+                  </div>
+                  <div style="font-size: 12px; color: rgb(0,0,0,0.3); font-weight: 600; " class="ml-2">
+                      Draft in {{request.user.profile.first_name}} {{request.user.profile.last_name}}
+                  </div>
+                </div>
+                <div style="font-size: 16px; font-weight: 600; color: #393E41;">
+                    Story Preview
+                </div>
+                <div class="d-flex justify-content-end align-items-center mr-4">
+          
+             
+                 <a class="btn btn-sm cancel mr-2 text-muted bg-light" style="font-size: 12px; border-radius: 20px;"><i class="fa fa-cancel"></i> Close</a>
+            </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                   
+                     
+                    <div class="col-12 col-md-12 col-lg-12 mt-4">
+                       
+                            <div id="preview_title" style="font-size: 24px; font-weight: 700;" >
+
+                            </div>
+                            <div class="mt-3" style="font-size: 13px; font-weight: 600; color: #393E41;">
+                                <i class="fa fa-tags"></i> Tags
+                             </div>
+                             <div class="" style="font-size: 13px; font-weight: 600; color: rgb(0,0,0,0.3);">
+                                Note: Add Minimum 5 tags so readers know what your story is about.
+                             </div>
+                            <div class="border p-1 mt-1 rounded">
+                                <textarea id="preview_tags" maxlength="150" placeholder="Add comma (,) seperated tags." spellcheck="true" style="width:100%; height:50px; border:none; font-size:13px; resize:none; color: rgb(0,0,0,0.5);">{{tags}}</textarea>
+                            </div>
+                            <div class="mt-3" style="font-size: 13px; font-weight: 600; color: #393E41;">
+                                <i class="fa fa-globe"></i> Who can see your post ?
+                             </div>
+                            <div class="">
+                                <div class="form-check">
+                                    <input class="form-check-input"  type="radio" name="radio_public" value="1" id="flexRadioDefault1" {% if broadcast == 'Public' %} checked {% endif %} >
+                                    <label class="form-check-label" for="flexRadioDefault1" style="color: #393E41; font-size: 13px; font-weight: 600;">
+                                      Public <span style="font-size: 12px; color: rgb(0,0,0,0.3) ;">Anyone can see your post.</span>
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="radio_public" value="0" id="flexRadioDefault2" {% if broadcast == 'Private' %} checked {% endif %} >
+                                    <label class="form-check-label" for="flexRadioDefault2"  style="color: #393E41; font-size: 13px; font-weight: 600;">
+                                      Private <span style="color: rgb(0,0,0,0.3); font-size: 12px;">Only your friends can see your post.</span>
+                                    </label>
+                                  </div>
+                            </div>
+
+                            <div class="mt-3" style="font-size: 13px; font-weight: 600; color: #393E41;">
+                                <a onclick="submitval('Published')" class="btn btn-sm border  mr-2 text-white" style="font-size: 12px; background-color: #2EA8E6; border-radius:20px;"><i class="fa fa-paper-plane"></i> Publish</a>
+                                <a onclick="submitval('Drafts')" class="btn btn-sm border  mr-2 bg-light" style="font-size: 12px; border-radius:20px;"><i class=""></i> Do it Later</a>
+                            
+                             </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</section>
+{% endblock %}
+
+
+
+
+{% block script %}
+
+<script>
+    
+    $('.trigger, .cancel').click(function() {
+  $('.slider').toggleClass('close');
+    data_submit();
+    document.getElementById('preview_title').innerHTML = document.getElementById('title_head').value;
+});
+  
+
+    DecoupledEditor
+            .create( document.querySelector( '#editor' ) ,{
+                placeholder:"Write your story here. Add images or a video for visual impact.",
+             
+                ckfinder: {
+                    uploadUrl: 'http://localhost:8000/blogs/upload/body/',
+                   
+                },
+            })
+            .then( editor => {
+                const toolbarContainer = document.querySelector( '#toolbar-container' );
+
+                toolbarContainer.appendChild( editor.ui.view.toolbar.element );
+            } )
+            .catch( error => {
+                console.error( error );
+            } );
+
+
+
+function show(){
+    document.getElementById("blah").style.display="none";
+    document.getElementById("preview").style.display="none";
+    document.getElementById("div_id_image").style.display = 'block';
+        document.getElementById("upload").style.display = 'block';
+}
+
+function submitval(method){
+        $.ajax({
+            type:'POST',
+            url:'/blogs/submit/post/',
+            data:{
+                
+                tags:document.getElementById('preview_tags').value,
+                public:$("input[type='radio'][name='radio_public']:checked").val(),
+                method:method,
+                id:"{{id}}",
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+
+            },
+            success:function(data){
+                data = JSON.parse(data);
+                window.location.href = data;
+            }
+        })
+    } 
+function data_submit(){
+document.getElementById('running').innerHTML = "Saving...";
+var formdata = new FormData($('#myform')[0]);
+formdata.append("value",document.getElementById('editor').innerHTML);
+formdata.append("id",document.getElementById('hidden_instance').value);
+formdata.append("method","edit");
+$.ajax({
+            type:'POST',
+            url: '/blogs/save/',
+            data:formdata,
+            processData: false,
+    contentType: false,
+            success:function(data){
+                data = JSON.parse(data);
+                if (data['status'] == 1){
+                    document.getElementById('running').innerHTML = 'Saved';
+                    $("#running").children().delay(5000).fadeOut(800); 
+                    document.getElementById('hidden_instance').value = data['id'];
+                    
+                } 
+                else{
+                    document.getElementById('running').innerHTML = 'Start Writing';
+                    $("#running").children().delay(5000).fadeOut(800);
+                }
+
+                
+                
+            },
+            error: function(data){
+                console.log("error");
+                console.log(data);
+            }
+        });
+
+    }
+    setInterval(function() {
+      data_submit();
+    }, 10000);
+    $(document).bind('keydown', function(e) {
+  if(e.ctrlKey && (e.which == 83)) {
+    e.preventDefault();
+    data_submit();
+    return false;
+  }
+});
+</script>
+
+{% endblock %}
+<!--
+
+<script>
+    function submitval(method){
+        $.ajax({
+            type:'POST',
+            url:'/blogs/submit/post/',
+            data:{
+                title:document.getElementById('preview_title').value,
+                desc:document.getElementById('preview_desc').value,
+                tags:document.getElementById('preview_tags').value,
+                public:$("input[type='radio'][name='radio_public']:checked").val(),
+                method:method,
+                id:"{{id}}",
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+
+            },
+            success:function(data){
+                data = JSON.parse(data);
+                window.location.href = data;
+            }
+        })
+    }
+    function execute(){
+        $.ajax({
+            type:"GET",
+            data:{
+                "id":"{{id}}",
+            },
+            url:"/blogs/preview/fetch/",
+            success:function(data){
+                data = JSON.parse(data);
+                document.getElementById('preview_image').src= data['image'];
+                document.getElementById('preview_title').innerHTML = data['title'];
+                document.getElementById('preview_desc').innerHTML = data['desc'];
+                document.getElementById('preview_tags').innerHTML = data['tags'];
+                if (data['broadcast'] == 'Public'){
+                    document.getElementById('flexRadioDefault1').checked = true;
+                }
+                else{
+                    document.getElementById('flexRadioDefault2').checked = true;
+                }
+            }
+        })
+    }
+   $('.trigger, .cancel').click(function() {
+  $('.slider').toggleClass('close');
+    data_submit();
+    execute();
+});
+
+   $(function(){
+  $('#id_image').change(function(){
+    document.getElementById("blah").style.display="block";
+    document.getElementById("preview").style.display="block";
+    if (this.files && this.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+                    .width(300);
+                    
+            };
+
+            reader.readAsDataURL(this.files[0]);
+        }
+
+        document.getElementById("div_id_image").style.display = 'none';
+        document.getElementById("upload").style.display = 'none';
+        
+  });
+
+});
+
+function show(){
+    document.getElementById("blah").style.display="none";
+    document.getElementById("preview").style.display="none";
+    document.getElementById("div_id_image").style.display = 'block';
+    document.getElementById("id_image").style.display = 'block';
+    document.getElementById("upload").style.display = 'block';
+    document.getElementById("id_image").style.marginTop = "10px";
+}
+{% if not link %}
+document.getElementById('id_image').style.display = 'block';
+document.getElementById("id_image").style.marginTop = "10px";
+{% endif %}
+function data_submit(){
+document.getElementById('running').innerHTML = "Saving...";
+var formdata = new FormData($('#myform')[0]);
+formdata.append("value",CKEDITOR.instances['id_content'].getData());
+formdata.append("id",document.getElementById('hidden_instance').value);
+formdata.append("method","edit");
+$.ajax({
+            type:'POST',
+            url: '/blogs/save/',
+            data:formdata,
+            processData: false,
+    contentType: false,
+            success:function(data){
+                data = JSON.parse(data);
+                if (data['status'] == 1){
+               
+                    var str = ' <span> Saved </span>';
+                    document.getElementById('running').innerHTML = str;
+                    $("#running").children().delay(5000).fadeOut(800);   
+                    document.getElementById('hidden_instance').value = data['id'];
+                } 
+                else{
+                    document.getElementById('running').innerHTML = 'Start Writing';
+                    $("#running").children().delay(5000).fadeOut(800);
+                }
+
+                
+                
+            },
+            error: function(data){
+                console.log("error");
+                console.log(data);
+            }
+        });
+
+    }
+    setInterval(function() {
+      data_submit();
+    }, 15000);
+    window.onbeforeunload = function(event)
+    {
+        data_submit();
+    };
+    $(document).bind('keydown', function(e) {
+  if(e.ctrlKey && (e.which == 83)) {
+    e.preventDefault();
+    data_submit();
+    return false;
+  }
+});
+</script>
+
+
+
+-->

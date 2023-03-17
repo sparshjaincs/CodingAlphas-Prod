@@ -1,0 +1,244 @@
+{% load static %}
+{% load shortcuts %}
+<div class="card carding content mt-3 shadow-sm" data-aos="fade-up">
+    <div class="card-header border-0">
+        <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-start  align-items-center">
+                <div>
+                        <img src="/media/{{i.user.profile.avatar}}" class="rounded-circle" style="width:40px; height:40px;">
+                </div>
+                <div class="ml-2">
+                    <div class="text-color" style="font-size: 14px; font-weight: 500; ">
+                       <a href="/profile/{{i.user}}/" style="font-weight: 600;"> {{i.user.profile.first_name}} {{i.user.profile.last_name}}</a> shared an article
+                    </div>
+                    <div class="text-color" style="font-size: 12px; font-weight: 500;">
+                        {{i.edited}}
+                    </div>
+
+                   
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+
+            
+                <div>
+                    <a class=" mt-1 ml-1 btn btn-sm d-flex justify-content-center align-items-center rounded-circle" style="width:20px;height:20px;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                <div class="dropdown-menu dropdown-menu-right" style="font-size: 12px;" aria-labelledby="dropdownMenuLink">
+                    {% if request.user == i.user %}
+                    <a class="dropdown-item" href="#"><i class="fa fa-share-alt" style="color: #E57851;"></i> Share</a>
+                     {% endif %}
+                    <a class="dropdown-item" href="#"><i class="fa fa-exclamation-triangle" style="color: #E57851;"></i> Report</a>
+                    <a class="dropdown-item" href="#"><i class="fa fa-bookmark-o fa2" style="color: #E57851;"></i> Bookmark</a>
+                   
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div >
+            
+            <a href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/">  <img class="d-block w-100" src="/media/{{i.image}}" alt="First slide" style="width:100%;"></a>
+            </div>
+    </div>
+    <div class="card-body mt-1">
+       
+        
+
+       
+        <div class="d-flex justify-content-between">
+            <div class="" style="display: flex; justify-content: start; flex-wrap: wrap;">
+                <a onclick="like1('blog','{{i.id}}','heartsec{{i.id}}')" style="cursor: pointer;">
+                    <div class=" mr-3" style="font-size: 20px;">
+                        <i class="fa fa-heart fa2" style="{% if request.user in i.like.all %} color:#E57851; -webkit-text-stroke-color:#E57851; {% endif %}" id="heartsec{{i.id}}"></i> 
+                    </div>
+                    </a>
+                    <a onclick="bookmark('blog','{{i.id}}','bookmarksec{{i.id}}')" style="cursor: pointer;">
+                        <div class=" mr-3" style="font-size: 20px;">
+                            <i class="fa fa-bookmark fa2" style="{% if i in request.user.bookmarkuser.all.0.article_instance.all %} color:#E57851; -webkit-text-stroke-color:#E57851; {% endif %}" id="bookmarksec{{i.id}}"></i> 
+                        </div>
+                        </a>
+               
+                <div class=" mr-3" style="font-size: 20px;">
+                    <i class="fa fa-paper-plane fa2"></i> 
+                </div>
+               
+            
+            
+                
+              
+            
+            
+                
+            </div>
+            <div>
+                <div style="font-size: 14px; font-weight: 500;"> 
+                    {{i.content|time}} min read ({{i.content|length}} words)
+                </div>
+            </div>
+       
+        </div> 
+        <div class="mt-1">
+            <a  style="font-weight: 600; font-size: 14px;">
+                Liked by {{i.like.all.count}} users.
+              </a>
+        </div>
+           <div class="">
+            <a  href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/" >
+                <div style="font-size: 16px; font-weight: 700;" class=" text-color">
+                    {{i.title|truncatechars:140}}
+                   
+                </div>
+            </a>
+               <div style="font-size: 14px;" class="text-color hide-me">
+                <div>
+                    <span id="less{{i.id}}">
+                    <a href="/profile/{{i.user}}" style="font-weight: 600;">
+                        
+                      </a> {{i.content|safe|truncatechars:200}}
+                      <a href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/" style="cursor: pointer;">read more</a>
+                    </span>
+
+                      
+                </div>
+            
+               </div>
+
+          
+           </div>
+            
+            <div>
+                {% if i.blog_comment_ques.all.count != 0 %}
+               <div class="mt-2">
+                <a class="" href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/#comment_class"   role="button" aria-expanded="false" aria-controls="collapseExample{{i.id}}" >
+                    <div class="" style="font-size: 13px; font-weight:500">
+                        View all {{i.blog_comment_ques.all.count}} comments
+                    </div>
+                </a>
+               </div>
+
+               <div class="" style="font-size: 13px;">
+                   {% for j in i.blog_comment_ques.all %}
+                     
+                        {% if j.is_parent %}
+                        <div>
+                            <a href="/profile/{{j.user}}/" style="font-weight: 500;">{{j.user}}</a> : {{j.body|safe}}
+                          </div>
+                
+                      {% endif %}
+                    {% endfor %}
+               </div>
+               {% endif %}
+
+
+
+               
+            </div>
+
+    </div>
+
+    <div class="card-footer border-0">
+        <form>
+            <div class="d-flex justify-content-between">
+        <div style="width:100%;" class="d-flex justify-content-start align-items-center">
+         <span class="mr-2">  <i class="fa fa-comment" style="color: #BCC0C4;"></i> </span>  <input type="text" required style="width:100%; background:none; border:none; font-size:13px;" placeholder="Add a public comment">
+        </div>
+        <div>
+            <button type="submit" class="btn btn-sm" style="background: none; color: #2EA8E6;">
+                Post
+            </button>   
+
+        </div>
+    </div>
+    </form>
+    </div>
+</div>
+<!--
+<div class="card carding border shadow-sm mt-3 ">
+    <div class="card-body content">
+    <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-start mb-3 align-items-center">
+            <div>
+                    <img src="/media/{{i.user.profile.avatar}}" class="rounded-circle" style="width:35px; height:35px;">
+            </div>
+            <div class="ml-2">
+                <div class="text-muted" style="font-size: 13px; ">
+                   <a href="/profile/{{i.user_name2}}/" style="font-weight: 600;"> {{i.user_name2.profile.first_name}} {{i.user_name2.profile.last_name}}</a> posted an article
+                </div>
+                <div class="text-muted" style="font-size: 13px;">
+                    {{i.date_Publish}}, {{i.time}}
+                </div>
+
+               
+            </div>
+        </div>
+        <div>
+
+            {% if request.user != i.user_name2 %}
+            <a class="btn btn-sm border" style="font-size: 12px; background-color: #E57851; color: white;">Follow</a>
+            
+            {% endif %}
+            <a class="btn btn-sm d-flex justify-content-center align-items-center rounded-circle" style="width:20px;height:20px;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+            <div class="dropdown-menu dropdown-menu-right" style="font-size: 12px;" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="#"><i class="fa fa-share-alt" style="color: #E57851;"></i> Share</a>
+                <a class="dropdown-item" href="#"><i class="fa fa-exclamation-triangle" style="color: #E57851;"></i> Report</a>
+              
+              </div>
+        </div>
+    </div>
+    <div style="font-size: 14px; font-weight: 600;" class="text-dark mb-2">
+       <a href="/blog/{{i.title|replace}}/{{i.id}}/"><center>{{i.title}}</center></a> 
+    </div>
+    <div>
+        <a href="/blog/{{i.title|replace}}/{{i.id}}/"><img src="/media/{{i.image}}/" style="width: 100%; max-height:250px;"></a>
+    </div>
+    <div style="font-size: 13px;" class="text-muted">
+       <center>
+        {{i.description}}
+       </center>
+    </div>
+    <hr>
+    <div class="">
+        <div class="" style="display: flex; justify-content: start; flex-wrap: wrap;">
+            <a href="#" class="btn btn-sm">
+                <div class=" mr-2" style="font-size: 13px;">
+                    <i class="fa fa-thumbs-up fa2"></i> {{i.liked.all.count}} Like
+                </div>
+            </a>
+            <a href="#" class="btn btn-sm">
+            <div class="ml-2 mr-2" style="font-size: 13px;">
+                <i class="fa fa-thumbs-down fa2"></i> {{i.disliked.all.count}} Dislike
+            </div>
+        </a>
+        <a class="btn btn-sm" data-toggle="collapse" href="#collapseExample{{i.id}}"  role="button" aria-expanded="false" aria-controls="collapseExample{{i.id}}" >
+            <div class=" ml-2 mr-2" style="font-size: 13px;">
+                <i class="fa fa-comments fa2"></i> 12 Comment
+            </div>
+        </a>
+            {% if request.user == i.user_name2 %}
+            <a href="#" class="btn btn-sm">
+                <div class=" ml-2 mr-2" style="font-size: 13px;">
+                    <i class="fa fa-pencil fa2"></i> Edit
+                </div>
+            </a>
+            <a href="#" class="btn btn-sm">
+                <div class=" ml-2 mr-2" style="font-size: 13px;">
+                    <i class="fa fa-trash fa2"></i> Delete
+                </div>
+            </a>
+            {% endif %}
+        
+            
+        </div>
+        <div class="collapse mt-3 " id="collapseExample{{i.id}}">
+            <div class="card card-body border-0" style="font-size: 12px;">
+                <div class=" d-flex justify-content-center">
+                 <i class="fa fa-spinner fa-spin" style="color: #E57851;"></i>
+                </div>
+                </div>
+          </div>
+    </div>
+    
+</div>
+</div>
+-->

@@ -1,0 +1,160 @@
+<div class="container mt-5">
+    <div class="row">
+       <div class="col-12 mb-4 d-flex justify-content-between" >
+           <div class="d-flex justify-content-start">
+              <a href="/profile/{{profile.user}}/?method=Connections&type=followers">
+                  
+                <div class="p-1" style=" font-size:14px; width:120px; text-align: center;{% if type == 'followers' %} color: #2EA8E6; border-bottom: 2px solid #2EA8E6; {% endif %} font-weight: 500;">
+                    Followers   <span class=" ml-1 badge badge-sm badge-pill badge-dark">{{profile.followers.all.count}}</span>
+                   </div>
+              </a>
+               <a class="ml-3" href="/profile/{{profile.user}}/?method=Connections&type=following">
+                <div class="p-1" style="font-size:14px;  width: 120px; text-align: center; {% if type == 'following' %} color: #2EA8E6; border-bottom: 2px solid #2EA8E6; {% endif %}font-weight: 500; ">
+                    Following  <span class=" ml-1 badge badge-sm badge-pill badge-dark">{{profile.following.all.count}}</span>
+                   </div>
+               </a>
+               <a class="ml-3" href="/profile/{{profile.user}}/?method=Connections&type=suggested">
+                <div class="p-1" style="font-size:14px;  width: 120px; text-align: center; {% if type == 'suggested' %} color: #2EA8E6; border-bottom: 2px solid #2EA8E6; {% endif %}font-weight: 500; ">
+                    Suggested  
+                   </div>
+               </a>
+           </div>
+           <div>
+            <div style="background-color: #F0F2F5; height:40px; width:280px; border-radius: 20px;" class="d-flex justify-content-start align-items-center pl-3">
+                <i class="fa fa-search"></i> 
+                <input  onkeyup="searchquery()" id="myFilter"  type="text" style="width:100%; border:none; background: none; font-size: 13px;" class="ml-2 mr-2" placeholder="Search {% if type == 'followers' %}Followers{% elif type == 'following' %} Following {% elif type == 'suggested'%}codingalphas.community {% endif %}">
+               </div>
+           </div>
+       </div>
+       <div class="col-12">
+           <div class="row" id="myItems">
+
+         
+       {% if type == 'followers' %}
+       {% for i in profile.followers.all %}
+                <div class="col-12 col-md-6 col-lg-3 " >
+                    <div class="card carding">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center">
+                                <img src="/media/{{i.profile.avatar}}" style="width:100px; height:100px;" class="rounded-circle">
+                            </div>
+                            <div style="font-weight:500;">
+                               <a href="/profile/{{i}}/">
+                                <div class="d-flex justify-content-center mt-2 content">
+                                    {{i.profile.first_name}}  {{i.profile.last_name}}
+                               </div>
+                               </a>
+                                <div>
+                                <center><span style="font-size: 13px; font-weight: 400;" class="text-muted">Member</span></center>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <div style="font-size: 13px; font-weight: 500;">
+                                    {{i.profile.followers.all.count}} <span class="text-muted">Followers</span>
+                                </div>
+                                <div style="font-size: 13px; font-weight: 500;">
+                                    {{i.profile.following.all.count}} <span class="text-muted">Following</span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-footer p-1 border-0">
+                            <div >
+                                <a style="width:100%;" onclick="follow('{{i}}','follow{{i.id}}','follow_class{{i.id}}')" class="btn btn-sm  follow_class{{i.id}} bg-light"  id="follow{{i.id}}">
+                                    {% if i in request.user.profile.following.all %} Unfollow {% else %}  Follow{% endif %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+       {% endfor %}
+       {% endif %}
+
+       {% if type == 'following' %}
+       {% for i in profile.following.all %}
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="card carding">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center">
+                                <img src="/media/{{i.profile.avatar}}" style="width:100px; height:100px;" class="rounded-circle">
+                            </div>
+                            <div style="font-weight:500;">
+                               <a href="/profile/{{i}}/">
+                                <div class="d-flex justify-content-center mt-2 content">
+                                    {{i.profile.first_name}}  {{i.profile.last_name}}
+                               </div>
+                               </a>
+                                <div>
+                                <center><span style="font-size: 13px; font-weight: 400;" class="text-muted">Member</span></center>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <div style="font-size: 13px; font-weight: 500;">
+                                    {{i.profile.followers.all.count}} <span class="text-muted">Followers</span>
+                                </div>
+                                <div style="font-size: 13px; font-weight: 500;">
+                                    {{i.profile.following.all.count}} <span class="text-muted">Following</span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-footer p-1 border-0">
+                            <div >
+                                <a style="width:100%;" onclick="follow('{{i}}','follow{{i.id}}','follow_class{{i.id}}')" class="btn btn-sm  follow_class{{i.id}} bg-light"  id="follow{{i.id}}">
+                                    {% if i in request.user.profile.following.all %} Unfollow {% else %}  Follow{% endif %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+       {% endfor %}
+       {% endif %}
+
+       {% if type == 'suggested' %}
+       {% for i in users %}
+       {% if i != request.user %}
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="card carding">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center">
+                                <img src="/media/{{i.profile.avatar}}" style="width:100px; height:100px;" class="rounded-circle">
+                            </div>
+                            <div style="font-weight:500;">
+                               <a href="/profile/{{i}}/">
+                                <div class="d-flex justify-content-center mt-2 content">
+                                    {{i.profile.first_name}}  {{i.profile.last_name}}
+                               </div>
+                               </a>
+                                <div>
+                                <center><span style="font-size: 13px; font-weight: 400;" class="text-muted">Member</span></center>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <div style="font-size: 13px; font-weight: 500;">
+                                    {{i.profile.followers.all.count}} <span class="text-muted">Followers</span>
+                                </div>
+                                <div style="font-size: 13px; font-weight: 500;">
+                                    {{i.profile.following.all.count}} <span class="text-muted">Following</span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-footer p-1 border-0">
+                            <div >
+                                <a style="width:100%;" onclick="follow('{{i}}','follow{{i.id}}','follow_class{{i.id}}')" class="btn btn-sm  follow_class{{i.id}} bg-light"  id="follow{{i.id}}">
+                                    {% if i in request.user.profile.following.all %} Unfollow {% else %}  Follow{% endif %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+       {% endfor %}
+       {% endif %}
+    </div>
+</div>
+    </div>
+</div>

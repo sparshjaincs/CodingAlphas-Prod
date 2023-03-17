@@ -1,0 +1,242 @@
+{% extends 'Core/snippets/base.html' %}
+{% load static %}
+{% load shortcuts %}
+{% block header %}
+{% include 'Core/snippets/navbar.html' %}
+{% endblock %}
+{% block title %}
+{{profile.first_name}} {{profile.last_name}} - CodingAlphas
+{% endblock %}
+{% block style %}
+
+.content:first-letter{
+   
+    font-size:70px;
+    line-height:48px;
+    position:relative;
+    float:left;
+    display:block;
+}
+{% endblock %}
+{% block body %}
+<div class="section">
+    <div class="container pt-1">
+        <div class="row mt-5 pt-5">
+            <div class="col-12">
+                <div>
+                  <center>
+                    <h3 style="color: #C9A56E; font-weight: 600;">
+                        TRENDING
+                       </h3>
+                  </center>
+                </div>
+            </div>
+            <div class="col-12 mt-3">
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                      </ol>
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <img class="d-block w-100" src="/media/{{carousel.0.image}}" alt="First slide" style="">
+                        <div class="carousel-caption d-none d-md-block">
+                            <center>
+                               <a href="/blogs/read/{{carousel.0.user}}/{{carousel.0.title|replace}}/{{carousel.0.id}}/">
+                                <h4 class="text-white">{{carousel.0.title}}</h4>
+                               </a>
+                            </center>
+                            <p style="font-size:15px;">{{carousel.0.content|clean|truncatechars:200|safe}}</p>
+                            <a href="/blogs/read/{{carousel.0.user}}/{{carousel.0.title|replace}}/{{carousel.0.id}}/" class="btn rounded-0 text-white" style="border:1px solid #fff; ">READ MORE</a>
+                            <p class="mt-3">{{carousel.0.edited}}</p>
+                          </div>
+                      </div>
+                      <div class="carousel-item">
+                        <img class="d-block w-100" src="/media/{{carousel.1.image}}" alt="First slide" style="">
+                        <div class="carousel-caption d-none d-md-block">
+                            <center>
+                               <a href="/blogs/read/{{carousel.1.user}}/{{carousel.1.title|replace}}/{{carousel.1.id}}/">
+                                <h4 class="text-white">{{carousel.1.title}}</h4>
+                               </a>
+                            </center>
+                            <p style="font-size:15px;">{{carousel.1.content|clean|truncatechars:200|safe}}</p>
+                            <a href="/blogs/read/{{carousel.1.user}}/{{carousel.1.title|replace}}/{{carousel.1.id}}/" class="btn rounded-0 text-white" style="border:1px solid #fff; ">READ MORE</a>
+                            <p class="mt-3">{{carousel.1.edited}}</p>
+                          </div>
+                      </div>
+                      <div class="carousel-item">
+                        <img class="d-block w-100" src="/media/{{carousel.2.image}}" alt="First slide" style="">
+                        <div class="carousel-caption d-none d-md-block">
+                            <center>
+                               <a href="/blogs/read/{{carousel.2.user}}/{{carousel.2.title|replace}}/{{carousel.2.id}}/">
+                                <h4 class="text-white">{{carousel.2.title}}</h4>
+                               </a>
+                            </center>
+                            <p style="font-size:15px;">{{carousel.2.content|clean|truncatechars:200|safe}}</p>
+                            <a href="/blogs/read/{{carousel.2.user}}/{{carousel.2.title|replace}}/{{carousel.2.id}}/" class="btn rounded-0 text-white" style="border:1px solid #fff; ">READ MORE</a>
+                            <p class="mt-3">{{carousel.2.edited}}</p>
+                          </div>
+                      </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                  </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-9 mt-5 pt-5">
+                <div class="row">
+                    {% for i in data %}
+                    <div class="col-12 border-bottom  pb-4 mb-5">
+                        <div>
+                            <img src="/media/{{i.image}}" style="width:100%;">
+                        </div>
+                        <div class="mt-4" style="">
+                          <center>
+                            <a href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/">
+                                <h3 style="color:#424242; font-weight: 600">
+                                    {{i.title}}
+                                </h3>
+                            </a>
+                          </center>
+                        </div>
+                        <div class="mt-4" style="font-weight: 100; color: #A1A1A1; font-size: 14px;">
+                           <center>
+                            
+                                {{i.edited}}
+                            
+                           </center>
+                        </div>
+                        <div class=" mt-4 content" style="color: rgb(0,0,0,0.5); ">
+                           
+                           
+                                
+                                    {{i.content|truncatechars:500|clean|safe}}
+                            
+                           
+                        </div>
+
+                        <div class="mt-4">    
+                           <center>
+                            <a  href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/" class="btn rounded-0" style="border:1px solid #C9A56E; color:#C9A56E; font-size: 13px;">READ MORE</a>
+                           </center>
+                        </div>
+
+                        <div class=" mt-4 d-flex justify-content-between align-items-center">
+                           <div class="d-flex justify-content-start align-items-center">
+                            <div>
+                                <img src="/media/{{i.user.profile.avatar}}/" style="width:40px; height:40px;" class="rounded-circle">
+                            </div>
+                            <div  class="ml-2" style="font-weight: 100; color: #A1A1A1; font-size: 14px;">
+                             <i>
+                                {{i.user.profile.first_name}} {{i.user.profile.last_name}}
+                             </i>
+                            </div>
+                           </div>
+                           <div style="font-weight: 100; color: #A1A1A1; font-size: 14px;">
+                               <i>
+                                {{i.comment_ques.all.count}} Comments
+                               </i>
+                           </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="col-12 col-md-12 col-lg pt-5 mt-5">
+                <div>
+                    <center>
+                        <div style="width:200px; height:200px;" class="border d-flex justify-content-center align-items-center rounded-circle">
+                            <div style="color:#393E41; font-size: 20px; letter-spacing: 1px; font-weight: 600; font-family: cursive;">
+                                <span style="font-size: 24px; font-weight: 1000;">C</span>oding<span style="color:#C9A56E;"><span style="font-size: 24px;">A</span>lphas</span>
+                             </div>
+                        </div>
+                    </center>
+                    <div style="color: rgb(0,0,0,0.5); " class="mt-3">
+                    <center>
+                        orem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur laoreet cursus volutpat. 
+                
+                    </center>   
+                    </div>
+                </div>
+                <div class="mt-5">
+                    <div>
+                        <div style="color: #C9A56E; color:#C9A56E ;">
+                            
+                                YOU MAY ALSO LIKE
+                           
+                        </div>
+                    </div>
+                    <div class="">
+                       {% for i in side %}
+
+                       <div class="mt-3">
+                        <img src="/media/{{i.image}}" style="width: 100%;">
+                    </div>
+                    <div>
+                        <div class="mt-2">
+                            
+                                <a href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/">
+                                    <h6 style="color:#424242;">
+                                        {{i.title|truncatechars:60}}
+                                    </h6>
+                                </a>
+                           
+                        </div>
+                        <div style="color:rgb(0,0,0,0.3); font-size: 14px;">
+                            {{i.edited}}
+                        </div>
+                    </div>
+              
+                       {% endfor %}
+                </div>
+                <div style="color: #C9A56E; color:#C9A56E ;" class="mt-5">
+                     SUBSCRIBE
+                </div>
+                <div style="background-color: #F7F7F7;" class="card card-body border-0 rounded-0  mt-3">
+                    
+                    <div>
+                        <form>
+                            <input type="text" class="form-control rounded-0" placeholder="Name" style="background: none;" required>
+                            <input  type="email" class="form-control rounded-0 mt-3" placeholder="Email" style="background: none;" required>
+                            <button type="submit" class="btn mt-3 rounded-0 text-white " style="width: 100%; background-color: #C9A56E; font-weight: 600;">SUBSCRIBE</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="mt-5">
+                    <div>
+                     
+                            <div style="color: #C9A56E; color:#C9A56E ;">
+                                <i class="fa fa-tag"></i> TAGS
+                            </div>
+                  
+                    </div>
+                    <div class="mt-2 d-flex flex-wrap">
+                        <a  href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/" class="btn btn-sm rounded-0 pr-3 pl-3 m-1 pt-2 pb-2" style="border:1px solid rgb(0,0,0,0.1); color:rgb(0,0,0,0.3); font-size: 13px; font-weight: 600;">READ MORE</a>
+                        <a  href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/" class="btn btn-sm rounded-0 pr-3 pl-3 m-1 pt-2 pb-2" style="border:1px solid rgb(0,0,0,0.1); color:rgb(0,0,0,0.3); font-size: 13px; font-weight: 600;">READ MORE</a>
+                        <a  href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/" class="btn btn-sm rounded-0 pr-3 pl-3 m-1 pt-2 pb-2" style="border:1px solid rgb(0,0,0,0.1); color:rgb(0,0,0,0.3); font-size: 13px; font-weight: 600;">READ MORE</a>
+                        <a  href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/" class="btn btn-sm rounded-0 pr-3 pl-3 m-1 pt-2 pb-2" style="border:1px solid rgb(0,0,0,0.1); color:rgb(0,0,0,0.3); font-size: 13px; font-weight: 600;">READ MORE</a>
+                        <a  href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/" class="btn btn-sm rounded-0 pr-3 pl-3 m-1 pt-2 pb-2" style="border:1px solid rgb(0,0,0,0.1); color:rgb(0,0,0,0.3); font-size: 13px; font-weight: 600;">READ MORE</a>
+                        <a  href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/" class="btn btn-sm rounded-0 pr-3 pl-3 m-1 pt-2 pb-2" style="border:1px solid rgb(0,0,0,0.1); color:rgb(0,0,0,0.3); font-size: 13px; font-weight: 600;">READ MORE</a>
+                        <a  href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/" class="btn btn-sm rounded-0 pr-3 pl-3 m-1 pt-2 pb-2" style="border:1px solid rgb(0,0,0,0.1); color:rgb(0,0,0,0.3); font-size: 13px; font-weight: 600;">READ MORE</a>
+                        <a  href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/" class="btn btn-sm rounded-0 pr-3 pl-3 m-1 pt-2 pb-2" style="border:1px solid rgb(0,0,0,0.1); color:rgb(0,0,0,0.3); font-size: 13px; font-weight: 600;">READ MORE</a>
+                        <a  href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/" class="btn btn-sm rounded-0 pr-3 pl-3 m-1 pt-2 pb-2" style="border:1px solid rgb(0,0,0,0.1); color:rgb(0,0,0,0.3); font-size: 13px; font-weight: 600;">READ MORE</a>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+{% block footer %}
+    {% include 'Core/snippets/footer.html' %}
+{% endblock %}

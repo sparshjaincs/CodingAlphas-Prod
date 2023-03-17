@@ -1,0 +1,57 @@
+{% load shortcuts %}
+<div class="mt-3">
+   <div style="display: flex; justify-content: space-between;">
+    <div style="font-size:24px; font-weight: 700;">
+        <i class="fa fa-bell fa2"></i> Notifications
+     </div>
+     <div class="d-flex justify-content-end align-items-center">
+        <a href="/profile/{{profile.user}}/?method=Notifications&type={{type}}&sort={{sort}}"  class="mr-3" style="font-size: 13px; font-weight: 700; color:#2EA8E6;">Sort By Date <i class="fa fa-sort"></i ></a>
+        <input onkeyup="searchquery()" id="myFilter"  class="form-control text-color" type="text" style="font-size: 12px; border-radius:20px; width:270px; font-weight: 500;" placeholder="Search Tags, Keyword, User, Anything...">
+    </div>
+   </div>
+    <div class="card mt-4" id="myItems">
+      
+        <div class="">
+            {% for i in notify %}
+            <div id="activity_class{{i.id}}" class="carding ">
+            <div class="border-bottom p-3 d-flex justify-content-between align-items-center {% if i in counter.0.ins_act.all %} notification_new {% else %} notification_palette {% endif %}">
+                <div>
+                    <img src="/media/{{i.another.profile.avatar}}/" style="width:50px; height:50px; border-radius:50%;">
+                </div>
+                <div style="width:100%;" class="ml-3 content">
+                    <div style="font-size: 13px; font-weight: 500; color: rgb(0,0,0,0.4);">
+                        {{i.category}} {% if i in counter.0.ins_act.all %} <span class="badge badge-sm ml-1" style="background-color: #2EA8E6; color: #fff; border-radius: 20px; font-size: 9px;"> New </span> {% endif %}
+                    </div>
+                    <div style="font-size: 13px; font-weight: 500;" >
+                        {{i.user_activity|safe}}
+                    </div>
+                    <div style="font-size: 13px; font-weight: 500; color: rgb(0,0,0,0.4);">
+                        {{i.created}}
+                    </div>
+                </div>
+                <div class="d-flex align-items-center"   style="color:rgb(0,0,0,0.3);">
+                   {% if i.choice == 'Comment' %}
+                   <a class="btn" style="font-size: 13px;" href="/blogs/read/{{i.article_instance.user}}/{{i.article_instance.title|replace}}/{{i.article_instance.id}}/#comment_class">
+                    Reply
+                   </a>
+                <a onclick="like1('blog_comment','{{i.article_comment_instance.id}}','heartcomment{{i.id}}')" style="cursor: pointer;" class="ml-2">
+                    <div class=" mr-3" style="">
+                        <i id="heartcomment{{i.id}}" class="fa fa-heart fa2" style="{% if request.user in i.article_comment_instance.like.all %} color:#E57851; -webkit-text-stroke-color:#E57851; {% endif %}" ></i> 
+                    </div>
+                    </a>
+    
+                   {% endif %}
+                   {% if i.choice == 'Follow' %}
+                    <a onclick="follow('{{i.another}}','follow{{i.another.id}}','follow_class{{i.another.id}}','Follow Back')" class="btn bt-sm follow_class{{i.another.id}}" id="follow{{i.another.id}}" style="font-size: 12px; color:#2EA8E6; border:1px solid #2EA8E6; border-radius:20px; background-color: rgb(46, 168, 230,0.1); ">
+                        {% if i.another in i.user.profile.followers.all and i.another not in i.user.profile.following.all %}Follow Back {% elif i.another not in i.user.profile.followers.all and i.another not in i.user.profile.following.all  %} Follow {% else %}Unfollow{% endif %}</a>
+                   {% endif %}
+                    <a class="btn" onclick="delete_all('activity','{{i.id}}','activity_class{{i.id}}')">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

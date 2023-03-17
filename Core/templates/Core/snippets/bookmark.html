@@ -1,0 +1,88 @@
+
+{% if not article_flag %}
+    <div style="width:100%; height: 100%;">
+        <div style="display: flex; align-items: center;">
+           <div style="">
+            <div style="font-size: 16px; font-weight: 600;">
+                <center> Nothing Saved Yet</center>
+                </div>
+                <div style="font-size: 13px; font-weight: 500;" class="text-muted">
+                   <center> All the post and items you've saved will show up here.</center>
+                </div>
+           </div>
+
+        </div>
+    </div>
+{% endif %}
+<div class="row mt-2">
+    {% if article_flag %}
+  
+    <div class="col-12 col-md-4 col-lg-3 card p-2 cardborder" style="">
+        <div>
+            <a href="/profile/{{request.user}}/?method=BookmarksExtend&type=Articles">
+        <div class="border-0">
+            <div style="font-size: 14px; font-weight: 700;" class="text-color"><i class="fa fa-newspaper-o" ></i> My Articles</div>
+        </div>
+        <div class="card border-0 mt-2 p-0" style="">
+            <div class="card-body p-0">
+                {% if bookins.bookmarkArticles.count == 1 %}
+                <img class="bookmarkimage" src="/media/{{bookins.article_instance.all.0.image}}" style="width: 100%; height:100%;max-height:230px;">
+            
+                {% elif bookins.bookmarkArticles.count == 2 %}
+               <div style="display: flex; justify-content: space-between;">
+                   <div style="width:49%; height:50%">
+                    <img class="bookmarkimage" src="/media/{{bookins.article_instance.all.0.image}}" style="width: 100%; height:100%;max-height:105px;">
+                   </div>
+                   <div style="width:49%; height:50%">
+                    <img class="bookmarkimage" src="/media/{{bookins.article_instance.all.1.image}}" style="width: 100%; height:100%;max-height:105px;">
+                   </div>
+               </div>
+               {% elif bookins.bookmarkArticles.count == 3 %}
+               <div style="">
+                <div style="display: flex; justify-content: space-between;">
+                    <div style="width:49%; height:49%">
+                     <img class="bookmarkimage" src="/media/{{bookins.article_instance.all.0.image}}" style="width: 100%; height:100%;max-height:105px;">
+                    </div>
+                    <div style="width:49%; height:49%">
+                     <img class="bookmarkimage" src="/media/{{bookins.article_instance.all.1.image}}" style="width: 100%; height:100%;max-height:105px;">
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: space-between;" class="mt-2">
+                    <div style="width:49%; height:49%">
+                     <img class="bookmarkimage" src="/media/{{bookins.article_instance.all.2.image}}" style="width: 100%; height:100%;max-height:105px;">
+                    </div>
+                   
+                </div>
+               </div>
+               {% else %}
+               <div style="">
+                <div style="display: flex; justify-content: space-between;">
+                    <div style="width:49%; height:50%">
+                     <img class="bookmarkimage" src="/media/{{bookins.article_instance.all.0.image}}" style="width: 100%; height:100%;max-height:105px;">
+                    </div>
+                    <div style="width:49%; height:50%">
+                     <img class="bookmarkimage"src="/media/{{bookins.article_instance.all.1.image}}" style="width: 100%; height:100%;max-height:105px;">
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: space-between;" class="mt-2">
+                    <div style="width:49%; height:50%">
+                     <img class="bookmarkimage" src="/media/{{bookins.article_instance.all.2.image}}" style="width: 100%; height:100%;max-height:105px;">
+                    </div>
+                    <div style="width:49%; height:50%">
+                     <img class="bookmarkimage" src="/media/{{bookins.article_instance.all.3.image}}" style="width: 100%; height:100%; max-height:105px;">
+                    </div>
+                </div>
+               </div>
+               {% endif %}
+              
+            </div>
+          
+        </div>
+    </a>
+    </div>
+    </div>
+
+    {% endif %}
+    
+    
+</div>

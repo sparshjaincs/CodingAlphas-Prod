@@ -1,0 +1,67 @@
+<nav class="navbar navbar-expand-lg  fixed-top shadow-sm d-flex  align-items-center border-bottom" style="height:60px;background:white;">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <div style="color:#393E41; font-size: 20px; letter-spacing: 1px; font-weight: 600; font-family: cursive;">
+                <span style="font-size: 24px; font-weight: 1000;">C</span>oding<span style="color:#C9A56E;"><span style="font-size: 24px;">A</span>lphas</span>
+             </div>
+        </a>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <input class="form-control  " type="text" placeholder="Search keywords, tags, anything..." style="background: none; width:300px; font-size: 13px; border-radius: 20px;">
+            </li>
+        </ul>
+       
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-flex align-items-center " id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+               
+              <li class="nav-item mt-1 d-flex justify-content-start " style="font-size:13px;">
+                <a class="nav-link" href="{% url 'discuss' %}"><i class="fa fa-facebook"></i></a>
+                <a class="nav-link" href="{% url 'discuss' %}"><i class="fa fa-twitter"></i></a>
+                <a class="nav-link" href="{% url 'discuss' %}"><i class="fa fa-instagram"></i></a>
+                <a class="nav-link" href="{% url 'discuss' %}"><i class="fa fa-medium"></i></a>
+                <a class="nav-link" href="{% url 'discuss' %}"><i class="fa fa-linkedin"></i></a>
+              </li>
+              <li class="nav-item mt-1 d-flex justify-content-start ml-3 " style="font-size:12px;">
+                <a  href="{% url 'create' %}" class="nav-link btn btn-sm rounded-0" style=" color:#C9A56E;">Write an article</a>
+            </li>
+              <li class="nav-item mt-1 d-flex justify-content-start  mr-2 " style="font-size:12px;">
+                <a href="{% url 'comming_soon' %}" class="nav-link btn btn-sm rounded-0" style=" color:#C9A56E;">Coming Soon</a>
+            </li>
+             
+            {% if request.user.is_authenticated %}
+            <li class="nav-item dropdown" style="font-size:13px;">
+                <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 <img src="/media/{{request.user.profile.avatar}}" style="width:30px; height:30px;" class="mr-1 rounded-circle">{{request.user}}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right border-0 shadow-sm" style="font-size: 13px; width:240px; " aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item pt-2 pb-2" href="/profile/{{request.user}}/"><i class="fa fa-user fa2"></i> Profile</a>
+                  <a class="dropdown-item pt-2 pb-2" href="/profile/{{request.user}}/?method=Articles"><i class="fa fa-rss" style="color: #C9A56E;"></i> Stories</a>
+                  <a class="dropdown-item pt-2 pb-2" href="/profile/{{request.user}}/?method=Stats"><i class="fa fa-bar-chart" style="color: #C9A56E;"></i> Stats</a>
+                  <a class="dropdown-item pt-2 pb-2" href="/profile/{{request.user}}/?method=Bookmarks"><i class="fa fa-bookmark-o" style="color: #C9A56E;"></i> Bookmarks</a>
+                  <a class="dropdown-item pt-2 pb-2" href="/profile/{{request.user}}/?method=Notifications"><i class="fa fa-bell fa2" ></i> Notifications</a>
+                  <a class="dropdown-item pt-2 pb-2" href="/settings/"><i class="fa fa-cog" style="color: #C9A56E;"></i> Settings and Privacy</a>
+              
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item d-flex justify-content-center" href="/logout/" style="color: #C9A56E;">Logout</a>
+                </div>
+              </li>
+            {% else %}
+
+            <li class="nav-item mt-1 d-flex justify-content-start ml-3 " style="font-size:12px;">
+                <a class="nav-link btn btn-sm rounded-0" href="/signin/" style="color:#C9A56E">Sign In</a>
+            </li>
+            
+            {% endif %}
+            
+
+        </ul>
+        </div>
+        
+
+     </div>
+</div>
+</nav>

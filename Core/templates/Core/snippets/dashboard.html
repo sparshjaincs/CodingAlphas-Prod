@@ -1,0 +1,411 @@
+{% load shortcuts %}
+<div class="row mt-4">
+    <div class="col-12 col-lg-2">
+        <div class="card shadow-sm">
+            <div class="card-header border-0" style="font-size: 13px; font-weight: 500;">
+                Complete Profile
+            </div>
+            
+            <div class="card-body pb-2">
+                <div class="progress" style="height:10px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <div style="font-size:12px;" class="d-flex justify-content-start mt-1">
+                    25% complete
+                  </div>
+                <div style="font-size: 11px; text-align: center;" class="mt-2">Complete your profile, build awareness of your brand and spread your art.</div>
+            <div>
+             <center>
+                <a class="btn btn-sm mt-3 " style="font-size: 13px; color:#2EA8E6; border:1px solid #2EA8E6;" href="/profile/{{request.user}}/?method=Setting">Complete Profile <i class="fa fa-arrow-right"></i></a>
+             </center>
+            </div>
+            </div>
+        </div>
+{% if profile.following.all.count != 0%}
+        <div class="card shadow-sm mt-2">
+            <div class="card-header border-0" style="font-size: 13px; font-weight: 500;">
+                I'm following <span class="badge badge-sm badge-pill badge-dark">{{profile.following.all.count}}</span>
+            </div>
+            
+            <div class="card-body p-1 pt-2">
+                <div class="d-flex flex-wrap justify-content-center">
+                    {% for i in profile.following.all %}
+                    <div class="border rounded-circle m-1" data-toggle="tooltip" title="{{i.profile.first_name}} {{i.profile.last_name}}">
+                        <a href="/profile/{{i}}/"><img src="/media/{{i.profile.avatar}}" style="width:40px; height:40px;" class="rounded-circle"></a>
+                    </div>
+                    {% endfor %}
+                </div>
+            <div>
+             <center>
+                <a class="btn btn-sm mt-2 " href="/profile/{{profile.user}}/?method=Connections" style="font-size: 13px; color:#2EA8E6; ">See More</a>
+             </center>
+            </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="col-12 col-md-8 col-lg-7">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div  class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-start">
+                            <div class="border  rounded-circle">
+                                <img src="/media/{{profile.avatar}}" class="" style="width:100px; height:100px;border:2px solid #fff; border-radius: 50%;">
+                            </div>
+                            <div>
+                                <div style="font-weight: 500; font-size: 19px;" class="text-dark mt-2 ml-2">
+                                 {{profile.first_name}} {{profile.last_name}} <small>@{{profile.user}}</small>
+                                </div>
+                                <div class="ml-2 text-dark" style="font-size: 13px;">
+                                 {{profile.headline}}
+                                </div>
+                                <div class="ml-2 mt-1 d-flex justify-content-start">
+                                  {% if profile.youtube %}
+                                        <div title="Youtube" data-toggle="tooltip">  <a class="btn btn-sm bg-light rounded-circle" href="{{profile.youtube}}"><i class="fa fa-youtube"></i></a></div>
+
+                                  {% endif %}
+                                  {% if profile.medium %}
+                                     <div title="Medium" data-toggle="tooltip" class="ml-2">  <a class="btn btn-sm bg-light rounded-circle" href="{{profile.medium}}"><i class="fa fa-medium"></i></a></div>
+
+                                    {% endif %}
+                                    {% if profile.instagram %}
+                                     <div title="Instagram" data-toggle="tooltip" class="ml-2">  <a class="btn btn-sm bg-light rounded-circle" href="{{profile.instagram}}"><i class="fa fa-instagram"></i></a></div>
+
+                                    {% endif %}
+                                    {% if profile.twitter %}
+                                    <div title="Twitter" data-toggle="tooltip" class="ml-2">  <a class="btn btn-sm bg-light rounded-circle" href="{{profile.twitter}}"><i class="fa fa-twitter"></i></a></div>
+
+                                   {% endif %}
+                                   {% if profile.facebook %}
+                                   <div title="Facebook" data-toggle="tooltip" class="ml-2">  <a class="btn btn-sm bg-light rounded-circle" href="{{profile.facebook}}"><i class="fa fa-facebook"></i></a></div>
+
+                                  {% endif %}
+                                  {% if profile.quora %}
+                                  <div title="Quora" data-toggle="tooltip" class="ml-2">  <a class="btn btn-sm bg-light rounded-circle" href="{{profile.quora}}"><i class="fa fa-quora"></i></a></div>
+
+                                 {% endif %}
+                                 {% if profile.linkedin%}
+                                 <div title="Linkedin" data-toggle="tooltip" class="ml-2">  <a class="btn btn-sm bg-light rounded-circle" href="{{profile.linkedin}}"><i class="fa fa-linkedin"></i></a></div>
+
+                                {% endif %}
+                                {% if profile.website %}
+                                <div title="Website" data-toggle="tooltip" class="ml-2">  <a class="btn btn-sm bg-light rounded-circle" href="{{profile.Website}}"><i class="fa fa-globe"></i></a></div>
+
+                               {% endif %}
+                                </div>
+                             </div>
+                    </div>
+                    <div class="d-flex justify-content-end align-items-start ">
+                        <div title="Contact" data-toggle="tooltip">
+                            <a class="btn btn-sm " style="" href=""><i class="fa fa-phone" style="color: #2EA8E6;"></i></a>
+                        </div>
+                    <div title="Edit Profile" data-toggle="tooltip">
+                        <a class="btn btn-sm " style="" href="/profile/{{request.user}}/?method=Setting"><i class="fa fa-pencil" style="color: #2EA8E6;"></i></a>
+                    </div>
+                    </div>
+
+                </div>
+                <div class="mt-1">About Me</div>
+                <div style="font-size:13px;">{{profile.bio|safe|linebreaks}}</div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mt-2">
+            <div class="card-header d-flex justify-content-between border-0">
+                <div style="font-size:13px; font-weight:500;">
+                   <i class="fa fa-newspaper-o"></i> Articles <span class="badge badge-sm badge-dark badge-pill">{{profile.user.project_username_2.all.count}}</span>
+                </div>
+                <div style="font-size:13px; font-weight:500;">
+                    <a class="mr-2" title="See Detailed Analytics"  data-toggle="tooltip" href="/profile/{{profile.user}}/?method=Statistics"><i class="fa fa-bar-chart"></i></a>
+                  <a href="/profile/{{profile.user}}/?method=Articles">Read More...</a>
+                 </div>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div style="font-size: 13px; font-weight: 500;">
+                       Published <span class="text-muted" id="publishedcount">0</span>
+                    </div> 
+                    <div style="font-size: 13px; font-weight: 500;">
+                        Drafts <span class="text-muted" id="draftcount">0</span>
+                     </div> 
+                     <div style="font-size: 13px; font-weight: 500;" class="d-flex justidy-content-start align-items-center">
+                        <div style="width:35px; height: 35px; background-color: rgb(177, 60, 46,0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center;" >
+                            <i class="fa fa-heart" style="color: rgb(177, 60, 46); font-size: 13px;"></i>
+                           </div>
+                         <div class="text-muted ml-1" id="likecount">0</div>
+                     </div> 
+                     <div style="font-size: 13px; font-weight: 500;" class="d-flex justidy-content-start align-items-center">
+                        <div style="width:35px; height: 35px; background-color: rgb(252, 192, 95    ,0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center;" >
+                            <i class="fa fa-eye" style="color: rgb(252, 192, 95); font-size: 13px;"></i>
+                           </div>
+                         <div class="text-muted ml-1" id="viewcount">0</div>
+                     </div> 
+                     <div style="font-size: 13px; font-weight: 500;" class="d-flex justidy-content-start align-items-center">
+                        <div style="width:35px; height: 35px; background-color: rgb(46, 168, 230,0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center;" >
+                            <i class="fa fa-bookmark" style="color: rgb(46, 168, 230); font-size: 13px;"></i>
+                           </div>
+                         <div class="text-muted ml-1" id="savecount">0</div>
+                     </div> 
+                     <div style="font-size: 13px; font-weight: 500;" class="d-flex justidy-content-start align-items-center">
+                        <div style="width:35px; height: 35px; background-color: rgb(110, 190, 70,0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center;" >
+                            <i class="fa fa-comments" style="color: rgb(110, 190, 70); font-size: 13px;"></i>
+                           </div>
+                         <div class="text-muted ml-1" id="chatcount">0</div>
+                     </div> 
+                </div>
+                <div class="mt-2">
+                   
+                    <canvas id="myChart6" width="" height="" class=""></canvas>
+                </div>
+
+                <div class="mt-2" >
+                    <div>
+                        <div style="font-size: 13px; font-weight: 500;" class="mb-2">
+                            <i class="fa fa-history"></i>  Recent Articles
+                          </div>
+                    </div>
+                    {% for i in data %}
+                    <div id="activity_class{{i.id}}" class="carding ">
+                    <div class="border-bottom p-3 d-flex justify-content-between align-items-center {% if i in counter.0.ins_act.all %} notification_new {% else %} notification_palette {% endif %}">
+                        <div>
+                            <img src="/media/{{i.image}}/" style="width:50px; height:50px; border-radius:50%;" alt="Upload Cover Image">
+                        </div>
+                        <div style="width:100%;" class="ml-2 content">
+                            
+                            <div style="font-size: 13px; font-weight: 500;" >
+                                {% if i.status == 'Published' %}
+                                <a href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/">{{i.title|safe}}</a>
+                                {% else %}
+                                {{i.title|safe}}
+                                {% endif %}
+                            </div>
+                           
+                            <div style="font-size: 13px; font-weight: 500; color: rgb(0,0,0,0.4);">
+                                Created by {{i.user.profile.first_name}} {{i.user.profile.last_name}} edited on {{i.edited}} {{i.content|time}} min read ({{i.content|length}} words) <span style=" color:#2EA8E6; border-radius: 20px;" class="ml-2 p-1 pr-2 pl-2"><i class="fa fa-globe"></i> {{i.broadcast}}</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center"   style="color:rgb(0,0,0,0.3);">
+                          
+                            <div data-toggle="tooltip" title="Insights">
+                                <a class="btn btn-sm" href="/profile/{{profile.user}}/?method=Statistics&instance={{i.id}}" style="color: rgb(0,0,0,0.3); font-size: 13px ;">
+                                    <i class="fa fa-bar-chart"></i>
+                                </a>
+                            </div>
+                
+                         
+                          
+                        <div data-toggle="tooltip" title="Edit">
+                            <a class="btn btn-sm" href="/blogs/{{i.id}}/edit/" style="color: rgb(0,0,0,0.3); font-size: 13px;">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                        </div>
+                        
+                           <div data-toggle="tooltip" title="Delete">
+                            <a class="btn btn-sm" onclick="delete_all('blog','{{i.id}}','activity_class{{i.id}}')" style="color: rgb(0,0,0,0.3); font-size: 13px;">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                           </div>
+                
+                        </div>
+                    </div>
+                </div>
+                    {% endfor %}
+                </div>
+               
+            </div>
+           
+        </div>
+    </div>
+    <div class="col-12 col-md-4 col-lg-3">
+        <div class="card">
+            <div class="card-header border-0">
+                <div style="font-weight: 500; font-size: 14px;" class="text-color">
+                    <i class="fa fa-user"></i> Introduction
+                 </div>
+            </div>
+        
+        <div style="background-color: #fff;" class="rounded p-2 pl-3 pr-3  card-body shadow-sm">
+           
+            <div>
+                <div class=" mt-3" style="display: flex; justify-content: space-between;">
+                    <div class=" d-flex justify-content-center" style=" ">
+                        <div class="" style="text-align: center;">
+                            <div  style="font-size: 13px; font-weight: 600; color: #393E41;">
+                                256k+
+                            </div>
+                            <div style="font-size:11px; font-weight: 600;" class="text-muted">
+                               REPUTATION
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" d-flex justify-content-center" style=" ">
+                        <div class="" style="text-align: center;">
+                            <div  style="font-size: 13px; font-weight: 600; color: #393E41;">
+                                {{profile.followers.all.count}}
+                            </div>
+                            <div style="font-size:11px; font-weight: 600;" class="text-muted">
+                                FOLLOWERS
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" d-flex justify-content-center" style=" ">
+                        <div class="" style="text-align: center;">
+                            <div  style="font-size: 13px; font-weight: 600; color: #393E41;">
+                                {{profile.following.all.count}}
+                            </div>
+                            <div style="font-size:11px; font-weight: 600;" class="text-muted">
+                               FOLLOWING
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="d-flex justify-content-start align-items-center mb-1 mt-3">
+                        
+                    <div class="options rounded" style="width:35px; height:35px;">
+                        <i class="fa fa-birthday-cake" style="color:#2EA8E6"></i>
+                    </div>
+                    <div class="text-color options-side1 rounded" style="font-size: 13px;" >
+                        Born on {{profile.date_of_birth}}
+                    </div>
+                
+               
+        </div> 
+                <div class="d-flex justify-content-start align-items-center mb-1">
+                        
+                    <div class="options rounded" style="width:35px; height:35px;">
+                        <i class="fa fa-building-o" style="color:#2EA8E6"></i>
+                    </div>
+                    <div class="text-color options-side1 rounded" style="font-size: 13px;" >
+                        Works in {{profile.work}}
+                    </div>
+                
+               
+        </div> 
+                <div class="d-flex justify-content-start align-items-center mb-1">
+                        
+                    <div class="options rounded" style="width:35px; height:35px;">
+                        <i class="fa fa-home fa2" style=""></i>
+                    </div>
+                    <div class="text-color options-side1 rounded" style="font-size: 13px;" >
+                        Lives at {{profile.address}}
+                    </div>
+                
+               
+        </div>
+                    <div class="d-flex justify-content-start align-items-center mb-1">
+                        
+                            <div class="options rounded" style="width:35px; height:35px;">
+                                <i class="fa fa-map-marker fa2" style=""></i>
+                            </div>
+                            <div class="text-color options-side1 rounded" style="font-size: 13px;" >
+                                From {{profile.city}}, {{profile.state}}, {{profile.country}}
+                            </div>
+                        
+                       
+                </div>
+                <div class="d-flex justify-content-start align-items-center mb-1">
+                        
+                    <div class="options rounded" style="width:35px; height:35px;">
+                        <i class="fa fa-sign-in fa2" style=""></i>
+                    </div>
+                    <div class="text-color options-side1 rounded" style="font-size: 13px;" >
+                        Last Login {{profile.user.last_login}}
+                    </div>
+                
+               
+        </div>
+        <div class="d-flex justify-content-start align-items-center mb-1">
+                        
+            <div class="options rounded" style="width:35px; height:35px;">
+                <i class="fa fa-plus fa2" style=""></i>
+            </div>
+            <div class="text-color options-side1 rounded" style="font-size: 13px;" >
+                Created on {{profile.user.date_joined}}
+            </div>
+        
+       
+</div>
+              
+            </div>
+        </div>
+    </div>
+
+        <div class="card mt-2 shadow-sm">
+            <div class="card-header border-0" style="font-size: 13px; font-weight: 500;">
+               <i class="fa fa-bell-o"></i> Recent Activities
+            </div>
+            <div class="card-body p-0 pt-2">
+                {% for i in activities %}
+                   <div class="p-2 pl-3  d-flex justify-content-start {% if i in counter.0.ins_act.all %} notification_new {% else %} notification_palette {% endif %}">
+                    <div class="">
+                        <img src="/media/{{i.another.profile.avatar}}/" style="width:30px; height:30px;" class="rounded-circle">
+                    </div>
+                    <div style="font-size: 12px; font-weight: 500;" class="ml-2">
+                        {{i.user_activity|safe}}
+                    </div>
+                   </div>
+                {% endfor %}
+                <div class="mb-2">
+                    <center><a class="btn btn-sm" href="/profile/{{profile.user}}/?method=Notifications" style="font-size: 12px;">Read More...</a></center>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+</div>
+<div class="mt-2">
+    {% include 'Core/snippets/footer.html' %}
+</div>
+
+<!--
+    <div class="card shadow-sm">
+    <div class="card-body">
+       
+        <div  class="d-flex justify-content-between">
+            <div class="d-flex justify-content-start">
+                <div style=" z-index: 100;" class="ml-3">
+                    <img src="/media/{{profile.avatar}}" style="width:100px; height:100px;border:2px solid #fff; border-radius: 50%;">
+                </div>
+                <div>
+                   <div style="font-weight: 700; font-size: 18px;" class="text-dark mt-2 ml-2">
+                    {{profile.first_name}} {{profile.last_name}}
+                   </div>
+                   <div class="ml-2 text-muted" style="font-size: 14px;">
+                    {{profile.headline}}
+                   </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end align-items-start">
+                <div  title="Contact" data-toggle="tooltip">
+                    <a class="fa fa-phone fa2 btn p-2" href="#"></a>
+                </div>
+                <div  title="Share" data-toggle="tooltip">
+                    <a class="fa fa-paper-plane fa2 btn p-2" href="#"></a>
+                </div>
+                <div  title="Edit Profile" data-toggle="tooltip">
+                    <a class="fa fa-pencil fa2 btn p-2" href="#"></a>
+                </div>
+                <div  title="Insights" data-toggle="tooltip">
+                    <a class="fa fa-bar-chart fa2 btn p-2" href="#"></a>
+                </div>
+            </div>
+            
+        </div>
+        <div class="mt-2">
+            <div style="font-size: 15px; font-weight: 700;">
+                About Me
+            </div>
+            <div style="font-size: 14px; font-weight: 500;" class="text-muted">
+                {{profile.bio|safe|linebreaksbr}}
+            </div>
+        
+        </div>
+        
+    </div>
+</div>
+
+            
+-->

@@ -1,0 +1,184 @@
+{% load shortcuts %}
+ 
+
+<div class="row mt-4">
+    <div class="col-12 col-md-12 col-lg-3">
+        <div class="row">
+            <div class="col-12 col-mg-6 col-lg-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                       <div class="d-flex justify-content-between align-items-start">
+                        <div class="d-flex justify-content-start align-items-center">
+                            <div style="width:40px; height: 40px; background-color: rgb(46, 168, 230,0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center;" >
+                                <i class="fa fa-newspaper-o" style="color: #2EA8E6;"></i>
+                               </div>
+                            <div style="font-weight: 500;" class="text-color ml-2">
+                                Articles
+                            </div>
+                        </div>
+                        <div>
+                            <canvas id="myChart5" width="100" height="100"></canvas>
+                        </div>
+                        
+                       </div>
+                       <div class="d-flex justify-content-between mt-3">
+                           <div>
+                            <div style="font-size: 13px; font-weight: 500; " class="text-color">
+                                <center>{{request.user.project_username_2.all.count}}</center>
+                            </div>
+                            <div style="font-size: 13px; font-weight: 500; " class="text-color">
+                               Articles
+                            </div>
+                           </div>
+                           <div >
+                            <div style="font-size: 13px; font-weight: 500; " class="text-color">
+                                <center>{{data.all.count}}</center>
+                            </div>
+                            <div style="font-size: 13px; font-weight: 500; " class="text-color">
+                                Published
+                            </div>
+                           </div>
+                           <div>
+                            <div style="font-size: 13px; font-weight: 500; " class="text-color">
+                                <center>{{request.user.project_username_2.all.count|subtract:data.all.count}}</center>
+                            </div>
+                            <div style="font-size: 13px; font-weight: 500; " class="text-color">
+                                Drafts
+                            </div>
+                           </div>
+                       </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-mg-6 col-lg-12 mt-2">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex justify-content-start align-items-center">
+                                <div style="width:40px; height: 40px; background-color: rgb(177, 60, 46,0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center;" >
+                                    <i class="fa fa-heart" style="color: rgb(177, 60, 46); font-size: 14px;"></i>
+                                   </div>
+                                <div style="font-weight: 500; font-size: 14px;" class="text-color ml-2">
+                                    Likes
+                                </div>
+    
+                            </div>
+                            <div style="font-size: 13px; font-weight: 500; " id="likecount" class="text-color">
+                              23
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-mg-6 col-lg-12 mt-2">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                       <div class="d-flex justify-content-start align-items-center">
+                            <div style="width:40px; height: 40px; background-color: rgb(252, 192, 95    ,0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center;" >
+                                <i class="fa fa-eye" style="color: rgb(252, 192, 95); font-size: 14px;"></i>
+                               </div>
+                            <div style="font-weight: 500; font-size: 14px;" class="text-color ml-2">
+                                Views
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-mg-6 col-lg-12 mt-2">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-start align-items-center">
+                            <div style="width:40px; height: 40px; background-color: rgb(46, 168, 230,0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center;" >
+                                <i class="fa fa-bookmark" style="color: rgb(46, 168, 230); font-size: 14px;"></i>
+                               </div>
+                            <div style="font-weight: 500; font-size: 14px;" class="text-color ml-2">
+                                Saves
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-mg-6 col-lg-12 mt-2">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-start align-items-center">
+                            <div style="width:40px; height: 40px; background-color: rgb(110, 190, 70,0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center;" >
+                                <i class="fa fa-comments" style="color: rgb(110, 190, 70); font-size: 14px;"></i>
+                               </div>
+                            <div style="font-weight: 500; font-size: 14px;" class="text-color ml-2">
+                                Comments
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-12 col-lg-9 ">
+        <div class="card-body card border-0 shadow-sm ">
+        <canvas id="myChart1" width="" height=""></canvas>
+    </div>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-12 col-md-12 col-lg-6  ">
+        <div class="card-body card border-0 shadow-sm">
+            <canvas id="myChart3" width="" height=""></canvas>
+        </div>
+  
+    </div>
+
+    <div class="col-12 col-md-12 col-lg-6 ">
+        <div class="card-body card border-0 shadow-sm">
+            <canvas id="myChart" width="" height=""></canvas>
+        </div>
+        
+    </div>
+
+  
+</div>
+
+<div class="row mt-4" >
+    <div class="col-12">
+        <div class="d-flex justify-content-end align-items-center">
+            <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
+             <div style="font-size: 15px; font-weight: 500;" class="text-color"><i class="fa fa-bar-chart"></i> Select article to see analytics</div>
+               <div> <input onkeyup="searchquery()" id="myFilter"  class="form-control text-color" type="text" style="font-size: 13px; border-radius:20px; width:270px; " placeholder="Search Tags, Keyword, User, Anything..."></div>
+            </div>
+           
+        </div>
+        <div class="card card-body p-0 border-0 shadow-sm mt-4" id="myItems">
+       
+            {% for i in data %}
+            <a onclick="fetchingcontent('{{i.id}}')" style="cursor:pointer">
+            <div id="activity_class{{i.id}}" class="carding ">
+            <div class="border-bottom p-3 d-flex justify-content-between align-items-center {% if i in counter.0.ins_act.all %} notification_new {% else %} notification_palette {% endif %}">
+                <div>
+                    <img src="/media/{{i.image}}/" style="width:50px; height:50px; border-radius:50%;" alt="Upload Cover Image">
+                </div>
+                <div style="width:100%;" class="ml-3 content">
+                    
+                    <div style="font-size: 13px; font-weight: 500;" >
+                      
+                        {{i.title|safe}}
+                      
+                    </div>
+                   
+                    <div style="font-size: 13px; font-weight: 500; color: rgb(0,0,0,0.4);">
+                        Created by {{i.user.profile.first_name}} {{i.user.profile.last_name}} edited on {{i.edited}} {{i.content|time}} min read ({{i.content|length}} words) <span style=" color:#2EA8E6; border-radius: 20px;" class="ml-2 p-1 pr-2 pl-2"><i class="fa fa-globe"></i> {{i.broadcast}}</span>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </a>
+            {% endfor %}
+  
+        </div>
+    
+    </div>
+   
+</div>

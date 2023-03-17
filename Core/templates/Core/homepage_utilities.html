@@ -1,0 +1,165 @@
+<div class="modal fade bd-example-modal-lg" id="Post" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content border-0">
+          <div class="modal-header p-3 d-flex justify-content-between align-items-center" style="background-color: #FBFAF9;">
+            <div class="d-flex justify-content-start align-items-center">
+                <div>
+                    <img src="/media/{{request.user.profile.avatar}}" style="width:30px;" class="rounded-circle">
+                </div>
+                <div class="ml-2" style="font-size: 13px; letter-spacing: 0.3px; font-weight: 600; color:#546E7A">
+                   <a href="/profile/{{request.user}}/" style="">{{request.user.profile.first_name}} {{request.user.profile.last_name}}</a>
+                </div>
+               </div>
+               <div class="mr-2" style="font-size: 13px; letter-spacing: 0.3px; font-weight: 600; color:#546E7A">
+                Create a post
+               </div>
+          </div>
+        <div class="modal-body">
+            <div class="alert alert-danger" id="post_field_validate" style="display: none;">
+            </div>
+            <form method="POST" id="PostUploadForm" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                <textarea placeholder="Write here..." class="editor" name="editor1" id="editor2" style="font-size: 12px; border:none; "  name="post_content"></textarea>
+                <input type="text" name="post_tags" class="form-control border mt-2" placeholder="Add comma (,) seperated tags..." style="font-size: 12px;" >
+                <div style="width:100%; height:100px; display: none;" class="border mt-2 rounded" id="post_image_uploader" >
+                    <div class="" style="cursor:pointer;">
+                        <img src="/static/svg/undraw_image_upload_wqh3.svg" style=" position: absolute; width:110px; text-align: center; margin-left: auto; margin-right:auto; left:0; right:0; margin-top: 16px; ">
+                        <input type="file" name="post_photo_files" multiple id="image_post_upload" style="cursor: pointer;" class="form-control image_photo_uploader" accept="image/*">
+                    </div>
+                </div>
+                <div style="width:100%; height:100px;display: none;" class="border mt-2 rounded" id="post_video_uploader" >
+                    <div class="" style="cursor:pointer;">
+                        <img src="/static/svg/undraw_video_upload_3d4u.svg" style=" position: absolute; width:70px; text-align: center; margin-left: auto; margin-right:auto; left:0; right:0; margin-top: 16px; ">
+                        <input type="file"  accept="video/*" name="post_video_file" style="cursor: pointer;" class="form-control image_photo_uploader">
+                    </div>
+                </div>
+                <div style="width:100%; height:100px;display: none;" class="border mt-2 rounded" id="post_file_uploader" >
+                    <div class="" style="cursor:pointer;">
+                        <img src="/static/svg/undraw_file_sync_ot38.svg" style=" position: absolute; width:70px; text-align: center; margin-left: auto; margin-right:auto; left:0; right:0; margin-top: 16px; ">
+                        <input type="file"  accept="file_extension|.docx|.csv|.xlsx|.css|.html|.js|.py|.c|.cpp|.pdf" name="post_doc_file" style="cursor: pointer;" class="form-control image_photo_uploader">
+                    </div>
+                </div>
+                <div style="width:100%; height:100px;display: none;" class="border mt-2" id="post_gif_uploader" >
+                    
+                </div>
+                <div class="d-flex justify-content-start align-items-center mt-2">
+                    
+                    <div title="Attach a photo" data-toggle="tooltip" >
+                        <a href="#" id="post_photo_id" onclick="show_post_photo()" class="btn btn-sm" style="color:#E57851"><i class="fa fa-photo"></i></a>
+                    </div>
+                    <div title="Attach a video" data-toggle="tooltip" >
+                        <a href="#" id="post_video_id"  onclick="show_post_video()" class="btn btn-sm" ><i class="fa fa-video-camera fa2"></i></a>
+                    </div>
+                    <div title="Attach a document" data-toggle="tooltip" >
+                        <a href="#"  id="post_document_id" onclick="show_post_document()" class="btn btn-sm" ><i class="fa fa-file fa2"></i></a>
+                    </div>
+              
+                    <div title="Post a GIF" data-toggle="tooltip" style="margin-top: -5px;" >
+                        <a href="#" id="post_gif_id"  onclick="show_post_gif()" class=" ml-2 mt-1 rounded btn btn-sm" style="font-size: 10px; border:1px solid #E57851; color: #E57851; padding:2px;" >GIF</a>
+                    </div>
+                    
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <div class="d-flex align-items-center" id="post_loader" >
+                        <i class="fa fa-spinner fa-spin" id="post_loader_spinner" style="color: #E57851;display: none;"></i>
+                    </div> 
+                    <div>
+                        <a class="btn btn-sm text-muted close mt-1" data-dismiss="modal" aria-label="Close" style="font-size: 12px;">Cancel</a>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-sm text-white" style="border-radius:20px; background-color:#E57851; font-size: 12px;"><i class="fa fa-paper-plane"></i> Post Update</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+  <!------------------Photo ------------------------>
+  <div class="modal fade" id="Photo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content border-0">
+        <div class="modal-header p-3 d-flex justify-content-between align-items-center" style="background-color: #FBFAF9;">
+            <div class="d-flex justify-content-start align-items-center">
+                <div>
+                    <img src="/media/{{request.user.profile.avatar}}" style="width:30px;" class="rounded-circle">
+                </div>
+                <div class="ml-2" style="font-size: 13px; letter-spacing: 0.3px; font-weight: 600; color:#546E7A">
+                   <a href="/profile/{{request.user}}/" style="">{{request.user.profile.first_name}} {{request.user.profile.last_name}}</a>
+                </div>
+               </div>
+               <div class="mr-2" style="font-size: 13px; letter-spacing: 0.3px; font-weight: 600; color:#546E7A">
+                Share a photo
+               </div>
+          </div>
+        <div class="modal-body">
+            <form id="imageUploadForm" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="border rounded" style="cursor:pointer;">
+                <img src="/static/svg/undraw_image_upload_wqh3.svg" style=" position: absolute; width:110px; text-align: center; margin-left: auto; margin-right:auto; left:0; right:0; margin-top: 16px; ">
+                <input type="file" name="photo_files" multiple id="image_photo_upload" style="cursor: pointer;" class="form-control image_photo_uploader" accept="image/*" required>
+            </div>
+            <input type="text" name="photo_text" class="form-control border mt-2" placeholder="Text describing what's in the photo..." style="font-size: 13px; height:50px;" required>
+            <input type="text" name="photo_taggs" class="form-control border mt-2" placeholder="Add comma (,) seperated tags..." style="font-size: 12px;">
+            <div class="d-flex justify-content-end mt-2">
+                <div class="d-flex align-items-center" id="image_loader" >
+                    <i class="fa fa-spinner fa-spin" id="image_loader_spinner" style="color: #E57851;display: none;"></i>
+                </div> 
+                <div>
+                    <a class="btn btn-sm text-muted close mt-1" data-dismiss="modal" aria-label="Close" style="font-size: 12px;">Cancel</a>
+                </div>
+                <div>
+                    <button  class="btn btn-sm text-white" style="border-radius:20px; background-color:#E57851; font-size: 12px;"><i class="fa fa-paper-plane"></i> Post Update</button>
+                </div>
+            </div>    
+        </form>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+   <!------------------ Video ------------------------>
+   <div class="modal fade" id="Video" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content border-0">
+        <div class="modal-header p-3 d-flex justify-content-between align-items-center" style="background-color: #FBFAF9;">
+            <div class="d-flex justify-content-start align-items-center">
+                <div>
+                    <img src="/media/{{request.user.profile.avatar}}" style="width:30px;" class="rounded-circle" >
+                </div>
+                <div class="ml-2" style="font-size: 13px; letter-spacing: 0.3px; font-weight: 600; color:#546E7A">
+                   <a href="/profile/{{request.user}}/" style="">{{request.user.profile.first_name}} {{request.user.profile.last_name}}</a>
+                </div>
+               </div>
+               <div class="mr-2" style="font-size: 13px; letter-spacing: 0.3px; font-weight: 600; color:#546E7A">
+                Share a video
+               </div>
+          </div>
+        <div class="modal-body">
+            <form method="POST" id="VideoUploadForm" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="border rounded" style="cursor:pointer;">
+                <img src="/static/svg/undraw_video_upload_3d4u.svg" style=" position: absolute; width:70px; text-align: center; margin-left: auto; margin-right:auto; left:0; right:0; margin-top: 16px; ">
+                <input type="file" required accept="video/*" name="video_file" style="cursor: pointer;" class="form-control image_photo_uploader">
+            </div>
+            <input type="text" name="video_text" required class="form-control border mt-2" placeholder="Text describing what's in the video..." style="font-size: 13px; height:50px;">
+            <input type="text" name="video_tags" class="form-control border mt-2" placeholder="Add comma (,) seperated tags..." style="font-size: 12px;">
+            <div class="d-flex justify-content-end mt-2">
+                <div class="d-flex align-items-center" id="video_loader" >
+                    <i class="fa fa-spinner fa-spin" id="video_loader_spinner" style="color: #E57851;display: none;"></i>
+                </div> 
+                <div>
+                    <a class="btn btn-sm text-muted close mt-1" data-dismiss="modal" aria-label="Close" style="font-size: 12px;">Cancel</a>
+                </div>
+                <div>
+                    <button class="btn btn-sm text-white" style="border-radius:20px; background-color:#E57851; font-size: 12px;"><i class="fa fa-paper-plane"></i> Post Update</button>
+                </div>
+            </div>    
+        </form>
+        </div>
+       
+      </div>
+    </div>
+  </div>

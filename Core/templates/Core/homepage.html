@@ -1,0 +1,1036 @@
+{% extends 'Core/snippets/base.html' %}
+{% load static %}
+{% load shortcuts %}
+{% load crispy_forms_tags %}
+{% block header %}
+{% include 'Core/snippets/header.html' %}
+{% endblock %}
+
+{% block style %}
+.editor_ace { 
+    position: relative;
+        height:250px;
+}
+.card1{
+    
+    border:none;
+    background:linear-gradient(330deg,  #6dd5ed, #2193b0);
+    border-radius:10px;
+    box-shadow:2px 2px 10px rgb(0,0,0,0.3);
+}
+.card2{
+   
+    border:none;
+    background:linear-gradient(330deg, #753a88, #cc2b5e);
+    border-radius:10px;
+    box-shadow:2px 2px 10px rgb(0,0,0,0.3);
+}
+.image_photo_uploader{
+    width:100%;
+    height:100px;
+    opacity:0;
+  
+}
+.disabled {
+    pointer-events: none;
+    cursor: default;
+  }
+.clip:hover{
+    background:#F3F2EF;
+    border:1px solid #E57851; 
+}
+#leftside{
+    overflow-y:hidden;
+}
+#leftside:hover, #leftside:active, #leftside:focus{
+    overflow-y:auto;
+}
+.hide-me[aria-expanded="true"] {display: none;}
+
+{% endblock %}
+{% block jscss %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/26.0.0/classic/ckeditor.js"></script>
+<script src="{% static 'js/visible.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+<section style=" min-height: 700px;" >
+<div class="container-fluid">
+    <div class="row mt-5 pt-5">
+        <div class="col-12 col-lg-3 " style="position: fixed; height: 100%;" id="leftside">
+         <div class="card ml-5 shadow-sm">
+             <div class="card-body">
+                <div style="" class="">
+                    <div class="d-flex justify-content-center">
+                        <div>
+                            <img src="/media/{{request.user.profile.avatar}}" style="width:60px; border:2px solid #2EA8E6" class="rounded-circle">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="ml-2 d-flex justify-content-center " style="font-size: 14px; letter-spacing: 0.3px; font-weight: 600; color:#546E7A">
+                            <div style="text-align:center">
+                                <div>
+                                <a href="/profile/{{request.user}}/" style="">{{request.user.profile.first_name}} {{request.user.profile.last_name}}</a>
+                            </div>
+                            <div style="font-size: 12px; font-weight: 600; color: rgb(0,0,0,0.3);" class="d-flex justify-content-center">
+                                {{request.user.profile.headline}}
+                         </div>
+
+                         <div class=" mt-3" style="display: flex; justify-content: space-between;">
+                            <div class=" d-flex justify-content-center" style=" ">
+                                <div class="" style="text-align: center;">
+                                    <div  style="font-size: 12px; font-weight: 600; color: #393E41;">
+                                        256k+
+                                    </div>
+                                    <div style="font-size: 10px; font-weight: 600; color: rgb(0,0,0,0.3);">
+                                       REPUTATION
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" d-flex justify-content-center" style=" ">
+                                <div class="" style="text-align: center;">
+                                    <div  style="font-size: 12px; font-weight: 600; color: #393E41;">
+                                        {{request.user.profile.followers.all.count}}
+                                    </div>
+                                    <div style="font-size: 10px; font-weight: 600; color: rgb(0,0,0,0.3);">
+                                        FOLLOWERS
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" d-flex justify-content-center" style=" ">
+                                <div class="" style="text-align: center;">
+                                    <div  style="font-size: 12px; font-weight: 600; color: #393E41;">
+                                        {{request.user.profile.following.all.count}}
+                                    </div>
+                                    <div style="font-size: 10px; font-weight: 600; color: rgb(0,0,0,0.3);">
+                                       FOLLOWING
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                            </div>
+                         </div>
+                    </div>
+                   
+                
+                 <div>
+
+                 </div>
+                </div>
+
+             </div>
+
+             <div class="card-footer border-0">
+                <div class="d-flex justify-content-between mt-2">
+                   <a href="/activity/distribution/" title="See detailed distribution" data-toggle="tooltip">
+                    <div class="" style="text-align: center;">
+                        <div  style="font-size: 12px; font-weight: 600; color: #393E41;">
+                            32
+                        </div>
+                        <div style="font-size: 13px; font-weight: 600; color: rgb(0,0,0,0.75);">
+                            Total Activity  <span data-toggle="tooltip" title="It is a count of all the activities that your are doing on this platform ie. 
+                            Solving Coding Question , Publishing article, post, question and anwser, practicipating in contest and many more... 
+                            "><i class="fa fa-info"></i></span>
+                        </div>
+                        
+                    </div>
+                   </a>
+                   <a href="/activity/distribution/" title="See detailed analysis" data-toggle="tooltip">
+                    <div class="" style="text-align: center;">
+                        <div  style="font-size: 12px; font-weight: 600; color: #393E41;">
+                            56
+                        </div>
+                        <div style="font-size: 13px; font-weight: 600; color: rgb(0,0,0,0.75);">
+                            Contest Ranking 
+                        </div>
+                        
+                    </div>
+                   </a>
+                  
+                
+                </div>
+             </div>
+         </div>
+
+         <div class="mt-4 ml-5">
+            <div class="mb-3">
+                <div class="">
+    
+                   
+                    <div class="" style="color: 13px; color: rgb(0,0,0,1);">
+                        <div class="d-flex justify-content-center mt-2 ">
+                        
+                            <a class="pl-2 pr-1"><i class="fa fa-linkedin"></i></a>
+                            <a class="pl-1 pr-1"><i class="fa fa-twitter"></i></a>
+                            <a class="pl-1 pr-1"><i class="fa fa-facebook"></i></a>
+                            <a class="pl-1 pr-1"><i class="fa fa-telegram"></i></a>
+                            <a class="pl-1 pr-2"><i class="fa fa-instagram"></i></a>
+                          </div>
+                         
+                      <div class="d-flex justify-content-center mt-1">
+                        <a href="mailto:tech.codingalphas@gmail.com" class="pl-1 pr-2" style="font-size: 12px;">Feedback & Privacy Policy</a>
+                        <a href="mailto:tech.codingalphas@gmail.com" class="pl-2 pr-2 border-left" style="font-size: 12px;">Help Center</a>
+                       
+                      </div>
+                      <div class="d-flex justify-content-center mt-1 ">
+                        <a href="tel:+917014556452" class="pl-2 pr-2" style="font-size: 12px;">+91 - 7014556452</a>
+                        <a href="mailto:tech.codingalphas@gmail.com" class="pl-2 pr-2 border-left" style="font-size: 12px;">tech.codingalphas@gmail.com</a>
+                       
+                      </div>
+                    
+                    </div>
+                    <div class="text-center mt-1" style="font-size: 13px; color: rgb(0,0,0,0.5);">
+                        © 2021 Copyright:
+                        <a class="" href="http://www.codingalphas.com">CodingAlphas.com</a>
+                      </div>
+                    </div>
+             </div>
+         </div>
+        </div>
+        <div class="col-12 col-lg-6 pl-5 pr-5  offset-lg-3">
+            <div class="card border shadow-sm ">
+                <div class="card-header d-flex justify-content-between align-items-center border-0">
+                   <div class="d-flex justify-content-start align-items-center">
+                    <div>
+                        <img src="/media/{{request.user.profile.avatar}}" style="width:40px;" class="rounded-circle">
+                    </div>
+                    <div class="ml-2" style="font-size: 14px; letter-spacing: 0.3px; font-weight: 600; color:#546E7A">
+                       <a href="/profile/{{request.user}}/" style="">{{request.user.profile.first_name}} {{request.user.profile.last_name}}</a>
+                    </div>
+                   </div>
+                   <div>
+                       <a  data-toggle="modal" data-target="#Post" class="btn btn-sm pr-3 pl-3 pt-2 pb-2" style="border-radius: 20px; background-color: rgb(46, 168, 230,0.1); color: rgb(46, 168, 230); border:1px solid rgb(46, 168, 230);">
+                        <i class="fa fa-paper-plane"></i> Create a post
+                    </a>
+                   </div>
+
+                </div>
+                <div class="card-body pt-2 pb-2 pl-2 pr-2 d-flex justify-content-between">
+                    <div class="" title="Share Photo" data-toggle="tooltip">
+                        <a class="btn btn-sm bg-light pr-3 pl-3 pt-2 pb-2" style="border-radius: 20px; color:#546E7A; font-size: 14px; " data-toggle="modal" data-target="#Photo"><i class="fa fa-photo"></i> Photo</a>
+                    </div>
+                    <div title="Post an article" data-toggle="tooltip">
+                        <a href="/blogs/create/new/" class="btn btn-sm bg-light pr-3 pl-3 pt-2 pb-2" style="border-radius: 20px; color:#546E7A; font-size: 14px; "><i class="fa fa-newspaper-o"></i> Write Article</a>
+                    </div>
+                    <div title="Ask and Anwser" data-toggle="tooltip">
+                        <a href="/discuss/" class="btn btn-sm bg-light pr-3 pl-3 pt-2 pb-2" style="border-radius: 20px; color:#546E7A; font-size: 14px; "><i class="fa fa-question"></i> Ask Question</a>
+                    </div>
+                    <div title="Share Video" data-toggle="tooltip">
+                        <a class="btn btn-sm bg-light pr-3 pl-3 pt-2 pb-2" style="border-radius: 20px; color:#546E7A; font-size: 14px; " data-toggle="modal" data-target="#Video"><i class="fa fa-video-camera"></i> Video</a>
+                    </div>
+                   
+                    
+                </div>
+
+            </div>
+
+            <div class="mt-3 d-flex justify-content-between">
+                <div>
+                    <div style="font-size: 14px; font-weight: 500;">
+                       <a class="btn btn-sm rounded-0" href="#" style="color:#2EA8E6; border:1px solid #2EA8E6; border-top: none;  border-left: none;  border-right: none; font-weight: 500; ">All Updates</a>
+                    </div>
+                </div>
+                <div>
+                    <input onkeyup="myFunction()" id="myFilter"  class="form-control text-muted" type="text" style="font-size: 13px; border-radius:20px; width:270px; font-weight: 500;" placeholder="Search Tags, Keyword, User, Anything...">
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-12 mb-3 p-0">
+            
+
+         
+
+                <div class="d-flex justify-content-center" id="loader" style="display: none;">
+                    <i class="fa fa-spinner fa-spin" style="color:#E57851; display: none;" id="loader_bar"></i>
+                </div>
+                <div id="myItems">
+                    {% for i in home %}
+                    {% if i.category == 'Video' %}
+                   
+                        {% include 'Core/Snippets/video.html' %}
+                        {% elif i.category == 'Photo' %}
+                        {% include 'Core/Snippets/photo.html' %}
+                        {% elif i.category == 'Blog' %}
+                        {% include 'Core/Snippets/blog.html' %}
+                    {% endif %}
+
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-3 " style="position: fixed; height: 100%; right:1rem;" id="leftside">
+            <div class="pl-3">
+                <div class="mb-3">
+                   <i class="fa fa-newspaper-o"></i> Latest Blogs
+                </div>
+               {% for i in blogs %}
+                    <div class="mb-3 d-flex justify-content-between">
+                        <div style="width:40%;">
+                            <img src="/media/{{i.image}}" style="width:100%; border-radius: 10px;">
+                        </div>
+                        <div style="width:60%;" class="d-flex align-items-center">
+                            <a href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/" class="ml-3">
+                                <div class="" style="font-size: 14px; font-weight: 500; color: rgba(29, 12, 12, 0.9);">
+                                  {{i.title|truncatechars:50 }}
+                                </div>
+                                <div style="font-size: 13px; color: rgba(29, 12, 12, 0.9);" >
+                                    {{i.content|time }} min read ({{i.content|length }} words)
+                                </div>
+
+                               </a>
+                               
+                        </div>
+                    </div>
+               {% endfor %}
+               <div class="d-flex justify-content-end">
+                <a  href="/blogs/" class="btn btn-sm pl-3 pr-3" style="background-color: rgb(46, 168, 230,0.1); color: rgb(46, 168, 230); border-color: rgb(46, 168, 230); border-radius: 20px; font-size: 12px;">Read More</a>
+            </div>
+            </div>
+
+            <div class="pl-3 mt-5 mb-5 pb-5">
+                <div class="mb-3">
+                   <i class="fa fa-newspaper-o"></i> Technical News
+                </div>
+               {% for i in news %}
+                    <div class="mb-3 d-flex justify-content-between">
+                        
+                        <div style="width:90%;" class="d-flex align-items-center">
+                            <a href="{{i.Url}}" class="">
+                                <div class="" style="font-size: 14px; font-weight: 500; color: rgba(29, 12, 12, 0.9);">
+                                  {{i.Title|truncatechars:80 }}
+                                </div>
+                                <div style="font-size: 13px; color: rgba(29, 12, 12, 0.9);" >
+                                    {{i.Published_Date}}
+                                </div>
+
+                               </a>
+                               
+                        </div>
+                    </div>
+               {% endfor %}
+
+               <div class="d-flex justify-content-end">
+                   <a  href="/news/Computer-Programming/" class="btn btn-sm pl-3 pr-3" style="background-color: rgb(46, 168, 230,0.1); color: rgb(46, 168, 230); border-color: rgb(46, 168, 230); border-radius: 20px; font-size: 12px;">Read More</a>
+               </div>
+            </div>
+           </div>
+    </div>
+    {% include 'Core/homepage_utilities.html' %}
+
+</div>
+</section>
+{% endblock %}
+{% block body1 %}
+<div class="container ">
+    <div class="row mt-5 pt-5 p-0">
+        <div class="col-12 col-md-12 col-lg-3">
+            
+            <div class="card border shadow-sm ">
+                <div class="card-header border-0" style="font-size: 13px; color: #546E7A;">
+                    <i class="fa fa-newspaper-o" style="color:#E57851 ;"></i> Blogs
+                </div>
+                <div class="card-body pl-3 pr-3 pt-1">
+                  
+
+           {% for i in blogs %}
+           <div class="mt-3">
+            <a href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/"> <div class="d-flex justify-content-start">
+            <div>
+                <img src="/media/{{i.image}}/" style="width:50px; height:50px;" class="rounded">
+            </div>
+            <div style="font-size: 13px;" class="ml-2">
+                {{i.title|truncatechars:40}}
+                <div style="font-size: 12px; letter-spacing: 0.5px;" class="text-muted">
+                   {{i.edited}}
+                </div>
+            </div>
+           
+        </div>
+    </a>
+    </div>
+           {% endfor %}
+
+
+                
+                </div>
+                <div class="card-footer border-0 d-flex justify-content-center p-2">
+                    <a href="/blog/" class="btn btn-sm" style="font-size: 13px;">Read More ...</a>
+                  </div>
+            </div>
+
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header border-0">
+                    <div style="font-size: 13px;" class="text-muted">
+                       <i class="fa fa-user-plus" style="color:#E57851"></i> I am Following 16
+                    </div>
+                </div>
+                <div class="card-body " style="display: flex; flex-wrap: wrap; justify-content: center;">
+                <div title="Sparsh" data-toggle="tooltip" class="m-1">
+                    <a href="/profile/{{request.user}}/"><img src="/media/uploads/2021/03/25/undraw_not_found_60pq.svg" style="width:40px; height:40px;" class="rounded-circle"></a>
+                </div>
+                <div title="Sparsh" data-toggle="tooltip" class="m-1">
+                    <img src="/media/uploads/2021/01/29/animatedsvgicons.jpg" style="width:40px; height:40px;" class="rounded-circle">
+                </div>
+                <div title="Sparsh" data-toggle="tooltip" class="m-1">
+                    <img src="/media/uploads/2021/01/29/animatedsvgicons.jpg" style="width:40px; height:40px;" class="rounded-circle">
+                </div>
+                <div title="Sparsh" data-toggle="tooltip" class="m-1">
+                    <img src="/media/uploads/2021/01/29/animatedsvgicons.jpg" style="width:40px; height:40px;" class="rounded-circle">
+                </div>
+                <div title="Sparsh" data-toggle="tooltip" class="m-1">
+                    <img src="/media/uploads/2021/01/29/animatedsvgicons.jpg" style="width:40px; height:40px;" class="rounded-circle">
+                </div>
+                </div>
+                <div class="card-footer border-0 d-flex justify-content-center p-2">
+                    <a href="/blog/" class="btn btn-sm" style="font-size: 13px;">See More ...</a>
+                  </div>
+            </div>
+            {% if activity %}
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header border-0">
+                    <div style="font-size: 13px;" class="text-muted">
+                       <i class="fa fa-tasks" style="color:#E57851"></i> My Recent Activities
+                    </div>
+                </div>
+                <div class="card-body " style="">
+                    {% for i in activity %}
+                    <div class="d-flex justify-content-start m-1 mt-2">
+                        <div>
+                         <div class="d-flex justify-content-center align-items-center rounded-circle" style="width:30px; height:30px; border:1px solid #E57851"> 
+                             <i class="{{i.activity_icon}}" style="color: #E57851; font-size: 14px;"></i>
+                         </div>
+                        </div>
+                         <div class="ml-2">
+                             <div style="font-size: 13px;" class="text-muted">
+                                {{i.user_activity|safe}}
+                                 <div class="text-muted" style="font-size: 11px;">
+                                     {{i.created}}
+                                 </div>
+                             </div>
+                             
+                         </div>
+                     </div>
+                    {% endfor %}
+
+                   
+                     
+                    
+                    
+
+                </div>
+                <div class="card-footer border-0 d-flex justify-content-center p-2">
+                    <a href="/activities/" class="btn btn-sm" style="font-size: 13px;">See More ...</a>
+                  </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-12 col-md-12 col-lg-6 mb-3">
+            
+
+         
+
+            <div class="d-flex justify-content-center" id="loader" style="display: none;">
+                <i class="fa fa-spinner fa-spin" style="color:#E57851; display: none;" id="loader_bar"></i>
+            </div>
+            <div id="myItems">
+            {% for i in home %}
+                    {% if i.category == 'Post' %}
+                    <div class="card carding mt-3 shadow-sm">
+                        <div class="card-body content">
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex justify-content-start mb-3 align-items-center">
+                                    <div>
+                                            <img src="/media/{{i.post.user.profile.avatar}}" class="rounded-circle" style="width:35px; height:35px;">
+                                    </div>
+                                    <div class="ml-2">
+                                        <div class="text-muted" style="font-size: 13px; ">
+                                           <a href="/profile/{{i.post.user}}/" style="font-weight: 600;"> {{i.post.user.profile.first_name}} {{i.post.user.profile.last_name}}</a> shared a post.
+                                        </div>
+                                        <div class="text-muted" style="font-size: 13px;">
+                                            {{i.post.created}}
+                                        </div>
+
+                                       
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end">
+
+                                {% if request.user != i.post.user %}
+                                <div>
+                                     
+                                    <a class="btn btn-sm border" style="font-size: 12px; background-color: #E57851; color: white;">Follow</a>
+                                    
+                                 </div>
+                                {% endif %}
+                                
+                                    <div>
+                                        <a class=" mt-1 ml-1 btn btn-sm d-flex justify-content-center align-items-center rounded-circle" style="width:20px;height:20px;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                    <div class="dropdown-menu dropdown-menu-right" style="font-size: 12px;" aria-labelledby="dropdownMenuLink">
+                                        {% if request.user == i.post.user %}
+                                        <a class="dropdown-item" href="#"><i class="fa fa-share-alt" style="color: #E57851;"></i> Share</a>
+                                        {% endif %}
+                                        <a class="dropdown-item" href="#"><i class="fa fa-exclamation-triangle" style="color: #E57851;"></i> Report</a>
+                                        <a class="dropdown-item" href="#"><i class="fa fa-bookmark-o" style="color: #E57851;"></i> Bookmark</a>
+                                       
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                             {% if i.post.post_image.all.count != 0 %}
+                            {% if i.post.post_image.all.count == 1 %}
+                            <div >
+                                
+                                <a href="/media/{{i.post.post_image.all.0.image}}/">  <img class="d-block w-100" src="/media/{{i.post.post_image.all.0.image}}" alt="First slide" style="width:100%;"></a>
+                                </div>
+                            {% else %}
+
+                            <div id="carouselExampleIndicators{{i.id}}" class="carousel slide" data-ride="carousel">
+                               
+                                <div class="carousel-inner">
+                                    {% for j in i.post.post_image.all %}
+                                    <div class="carousel-item {% if forloop.counter == 1%}active{% endif %}">
+                                      <a href="/media/{{j.image}}/">  <img class="d-block w-100" src="/media/{{j.image}}" alt="First slide" style="width:100%;"></a>
+                                      </div>
+                                    {% endfor %}
+                                  
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselExampleIndicators{{i.id}}" role="button" data-slide="prev">
+                                  <span class="rounded d-flex align-items-center justify-content-center" style="background-color:#546E7A; height:50px; width:22px; " aria-hidden="true"><i class="fa fa-angle-left" style="font-size: 22px;"></i></span>
+                                 
+                                </a>
+                                <a class="carousel-control-next" href="#carouselExampleIndicators{{i.id}}" role="button" data-slide="next">
+                                    <span class="rounded d-flex align-items-center justify-content-center" style="background-color:#546E7A; height:50px; width:22px; " aria-hidden="true"><i class="fa fa-angle-right" style="font-size: 22px;"></i></span>
+                                 
+                                  
+                                </a>
+                              </div>
+                            {% endif %}
+                            {% endif %}
+                            {% if i.post.video_file %}
+                            <div class="mt-4">
+                                <video style="width:100%; max-height: 300px;"  controls muted="muted">
+                                    <source src="/media/{{i.post.video_file}}" >
+                                    
+                                  </video>
+                            </div>
+                            {% endif %}
+                            {% if i.post.attachment %}
+                            <div class="mt-4 card card-body clip">
+                                <div class=" d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-start">
+                                    <div>
+                                        <i class="fa fa-files-o fa2 mr-2"></i>
+                                    </div>
+                                    <div>
+                                        <a  style="font-size:14px; font-weight:600; color: #546E7A;" download> {{i.post.attachment|getfile}}</a>
+                                       <div class="text-muted" style="font-size: 12px;" >
+                                        {{i.post.attachment.size|filesizeformat}}<span class="ml-2" style="color: #E57851;"><i class="fa fa-cogs"></i> {{i.post.attachment|extension}}</span>
+                                       </div>
+                                    </div>
+                                </div>
+                                <div class="" title="Download" data-toggle="tooltip">
+                                    <a href="/media/{{i.post.attachment}}" download class="fa fa-cloud-download btn btn-sm border" style="color: #E57851;"></a>
+                                </div>
+                            </div>
+                          
+                            {% if i.post.attachment|check_extension %}
+                            <div class="mt-3">
+                                <div id="editor_ace_id" class="editor_ace">{{i.post.attachment|fetch}}</div>
+                            </div>
+                            {% endif %}
+                            
+                            </div>
+                          
+                            {% endif %}
+
+                            <div style="font-size: 13px;" class="text-muted mt-2 ml-3">
+                               
+                                 {{i.post.description|safe}}
+                                
+                             </div>
+                             
+                             <div class="d-flex justify-content-center flex-wrap" > 
+                                {% for j in i.post.tags|split:"," %}
+                                {% if j %}
+                                <a href="/activities/tags/{{j|strip}}/" style="font-size: 10px;" class="btn btn-sm tag m-1">{{j}}</a>
+                                {% endif %}
+                                {% endfor %}
+                                
+                                </div>
+                                <hr>
+                                <div class="">
+                                    <div class="" style="display: flex; justify-content: start; flex-wrap: wrap;">
+                                        <a onclick="like1('post','{{i.post.id}}','post_like_{{i.post.id}}','like_count_{{i.post.id}}','post_dislike_{{i.post.id}}','dislike_count_{{i.post.id}}')" class="btn btn-sm">
+                                            <div class=" mr-2" style="font-size: 13px;">
+                                                <i id="post_like_{{i.post.id}}" class="fa fa-thumbs-up {% if request.user in i.post.like.all %} fa2{% else %}fa3 {% endif %}"></i> <span id="like_count_{{i.post.id}}">{{i.post.like.all.count}} Likes</span>
+                                            </div>
+                                        </a>
+                                        <a onclick="dislike1('post','{{i.post.id}}','post_dislike_{{i.post.id}}','dislike_count_{{i.post.id}}','post_like_{{i.post.id}}','like_count_{{i.post.id}}')"  class="btn btn-sm">
+                                        <div class="ml-2 mr-2" style="font-size: 13px;">
+                                            <i id="post_dislike_{{i.post.id}}" class="fa fa-thumbs-down  {% if request.user in i.post.dislike.all %} fa2{% else %}fa3 {% endif %}"></i> <span id="dislike_count_{{i.post.id}}">{{i.post.dislike.all.count}} Dislikes</span>
+                                        </div>
+                                    </a>
+                                    <a class="btn btn-sm" data-toggle="collapse" href="#collapseExample{{i.id}}"  role="button" aria-expanded="false" aria-controls="collapseExample{{i.id}}" >
+                                        <div class=" ml-2 mr-2" style="font-size: 13px;">
+                                            <i class="fa fa-comments fa2"></i> 12 Comment
+                                        </div>
+                                    </a>
+                                        {% if request.user == i.post.user %}
+                                        <a href="#" class="btn btn-sm">
+                                            <div class=" ml-2 mr-2" style="font-size: 13px;">
+                                                <i class="fa fa-pencil fa2"></i> Edit
+                                            </div>
+                                        </a>
+                                        <a href="#" class="btn btn-sm">
+                                            <div class=" ml-2 mr-2" style="font-size: 13px;">
+                                                <i class="fa fa-trash fa2"></i> Delete
+                                            </div>
+                                        </a>
+                                        {% else %}
+                                        <a href="#" class="btn btn-sm">
+                                            <div class=" ml-2 mr-2" style="font-size: 13px;">
+                                                <i class="fa fa-share-alt"></i> Share
+                                            </div>
+                                        </a>
+                                      
+                                        {% endif %}
+                                    
+                                        
+                                    </div>
+                                   
+                                </div>
+                        </div>
+                     
+                            <div class="collapse  " id="collapseExample{{i.id}}">
+                                <div class="card-footer border-0" style="font-size: 12px;">
+                                    <form id="comment_submit_form{{i.post.id}}" action="" method="POST" enctype="multipart/form-data">
+                                    <div class="d-flex justify-content-start align-items-center">
+                                        <div>
+                                            <img src="/media/{{request.user.profile.avatar}}/" style="width: 35px; height:35px; " class="rounded-circle mr-2">
+                                        </div>
+                                        <div style="width: 100%;">
+                                           
+                                                <input style="width:100%; font-size: 12px;" required placeholder="Write here..."  class="form-control">
+                                              
+                                        </div>
+
+                                    </div>
+                                    <div class=" ml-4  pl-3 d-flex justify-content-start align-items-center mt-2">
+                        
+                                        <div title="Attach a photo" data-toggle="tooltip" >
+                                            <a href="#" id="comment_photo_id" onclick="show_post_photo()" class="btn btn-sm" style="color:#E57851"><i class="fa fa-photo"></i></a>
+                                        </div>
+                                        <div title="Attach a video" data-toggle="tooltip" >
+                                            <a href="#" id="comment_video_id"  onclick="show_post_video()" class="btn btn-sm" ><i class="fa fa-video-camera fa2"></i></a>
+                                        </div>
+                                        <div title="Attach a document" data-toggle="tooltip" >
+                                            <a href="#"  id="comment_document_id" onclick="show_post_document()" class="btn btn-sm" ><i class="fa fa-file fa2"></i></a>
+                                        </div>
+                                  
+                                        <div title="Attach a GIF" data-toggle="tooltip" style="margin-top: -5px;" >
+                                            <a href="#" id="comment_gif_id"  onclick="show_post_gif()" class=" ml-2 mt-1 rounded btn btn-sm" style="font-size: 10px; border:1px solid #E57851; color: #E57851; padding:2px;" >GIF</a>
+                                        </div>
+                                        
+                                        <div title="Add Emoticon" data-toggle="tooltip" >
+                                            <a href="#"  style="color: #E57851;" id="comment_smile_id" onclick="show_post_document()" class="btn btn-sm" ><i class="fa fa-smile-o"></i></a>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="mt-2  ml-5 d-flex align-items-center">
+                                        <button class="btn btn-sm pl-2 shaodw-sm pr-2" style="font-size: 12px; background-color: #E57851; border-radius: 20px; color: white;"><i class="fa fa-paper-plane"></i> Post</button>
+                                        <a class="pt-1 ml-3 cancel" style="font-size: 12px;color:#546E7A; "> Cancel</a>
+                                    </div>
+                                </form>
+                                    </div>
+                              </div>
+                       
+                    </div>
+
+
+                   
+                    
+                    {% elif i.category == 'Photo' %}
+                  
+                    {% elif i.category == 'Blog' %}
+                      
+                    {% endif %}
+                    
+                   {% endfor %}
+                </div>
+        </div>
+        <div class="col-12 col-md-12 col-lg-3">
+            <div class="card mb-3 shadow-sm">
+              
+                    <div class="card-header border-0" style="font-size: 13px; color: #546E7A;">
+                        <i class="fa fa-user fa2"></i> Complete Your Profile
+                    </div>
+                    <div class="card-body">
+                        <div class="progress" style=" height:5px;">
+                            <div class="progress-bar" role="progressbar" style="width: 75%; background-color: #E57851;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <div style="font-size: 12px;" class="mt-1 text-muted">
+                              75% Complete
+                          </div>
+                          <div class="d-flex justify-content-end">
+                              <a href="/profile/{{request.user}}/" class="btn btn-sm border shadow-sm" style="font-size: 12px; background-color: #E57851; color: white;">Profile <i class="fa fa-arrow-right"></i></a>
+                          </div>
+                    </div>
+             
+            </div>
+            <div class="card border shadow-sm ">
+                <div class="card-header border-0" style="font-size: 13px; color: #546E7A;">
+                    <div><i class="fa fa-bell fa2"></i> Opportunities Updates</div>
+                    <div>
+   
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div class="">
+                        <a href=""> <div class="d-flex justify-content-start">
+                      
+                        <div style="font-size: 13px;" class="ml-2">
+                            Sharing a document for you guys to
+                            <div style="font-size: 12px; letter-spacing: 0.5px;" class="text-muted">
+                                May 19,2010
+                            </div>
+                        </div>
+                       
+                    </div>
+                    </a>
+                    </div>
+
+                    <div class="mt-3">
+                        <a href=""> <div class="d-flex justify-content-start">
+                      
+                        <div style="font-size: 13px;" class="ml-2">
+                            Sharing a document for you guys to
+                            <div style="font-size: 12px; letter-spacing: 0.5px;" class="text-muted">
+                                May 19,2010
+                            </div>
+                        </div>
+                       
+                    </div>
+                    </a>
+                    </div>
+
+                    <div class=" mt-3">
+                        <a href=""> <div class="d-flex justify-content-start">
+                      
+                        <div style="font-size: 13px;" class="ml-2">
+                            Sharing a document for you guys to
+                            <div style="font-size: 12px; letter-spacing: 0.5px;" class="text-muted">
+                                May 19,2010
+                            </div>
+                        </div>
+                       
+                    </div>
+                    </a>
+                    </div>
+
+
+                    <div class=" mt-3">
+                        <a href=""> <div class="d-flex justify-content-start">
+                      
+                        <div style="font-size: 13px;" class="ml-2">
+                            Sharing a document for you guys to
+                            <div style="font-size: 12px; letter-spacing: 0.5px;" class="text-muted">
+                                May 19,2010
+                            </div>
+                        </div>
+                       
+                    </div>
+                    </a>
+                    </div>
+
+                    
+                    <div class=" mt-3">
+                        <a href=""> <div class="d-flex justify-content-start">
+                      
+                        <div style="font-size: 13px;" class="ml-2">
+                            Sharing a document for you guys to
+                            <div style="font-size: 12px; letter-spacing: 0.5px;" class="text-muted">
+                                May 19,2010
+                            </div>
+                        </div>
+                       
+                    </div>
+                    </a>
+                    </div>
+
+                    
+                    <div class=" mt-3">
+                        <a href=""> <div class="d-flex justify-content-start">
+                      
+                        <div style="font-size: 13px;" class="ml-2">
+                            Sharing a document for you guys to
+                            <div style="font-size: 12px; letter-spacing: 0.5px;" class="text-muted">
+                                May 19,2010
+                            </div>
+                        </div>
+                       
+                    </div>
+                    </a>
+                    </div>
+                </div>
+                <div class="card-footer border-0 d-flex justify-content-center p-2">
+                  <a href="#" class="btn btn-sm" style="font-size: 13px;">See More ...</a>
+                </div>
+
+            </div>
+
+            <div class="card border shadow-sm mt-3 ">
+                <div class="card-header border-0" style="font-size: 13px; color: #546E7A;">
+                    <i class="fa fa-newspaper-o" style="color: #E57851;"></i> Technical News
+                </div>
+                <div class="card-body">
+                 {% for i in news %}
+                 <div class="{% if forloop.counter != 1%}mt-3 {% else%}mt-1 {% endif %}">
+                    <a href="{{i.Url}}"> <div class="d-flex justify-content-start">
+                  
+                    <div style="font-size: 13px;" class="ml-2">
+                        {{i.Title}}
+                        <div style="font-size: 12px; letter-spacing: 0.5px;" class="text-muted">
+                          {{i.Published_Date}}
+                        </div>
+                    </div>
+                   
+                </div>
+                </a>
+                </div>
+                 {% endfor %}
+
+                </div>
+                <div class="card-footer border-0 d-flex justify-content-center p-2">
+                  <a href="/news/Computer-Programming/" class="btn btn-sm" style="font-size: 13px;">See More ...</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--Modals-->
+
+</div>
+{% endblock %}
+{% block script %}
+<script src="{% static 'js/video.js' %}"></script>
+<script>
+    $('.editor_ace').each(function( index ) {
+  editor = ace.edit(this);
+
+  editor.session.setMode("ace/mode/text");
+  editor.setReadOnly(true)
+});
+  
+function expandable(id) {
+
+  var moreText = document.getElementById("more"+id);
+  var btnText = document.getElementById("less"+id);
+  btnText.style.display = 'none';
+  moreText.style.display = 'block';
+
+  
+}
+
+    function show_post_photo(){
+        if(document.getElementById('post_image_uploader').style.display == 'block'){
+        document.getElementById('post_image_uploader').style.display = 'none';
+        document.getElementById('post_video_id').classList.remove("disabled");
+        document.getElementById('post_document_id').classList.remove("disabled");
+        document.getElementById('post_gif_id').classList.remove("disabled");
+        }
+        else{
+        document.getElementById('post_image_uploader').style.display = 'block';
+        document.getElementById('post_video_id').classList.add("disabled");
+        document.getElementById('post_document_id').classList.add("disabled");
+        document.getElementById('post_gif_id').classList.add("disabled");
+        }
+        
+    }
+    function show_post_video(){
+        if(document.getElementById('post_video_uploader').style.display == 'block'){
+        document.getElementById('post_video_uploader').style.display = 'none';
+        document.getElementById('post_photo_id').classList.remove("disabled");
+        document.getElementById('post_document_id').classList.remove("disabled");
+        document.getElementById('post_gif_id').classList.remove("disabled");
+        }
+        else{
+        document.getElementById('post_video_uploader').style.display = 'block';
+        document.getElementById('post_photo_id').classList.add("disabled");
+        document.getElementById('post_document_id').classList.add("disabled");
+        document.getElementById('post_gif_id').classList.add("disabled");
+        }
+    }
+    function show_post_document(){
+        if(document.getElementById('post_file_uploader').style.display == 'block'){
+        document.getElementById('post_file_uploader').style.display = 'none';
+        document.getElementById('post_video_id').classList.remove("disabled");
+        document.getElementById('post_photo_id').classList.remove("disabled");
+        document.getElementById('post_gif_id').classList.remove("disabled");
+        }
+        else{
+        document.getElementById('post_file_uploader').style.display = 'block';
+        document.getElementById('post_video_id').classList.add("disabled");
+        document.getElementById('post_photo_id').classList.add("disabled");
+        document.getElementById('post_gif_id').classList.add("disabled");
+        }
+    }
+    function show_post_gif(){
+        if(document.getElementById('post_gif_uploader').style.display == 'block'){
+        document.getElementById('post_gif_uploader').style.display = 'none';
+        document.getElementById('post_video_id').classList.remove("disabled");
+        document.getElementById('post_document_id').classList.remove("disabled");
+        document.getElementById('post_photo_id').classList.remove("disabled");
+        }
+        else{
+        document.getElementById('post_gif_uploader').style.display = 'block';
+        document.getElementById('post_video_id').classList.add("disabled");
+        document.getElementById('post_document_id').classList.add("disabled");
+        document.getElementById('post_photo_id').classList.add("disabled");
+        }
+    }
+    ClassicEditor
+        .create( document.querySelector( '.editor' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+
+     
+    document.querySelectorAll( 'oembed' ).forEach( element => {
+        console.log(element);
+    } );
+
+           
+        // ----------------------- Video Autoplay --------------------
+
+        $(window).scroll(function() {
+    $('video').each(function() {
+        if ($(this).visible(true)) {
+            $(this)[0].play();
+        } else {
+            $(this)[0].pause();
+        }
+    })
+});
+            
+ 
+        $(document).ready(function (e) {
+    $('#imageUploadForm').on('submit',(function(e) {
+        document.getElementById('image_loader_spinner').style.display="block";
+        e.preventDefault();
+        document.getElementById('loader').style.display = 'block';
+        document.getElementById('loader_bar').style.display = 'block';
+        $.ajax({
+            type:'POST',
+            url: '/photo/upload/list/',
+            data:new FormData($('#imageUploadForm')[0]),
+            processData: false,
+    contentType: false,
+            success:function(data){
+                
+                document.getElementById("image_loader").innerHTML = "<span class='badge badge-sm badge-success'>Posted Successfully!!</span>";
+                $('#Photo').modal('hide');
+                data = JSON.parse(data);
+                if(data == 'Success'){
+                    var notfy = new Notyf();
+                    
+                    notfy.success("You uploaded post successfully!")
+                }
+                else{
+                    var notfy = new Notyf();
+                    notfy.warning("Some eror occurred!")
+                }
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('loader_bar').style.display = 'none';
+                
+            },
+            error: function(data){
+                console.log("error");
+                console.log(data);
+            }
+        });
+    }));
+
+  
+});
+
+
+// ------------------- Video Upload Form -----------------------
+
+
+// ------------------- Post Upload Form -----------------------
+
+$(document).ready(function (e) {
+    $('#PostUploadForm').on('submit',(function(e) {
+        document.getElementById('post_loader_spinner').style.display="block";
+        
+        e.preventDefault();
+        e.stopPropagation(); 
+        document.getElementById('loader').style.display = 'block';
+        document.getElementById('loader_bar').style.display = 'block';
+        if (document.getElementById('editor2').innerHTML == ""){
+            document.getElementById('post_loader_spinner').style.display="none";
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('loader_bar').style.display = 'none';
+            document.getElementById('post_field_validate').innerHTML = "Description field can't be empty !!";
+            document.getElementById('post_field_validate').style.display = "block";
+            return;
+        
+        }
+        document.getElementById('post_field_validate').style.display = "none";
+        $.ajax({
+            type:'POST',
+            url: '/post/upload/list/',
+            data:new FormData($('#PostUploadForm')[0]),
+            processData: false,
+    contentType: false,
+            success:function(data){
+                document.getElementById("post_loader").innerHTML = "<span class='badge badge-sm badge-success'>Posted Successfully!!</span>";
+                $('#Post').modal('hide');
+                data = JSON.parse(data);
+                if(data == 'Success'){
+                    var notfy = new Notyf();
+                    
+                    notfy.success("You uploaded post successfully!")
+                }
+                else{
+                    var notfy = new Notyf();
+                    notfy.warning("Some eror occurred!")
+                }
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('loader_bar').style.display = 'none';
+                
+            },
+            error: function(data){
+                console.log("error");
+                console.log(data);
+            }
+        });
+    }));
+
+  
+});
+              
+function myFunction() {
+    var input, filter, cards, cardContainer, h5, title, i;
+    input = document.getElementById("myFilter");
+    filter = input.value.toUpperCase();
+    cardContainer = document.getElementById("myItems");
+    cards = cardContainer.getElementsByClassName("carding");
+    for (i = 0; i < cards.length; i++) {
+        title = cards[i].querySelector(".content");
+        if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+
+</script>
+{% endblock %} 

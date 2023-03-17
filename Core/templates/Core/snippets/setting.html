@@ -1,0 +1,690 @@
+
+    <div class="row">
+        
+        <div class="col-12 mt-4">
+           
+                <div class="">
+                    <div class="">
+                      
+    
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-12 col-md-4 col-lg-3">
+                    <div class="d-flex justify-content-center">
+                        <div>
+                            <div style="z-index: 100; display: flex; justify-content: center;" class="ml-3" title="Upload Profile Picture">
+                                <img id="blah" class="image_upload" src="/media/{{profile.avatar}}" >
+                                <div class="upload_image">
+                                    <label><i class="fa fa-cloud-upload"></i></label>
+                                    <input type="file" name="profile_image" id="uploadpic" onchange="loadFile(event)">
+                                  
+                                </div>
+
+                            </div>
+                         <center>
+                            <div class="mt-2 " style="display: none;" id="pic_palette">
+                                <button class="btn btn-sm btn-outline-primary" onclick="savechangesform('profileimage','uploadpic','usernamefieldsol','usernamearea','usernamefield','profileimagespinner')">Save <i class="fa fa-spinner fa-spin" id="profileimagespinner" style="display: none;"></i></button>
+                                <button class="btn btn-sm btn-outline-dark" onclick="show_default()">Cancel</button>
+                              
+                            </div>
+                         </center>
+                            <div style="align-items: center;">
+                               <div style="font-weight: 700; font-size: 18px;" class="text-dark mt-2 ml-2 usernamefieldsol text-center" >
+                                {{profile.first_name}} {{profile.last_name}}
+                               </div>
+                               <div class="ml-2 mt-1 text-muted text-center style="font-size: 14px;">
+                                CodingAlphas Id : {{profile.user}}
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="mt-3">
+                            <a href="/profile/{{user}}/?method=Setting&type=basic">
+                                <div class="d-flex justify-content-start align-items-center mb-3">
+                                    
+                                        <div class="options rounded" data-toggle="tooltip" title="Basic Profile" data-placement="top">
+                                            <i class="fa fa-user fa2 " style=""></i>
+                                        </div>
+                                        <div class="text-color options-side rounded " style="  {%if type == 'basic' %} background-color:rgb(46, 168, 230,0.1);{% endif %}  " >
+                                            <div style="display: flex; justify-content: start; align-items: center; width:100%; height:100%;">
+                                                Basic Profile
+                                            </div>
+                                        </div>
+                                    
+                                   
+                            </div>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="/profile/{{user}}/?method=Setting&type=accounts">
+                                <div class="d-flex justify-content-start align-items-center mb-3">
+                                    
+                                        <div class="options rounded" data-toggle="tooltip" title="Accounts" data-placement="top">
+                                            <i class="fa fa-cog fa2 " style=""></i>
+                                        </div>
+                                        <div class="text-color options-side rounded " style="  {%if type == 'accounts' %} background-color:rgb(46, 168, 230,0.1);{% endif %}  " >
+                                            <div style="display: flex; justify-content: start; align-items: center; width:100%; height:100%;">
+                                                Accounts
+                                            </div>
+                                        </div>
+                                    
+                                   
+                            </div>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="/profile/{{user}}/?method=Setting&type=notification">
+                                <div class="d-flex justify-content-start align-items-center mb-3">
+                                    
+                                        <div class="options rounded" data-toggle="tooltip" title="Notifications" data-placement="top">
+                                            <i class="fa fa-bell fa2 " style=""></i>
+                                        </div>
+                                        <div class="text-color options-side rounded " style="  {%if type == 'notification' %} background-color:rgb(46, 168, 230,0.1);{% endif %}  " >
+                                            <div style="display: flex; justify-content: start; align-items: center; width:100%; height:100%;">
+                                                Notifications
+                                            </div>
+                                        </div>
+                                    
+                                   
+                            </div>
+                            </a>
+                        </div>
+                </div>
+                <div class="col-12 col-md col-lg">
+                    {% if type == 'accounts' %}
+                    <div class="card p-0">
+                        <div class="card-body p-0">
+                            <div style="font-weight: 600; font-size: 15px;" class="text-color card-header border-0">
+                                Account Information
+                            </div>
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class="mt-2 text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    CodingAlphas Id:
+                                </div>
+                                <div style="width: 70%;">
+                                   <div id="usernamearea" class="usernamefieldsol">
+                                    {{request.user}}
+                                   </div>
+                                   <div id="usernamefield" style="display: none; ">
+                                   <div>
+                                    <input class="form-control" type="text" value="{{request.user.profile.first_name}} {{request.user.profile.last_name}}" style="font-size:13px" name="usernamename" id="usernameuser">
+                                   </div>
+                                   <div class="mt-2">
+                                       <button class="btn btn-sm btn-outline-primary " onclick="savechangesform('name','usernameuser','usernamefieldsol','usernamearea','usernamefield','usernamespinner')">Save changes <i class="fa fa-spinner fa-spin" style="display: none;" id="usernamespinner"></i></button>
+                                       <button class="btn btn-sm btn-outline-dark" onclick="enablearea('usernamearea','usernamefield','true')">Cancel</button>
+                                   </div>
+                                   </div>
+                                </div>
+                               
+                            </div>
+
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class=" text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                   Email
+                                </div>
+                                <div style="width: 70%;">
+                                   <div id="usernamearea" class="usernamefieldsol">
+                                    {{request.user.profile.email}}  
+                                   </div>
+                                   <div id="usernamefield" style="display: none; ">
+                                   <div>
+                                    <input class="form-control" type="text" value="{{request.user.profile.first_name}} {{request.user.profile.last_name}}" style="font-size:13px" name="usernamename" id="usernameuser">
+                                   </div>
+                                   <div class="mt-2">
+                                       <button class="btn btn-sm btn-outline-primary " onclick="savechangesform('name','usernameuser','usernamefieldsol','usernamearea','usernamefield','usernamespinner')">Save changes <i class="fa fa-spinner fa-spin" style="display: none;" id="usernamespinner"></i></button>
+                                       <button class="btn btn-sm btn-outline-dark" onclick="enablearea('usernamearea','usernamefield','true')">Cancel</button>
+                                   </div>
+                                   </div>
+                                </div>
+                              
+                            </div>
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class=" text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                   Password
+                                </div>
+                                <div style="width: 70%;">
+                                   <div id="usernamearea" class="usernamefieldsol">
+                                    <a style="color: rgb(46, 168, 230);" href="/accounts/changepassword/">Change Password</a>
+                                   </div>
+                                  
+                                   </div>
+                                </div>
+                              
+                            </div>
+                            <div style="font-weight: 600; font-size: 15px;" class="text-color card-header border-0 mt-2">
+                                Social Account
+                            </div>
+
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class="mt-2 text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                               <a class="btn btn-sm rounded-circle text-white mr-1" style="width:30px; height:30px; background-color: #35528E;"><i class="fa fa-facebook"></i></a>    Facebook
+                                </div>
+                                <div style="width: 70%;">
+                                   <div id="facebookarea" class="facebookfieldsol">
+                                    <a href="{{request.user.profile.facebook}}">{{request.user.profile.facebook}} </a> 
+                                   </div>
+                                   <div id="facebookfield" style="display: none; ">
+                                   <div>
+                                    <input class="form-control" type="text" value="{{request.user.profile.facebook}} " style="font-size:13px" name="facebookname" id="facebookuser">
+                                   </div>
+                                   <div class="mt-2">
+                                       <button class="btn btn-sm btn-outline-primary " onclick="savechangesform('facebook','facebookuser','facebookfieldsol','facebookarea','facebookfield','facebookspinner')">Save changes <i class="fa fa-spinner fa-spin" style="display: none;" id="facebookspinner"></i></button>
+                                       <button class="btn btn-sm btn-outline-dark" onclick="enablearea('facebookarea','facebookfield','true')">Cancel</button>
+                                   </div>
+                                   </div>
+                                </div>
+                                <div style="display: flex; align-items: start; " class="ml-5" >
+                                    <a style="color:rgb(46, 168, 230); cursor:pointer" class="" onclick="enablearea('facebookarea','facebookfield')">
+                                        Connect
+                                    </a>
+                            </div>
+                              
+                            </div>
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class="mt-2 text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    <a class="btn btn-sm rounded-circle text-white mr-1" style="width:30px; height:30px; background-color: #BB277F;"><i class="fa fa-instagram"></i></a>   Instagram
+                                </div>
+                                <div style="width: 70%;">
+                                   <div id="instagramarea" class="instagramfieldsol">
+                                    <a href="{{request.user.profile.instagram}}">{{request.user.profile.instagram}} </a>  
+                                   </div>
+                                   <div id="instagramfield" style="display: none; ">
+                                   <div>
+                                    <input class="form-control" type="text" value="{{request.user.profile.instagram}} " style="font-size:13px" name="instagramname" id="instagramuser">
+                                   </div>
+                                   <div class="mt-2">
+                                       <button class="btn btn-sm btn-outline-primary " onclick="savechangesform('instagram','instagramuser','instagramfieldsol','instagramarea','instagramfield','instagramspinner')">Save changes <i class="fa fa-spinner fa-spin" style="display: none;" id="instagramspinner"></i></button>
+                                       <button class="btn btn-sm btn-outline-dark" onclick="enablearea('instagramarea','instagramfield','true')">Cancel</button>
+                                   </div>
+                                   </div>
+                                </div>
+                                <div style="display: flex; align-items: start; " class="ml-5" >
+                                    <a style="color:rgb(46, 168, 230); cursor:pointer" class="" onclick="enablearea('instagramarea','instagramfield')">
+                                        Connect
+                                    </a>
+                            </div>
+                              
+                            </div>
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class="mt-2 text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    <a class="btn btn-sm rounded-circle text-white mr-1" style="width:30px; height:30px; background-color: #3AADE7;"><i class="fa fa-twitter"></i></a>   Twitter
+                                </div>
+                                <div style="width: 70%;">
+                                   <div id="twitterarea" class="twitterfieldsol">
+                                    <a href="{{request.user.profile.twitter}}">{{request.user.profile.twitter}} </a>    
+                                   </div>
+                                   <div id="twitterfield" style="display: none; ">
+                                   <div>
+                                    <input class="form-control" type="text" value="{{request.user.profile.twitter}}" style="font-size:13px" name="twittername" id="twitteruser">
+                                   </div>
+                                   <div class="mt-2">
+                                       <button class="btn btn-sm btn-outline-primary " onclick="savechangesform('twitter','twitteruser','twitterfieldsol','twitterarea','twitterfield','twitterspinner')">Save changes <i class="fa fa-spinner fa-spin" style="display: none;" id="twitterspinner"></i></button>
+                                       <button class="btn btn-sm btn-outline-dark" onclick="enablearea('twitterarea','twitterfield','true')">Cancel</button>
+                                   </div>
+                                   </div>
+                                </div>
+                                <div style="display: flex; align-items: start; " class="ml-5" >
+                                    <a style="color:rgb(46, 168, 230); cursor:pointer" class="" onclick="enablearea('twitterarea','twitterfield')">
+                                        Connect
+                                    </a>
+                            </div>
+                              
+                            </div>
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class="mt-2 text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    <a class="btn btn-sm rounded-circle text-white mr-1" style="width:30px; height:30px; background-color: #292929;"><i class="fa fa-medium"></i></a>  Medium
+                                </div>
+                                <div style="width: 70%;">
+                                   <div id="mediumarea" class="mediumfieldsol">
+                                    <a href="{{request.user.profile.medium}}">{{request.user.profile.medium}} </a> 
+                                   </div>
+                                   <div id="mediumfield" style="display: none; ">
+                                   <div>
+                                    <input class="form-control" type="text" value="{{request.user.profile.medium}} " style="font-size:13px" name="mediumname" id="mediumuser">
+                                   </div>
+                                   <div class="mt-2">
+                                       <button class="btn btn-sm btn-outline-primary " onclick="savechangesform('medium','mediumuser','mediumfieldsol','mediumarea','mediumfield','mediumspinner')">Save changes <i class="fa fa-spinner fa-spin" style="display: none;" id="mediumspinner"></i></button>
+                                       <button class="btn btn-sm btn-outline-dark" onclick="enablearea('mediumarea','mediumfield','true')">Cancel</button>
+                                   </div>
+                                   </div>
+                                </div>
+                                <div style="display: flex; align-items: start; " class="ml-5" >
+                                    <a style="color:rgb(46, 168, 230); cursor:pointer" class="" onclick="enablearea('mediumarea','mediumfield')">
+                                        Connect
+                                    </a>
+                            </div>
+                              
+                            </div>
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class="mt-2 text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    <a class="btn btn-sm rounded-circle text-white mr-1" style="width:30px; height:30px; background-color: #B13C2E;"><i class="fa fa-quora"></i></a>    Quora
+                                </div>
+                                <div style="width: 70%;">
+                                   <div id="quoraarea" class="quorafieldsol">
+                                    <a href="{{request.user.profile.quora}}">{{request.user.profile.quora}} </a> 
+                                   </div>
+                                   <div id="quorafield" style="display: none; ">
+                                   <div>
+                                    <input class="form-control" type="text" value="{{request.user.profile.quora}} " style="font-size:13px" name="quoraname" id="quorauser">
+                                   </div>
+                                   <div class="mt-2">
+                                       <button class="btn btn-sm btn-outline-primary " onclick="savechangesform('quora','quorauser','quorafieldsol','quoraarea','quorafield','quoraspinner')">Save changes <i class="fa fa-spinner fa-spin" style="display: none;" id="quoraspinner"></i></button>
+                                       <button class="btn btn-sm btn-outline-dark" onclick="enablearea('quoraarea','quorafield','true')">Cancel</button>
+                                   </div>
+                                   </div>
+                                </div>
+                                <div style="display: flex; align-items: start; " class="ml-5" >
+                                    <a style="color:rgb(46, 168, 230); cursor:pointer" class="" onclick="enablearea('quoraarea','quorafield')">
+                                        Connect
+                                    </a>
+                            </div>
+                              
+                            </div>
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class="mt-2 text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    <a class="btn btn-sm rounded-circle text-white mr-1" style="width:30px; height:30px; background-color: #015F94;"><i class="fa fa-linkedin"></i></a>   Linkedin
+                                </div>
+                                <div style="width: 70%;">
+                                   <div id="linkedinarea" class="linkedinfieldsol">
+                                    <a href="{{request.user.profile.linkedin}}">{{request.user.profile.linkedin}} </a>  
+                                   </div>
+                                   <div id="linkedinfield" style="display: none; ">
+                                   <div>
+                                    <input class="form-control" type="text" value="{{request.user.profile.linkedin}} " style="font-size:13px" name="linkedinname" id="linkedinuser">
+                                   </div>
+                                   <div class="mt-2">
+                                       <button class="btn btn-sm btn-outline-primary " onclick="savechangesform('linkedin','linkedinuser','linkedinfieldsol','linkedinarea','linkedinfield','linkedinspinner')">Save changes <i class="fa fa-spinner fa-spin" style="display: none;" id="linkedinspinner"></i></button>
+                                       <button class="btn btn-sm btn-outline-dark" onclick="enablearea('linkedinarea','linkedinfield','true')">Cancel</button>
+                                   </div>
+                                   </div>
+                                </div>
+                                <div style="display: flex; align-items: start; " class="ml-5" >
+                                    <a style="color:rgb(46, 168, 230); cursor:pointer" class="" onclick="enablearea('linkedinarea','linkedinfield')">
+                                        Connect
+                                    </a>
+                            </div>
+                              
+                            </div>
+                           
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if type == 'notification' %}
+                    <div class="card p-0">
+                        <div class="card-body p-0">
+                            <div style="font-weight: 600; font-size: 15px;" class="text-color card-header border-0">
+                                Notifications
+                            </div>
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class="mt-2 text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    Important Announcements  
+
+
+                                </div>
+                                <div style="width: 70%;">
+                                  
+                                </div>
+                                <div style="display: flex; align-items: start; display: flex; align-items: center; " class="ml-5" >
+                                        <input type="checkbox" onchange="announcement('important')" name="important" style="width:15px; height:15px;"  {% if request.user.profile.important_announcement %}checked {% endif %}>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class="mt-2 text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    Feature Announcements  
+
+
+                                </div>
+                                <div style="width: 70%;">
+                                  
+                                </div>
+                                <div style="display: flex; align-items: start; display: flex; align-items: center; " class="ml-5" >
+                                        <input type="checkbox" onchange="announcement('feature')" name="important" style="width:15px; height:15px;"  {% if request.user.profile.feature_announcement %}checked {% endif %}>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class="mt-2 text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    Weekly Recommendation 
+
+
+                                </div>
+                                <div style="width: 70%;">
+                                  
+                                </div>
+                                <div style="display: flex; align-items: start; display: flex; align-items: center; " class="ml-5" >
+                                        <input type="checkbox" onchange="announcement('weekly')" name="important" style="width:15px; height:15px;"  {% if request.user.profile.weekly_recommendation %}checked {% endif %}>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class="mt-2 text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    New Articles Updates
+
+
+                                </div>
+                                <div style="width: 70%;">
+                                  
+                                </div>
+                                <div style="display: flex; align-items: start; display: flex; align-items: center; " class="ml-5" >
+                                        <input type="checkbox" onchange="announcement('articles')" name="important" style="width:15px; height:15px;"  {% if request.user.profile.articles_updates %}checked {% endif %}>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class="mt-2 text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    Email Promotions and Notifications
+
+
+                                </div>
+                                <div style="width: 70%;">
+                                  
+                                </div>
+                                <div style="display: flex; align-items: start; display: flex; align-items: center; " class="ml-5" >
+                                        <input type="checkbox" onchange="announcement('email')" name="important" style="width:15px; height:15px;"  {% if request.user.profile.email_notification %}checked {% endif %}>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class="mt-2 text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    Thanksgiving Promotion
+
+
+                                </div>
+                                <div style="width: 70%;">
+                                  
+                                </div>
+                                <div style="display: flex; align-items: start; display: flex; align-items: center; " class="ml-5" >
+                                        <input type="checkbox" onchange="announcement('thanks')" name="important" style="width:15px; height:15px;"  {% if request.user.profile.thanksgiving_promotion %}checked {% endif %}>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class="mt-2 text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    Other Promotion
+
+
+                                </div>
+                                <div style="width: 70%;">
+                                  
+                                </div>
+                                <div style="display: flex; align-items: start; display: flex; align-items: center; " class="ml-5" >
+                                        <input type="checkbox" onchange="announcement('other')" name="important" style="width:15px; height:15px;"  {% if request.user.profile.other_promotion %}checked {% endif %}>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if type == 'basic' %}
+                    <div class="card p-0">
+                        <div class="card-body p-0">
+                            <div style="font-weight: 600; font-size: 15px;" class="text-color card-header border-0">
+                                Basic Profile
+                            </div>
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class="mt-2 text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    Name
+                                </div>
+                                <div style="width: 70%;">
+                                   <div id="usernamearea" class="usernamefieldsol">
+                                    {{request.user.profile.first_name}}  {{request.user.profile.last_name}}
+                                   </div>
+                                   <div id="usernamefield" style="display: none; ">
+                                   <div>
+                                    <input class="form-control" type="text" value="{{request.user.profile.first_name}} {{request.user.profile.last_name}}" style="font-size:13px" name="usernamename" id="usernameuser">
+                                   </div>
+                                   <div class="mt-2">
+                                       <button class="btn btn-sm btn-outline-primary " onclick="savechangesform('name','usernameuser','usernamefieldsol','usernamearea','usernamefield','usernamespinner')">Save changes <i class="fa fa-spinner fa-spin" style="display: none;" id="usernamespinner"></i></button>
+                                       <button class="btn btn-sm btn-outline-dark" onclick="enablearea('usernamearea','usernamefield','true')">Cancel</button>
+                                   </div>
+                                   </div>
+                                </div>
+                                <div style="display: flex; align-items: start; " class="ml-5" >
+                                        <a style="color:rgb(46, 168, 230); cursor:pointer" class="" onclick="enablearea('usernamearea','usernamefield')">
+                                            Edit
+                                        </a>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class=" text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    Location
+                                </div>
+                                <div style="width: 74%;">
+                                   <div>
+                                       {% if request.user.profile.country != "" %}
+                                    {{request.user.profile.country}}, {{request.user.profile.state}}, {{request.user.profile.city}} 
+                                    {% else %}
+                                       <span style="color:rgb(0,0,0,0.3);">Add location</span>
+                                    {% endif %}
+                                   </div>
+                                </div>
+                                <div style="display: flex; align-items: center; " >
+                                        <a style="color:rgb(46, 168, 230);">
+                                            Edit
+                                        </a>
+                                </div>
+                            </div>
+                           
+
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class="text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    Gender
+                                </div>
+                                <div style="width: 70%;">
+                                   <div id="genderarea" class="genderfieldsol">
+                                    {{request.user.profile.gender}} 
+                                   </div>
+                                   <div id="genderfield" style="display: none; ">
+                                   <div>
+                                   
+                                    <select name="gendername"  id="genderuser" class="form-control">
+                                        <option value="Male" class="form-control" {% if request.user.profile.gender == 'Male' %}selected {% endif %}>Male</option>
+                                        <option value="Female" class="form-control" {% if request.user.profile.gender == 'Female' %}selected {% endif %}>Female</option>
+                                       
+                                        </select>
+                                   </div>
+                                   <div class="mt-2">
+                                       <button class="btn btn-sm btn-outline-primary " onclick="savechangesform('gender','genderuser','genderfieldsol','genderarea','genderfield','genderspinner')">Save changes <i class="fa fa-spinner fa-spin" style="display: none;" id="genderspinner"></i></button>
+                                       <button class="btn btn-sm btn-outline-dark" onclick="enablearea('genderarea','genderfield','true')">Cancel</button>
+                                   </div>
+                                   </div>
+                                </div>
+                                <div style="display: flex; align-items: start; " class="ml-5" >
+                                    <a style="color:rgb(46, 168, 230); cursor:pointer" class="" onclick="enablearea('genderarea','genderfield')">
+                                        Edit
+                                    </a>
+                            </div>
+                            </div>
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class="text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    Date of birth
+                                </div>
+                                <div style="width: 70%;">
+                                   <div id="datearea" class="datefieldsol">
+                                    {% if request.user.profile.date_of_birth %}
+                                    {{request.user.profile.date_of_birth}}
+                                    {% else %}
+                                    <span style="color:rgb(0,0,0,0.3);">Your Birthday</span>
+                                    {% endif %}
+                                   </div>
+                                   <div id="datefield" style="display: none; ">
+                                   <div>
+                                    <input class="form-control" type="date" value="{{request.user.profile.date_of_birth}}" style="font-size:13px" name="datename" id="dateuser">
+                                   </div>
+                                   <div class="mt-2">
+                                       <button class="btn btn-sm btn-outline-primary " onclick="savechangesform('date','dateuser','datefieldsol','datearea','datefield','datespinner')">Save changes <i class="fa fa-spinner fa-spin" style="display: none;" id="datespinner"></i></button>
+                                       <button class="btn btn-sm btn-outline-dark" onclick="enablearea('datearea','datefield','true')">Cancel</button>
+                                   </div>
+                                   </div>
+                                </div>
+                                <div style="display: flex; align-items: start; " class="ml-5" >
+                                    <a style="color:rgb(46, 168, 230); cursor:pointer" class="" onclick="enablearea('datearea','datefield')">
+                                        Edit
+                                    </a>
+                            </div>
+                            </div>
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class=" text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    Contact
+                                </div>
+                                <div style="width: 70%;">
+                                   <div id="contactarea" class="contactfieldsol">
+                                    {{request.user.profile.phone_number}} 
+                                   </div>
+                                   <div id="contactfield" style="display: none; ">
+                                   <div>
+                                    <input class="form-control" type="text" value="{{request.user.profile.phone_number}}" style="font-size:13px" name="contactname" id="contactuser" pattern="[0-9]{10}">
+                                   </div>
+                                   <div class="mt-2">
+                                       <button class="btn btn-sm btn-outline-primary " onclick="savechangesform('contact','contactuser','contactfieldsol','contactarea','contactfield','contactspinner')">Save changes <i class="fa fa-spinner fa-spin" style="display: none;" id="contactspinner"></i></button>
+                                       <button class="btn btn-sm btn-outline-dark" onclick="enablearea('contactarea','contactfield','true')">Cancel</button>
+                                   </div>
+                                   </div>
+                                </div>
+                                <div style="display: flex; align-items: start; " class="ml-5" >
+                                        <a style="color:rgb(46, 168, 230); cursor:pointer" class="" onclick="enablearea('contactarea','contactfield')">
+                                            Edit
+                                        </a>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class=" text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    Title (Headline)
+                                </div>
+                                <div style="width: 70%;">
+                                   <div id="titlearea" class="titlefieldsol">
+                                    {{request.user.profile.headline}} 
+                                   </div>
+                                   <div id="titlefield" style="display: none; ">
+                                   <div>
+                                    <input class="form-control" type="text" value="{{request.user.profile.headline}}" style="font-size:13px" name="titlename" id="titleuser">
+                                   </div>
+                                   <div class="mt-2">
+                                       <button class="btn btn-sm btn-outline-primary " onclick="savechangesform('title','titleuser','titlefieldsol','titlearea','titlefield','titlespinner')">Save changes <i class="fa fa-spinner fa-spin" style="display: none;" id="titlespinner"></i></button>
+                                       <button class="btn btn-sm btn-outline-dark" onclick="enablearea('titlearea','titlefield','true')">Cancel</button>
+                                   </div>
+                                   </div>
+                                </div>
+                                <div style="display: flex; align-items: start; " class="ml-5" >
+                                        <a style="color:rgb(46, 168, 230); cursor:pointer" class="" onclick="enablearea('titlearea','titlefield')">
+                                            Edit
+                                        </a>
+                                </div>
+                            </div>
+                          
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class=" text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    About youself
+                                </div>
+                                <div style="width: 70%;">
+                                   <div id="aboutarea" class="aboutfieldsol">
+                                    {{request.user.profile.bio|safe|linebreaks}} 
+                                   </div>
+                                   <div id="aboutfield" style="display: none; ">
+                                   <div>
+                                    <textarea class="form-control" type="text" style="font-size:13px" name="aboutname" id="aboutuser">{{request.user.profile.bio|safe}}</textarea>
+                                   </div>
+                                   <div class="mt-2">
+                                       <button class="btn btn-sm btn-outline-primary " onclick="savechangesform('about','aboutuser','aboutfieldsol','aboutarea','aboutfield','aboutspinner')">Save changes <i class="fa fa-spinner fa-spin" style="display: none;" id="aboutspinner"></i></button>
+                                       <button class="btn btn-sm btn-outline-dark" onclick="enablearea('aboutarea','aboutfield','true')">Cancel</button>
+                                   </div>
+                                   </div>
+                                </div>
+                                <div style="display: flex; align-items: start; " class="ml-5" >
+                                        <a style="color:rgb(46, 168, 230); cursor:pointer" class="" onclick="enablearea('aboutarea','aboutfield')">
+                                            Edit
+                                        </a>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class="text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    Website
+                                </div>
+                                <div style="width: 70%;">
+                                   <div id="websitearea" class="websitefieldsol">
+                                    <a href="{{request.user.profile.website}}">{{request.user.profile.website}}</a> 
+                                   </div>
+                                   <div id="websitefield" style="display: none; ">
+                                   <div>
+                                    <input class="form-control" type="text" value="{{request.user.profile.website}}" style="font-size:13px" name="websitename" id="websiteuser">
+                                   </div>
+                                   <div class="mt-2">
+                                       <button class="btn btn-sm btn-outline-primary " onclick="savechangesform('website','websiteuser','websitefieldsol','websitearea','websitefield','websitespinner')">Save changes <i class="fa fa-spinner fa-spin" style="display: none;" id="websitespinner"></i></button>
+                                       <button class="btn btn-sm btn-outline-dark" onclick="enablearea('websitearea','websitefield','true')">Cancel</button>
+                                   </div>
+                                   </div>
+                                </div>
+                                <div style="display: flex; align-items: start; " class="ml-5" >
+                                        <a style="color:rgb(46, 168, 230); cursor:pointer" class="" onclick="enablearea('websitearea','websitefield')">
+                                            Edit
+                                        </a>
+                                </div>
+                            </div>
+                            <div style="font-weight: 600; font-size: 15px;" class="mt-2 text-color card-header border-0">
+                                Experience
+                            </div>
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class="text-color  p-3 mt-2  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    Workplace
+                                </div>
+                                <div style="width: 70%;">
+                                   <div id="workarea" class="workfieldsol">
+                                    <a href="{{request.user.profile.work}}">{{request.user.profile.work}}</a> 
+                                   </div>
+                                   <div id="workfield" style="display: none; ">
+                                   <div>
+                                    <input class="form-control" type="text" value="{{request.user.profile.work}}" style="font-size:13px" name="workname" id="workuser">
+                                   </div>
+                                   <div class="mt-2">
+                                       <button class="btn btn-sm btn-outline-primary " onclick="savechangesform('work','workuser','workfieldsol','workarea','workfield','workspinner')">Save changes <i class="fa fa-spinner fa-spin" style="display: none;" id="workspinner"></i></button>
+                                       <button class="btn btn-sm btn-outline-dark" onclick="enablearea('workarea','workfield','true')">Cancel</button>
+                                   </div>
+                                   </div> 
+                                </div>
+                                <div style="display: flex; align-items: start; " class="ml-5" >
+                                        <a style="color:rgb(46, 168, 230); cursor:pointer" class="" onclick="enablearea('workarea','workfield')">
+                                            Edit
+                                        </a>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: start; font-size: 14px;" class="text-color  p-3  notification_palette ">
+                                <div style="width:25%; font-weight: 500;" >
+                                    Education
+                                </div>
+                                <div style="width: 70%;">
+                                   <div id="educationarea" class="educationfieldsol">
+                                    <a href="{{request.user.profile.education}}">{{request.user.profile.education}}</a> 
+                                   </div>
+                                   <div id="educationfield" style="display: none; ">
+                                   <div>
+                                    <input class="form-control" type="text" value="{{request.user.profile.education}}" style="font-size:13px" name="educationname" id="educationuser">
+                                   </div>
+                                   <div class="mt-2">
+                                       <button class="btn btn-sm btn-outline-primary " onclick="savechangesform('education','educationuser','educationfieldsol','educationarea','educationfield','educationspinner')">Save changes <i class="fa fa-spinner fa-spin" style="display: none;" id="educationspinner"></i></button>
+                                       <button class="btn btn-sm btn-outline-dark" onclick="enablearea('educationarea','educationfield','true')">Cancel</button>
+                                   </div>
+                                   </div>
+                                </div>
+                                <div style="display: flex; align-items: start; " class="ml-5" >
+                                        <a style="color:rgb(46, 168, 230); cursor:pointer" class="" onclick="enablearea('educationarea','educationfield')">
+                                            Edit
+                                        </a>
+                                </div>
+                            </div>
+                            <!--
+                                <div style="font-weight: 500;" class="pt-3 pl-3 pb-2 text-color">
+                                Skills
+                            </div>
+                            -->
+                           
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+    </div>
+
+  
+    </div>
+    
+    

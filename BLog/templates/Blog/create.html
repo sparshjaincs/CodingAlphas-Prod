@@ -1,0 +1,388 @@
+{% extends 'Core/snippets/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block header %}
+{% include 'Core/snippets/header.html' %}
+{% endblock %}
+{% block jscss %}
+<link href="https://myCDN.com/prism@v1.x/themes/prism.css" rel="stylesheet" />
+<script src="https://myCDN.com/prism@v1.x/components/prism-core.min.js"></script>
+	<script src="https://myCDN.com/prism@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/decoupled-document/ckeditor.js"></script>
+<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+
+{% endblock %}
+{% block style %}
+#div_id_image label{
+    display:none;
+}
+#div_id_image{
+    width:100%;
+    height:100%;
+  
+  cursor:pointer;
+  opacity:0;
+  cursor:pointer;
+  background-color:#fff;
+
+}
+#div_id_image input{
+    width:100%;
+    height:150px;
+    opacity:0;
+    cursor:pointer;
+    background-color:#fff;
+}
+#div_id_title label{
+    display:none;
+}
+
+#id_title{
+    width:100%;
+   
+    border:none;
+  
+    
+    resize:none;
+  
+   
+   
+}
+#id_title:focus{
+    border-color: #C9A56E;
+    box-shadow: none;
+    outline: 0 none;
+}
+#div_id_tags label{
+    display:none;
+}
+
+#div_id_tags input{
+    width:100%;
+    margin-top:-13px;
+    border:none;
+    height:40px;
+    font-size:20px;
+   
+   
+}
+#div_id_description label{
+    display:none;
+}
+
+#div_id_description input{
+    width:100%;
+    margin-top:-13px;
+    border:none;
+    height:90px;
+    font-size:20px;
+   
+   
+}
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {   
+  border-color: #C9A56E;
+  box-shadow: none;
+  outline: 0 none;
+}
+#div_id_content label{
+    display:none;
+}
+#id_image{
+{% if edit %}
+    margin-top:-200px;
+{% endif %}"
+}
+#editor{
+    border:none;
+    outline:none;
+    box-shadow:none;
+}
+.cke_chrome , .cke_focus, .ck_toolbar{
+   border:0px;
+}
+{% endblock %}
+
+{% block body %}
+<section class="pt-5">
+    <div class="shadow-sm  d-flex justify-content-between align-items-center" style="margin-top: 13px; background-color: #FAFAFA; position: sticky; top:3.75rem; z-index:1000;">
+        <div id="toolbar-container"></div>
+        <div style="width:100%; " class="border p-1 d-flex justify-content-end align-items-center">
+        
+                <a class="nav-link" style="font-size: 12px;" href="#" id="running"></a>
+            
+           
+               <a class="mr-3 p-0" style="font-size:12px;" href="#"> Draft in {{request.user.profile.first_name}} {{request.user.profile.last_name}}</a>
+          
+            <a class="btn btn-sm shadow mr-2" style="border:1px solid #2EA8E6; color: white; border-radius:20px; background-color: rgb(46, 168, 230,1);"><i class="fa fa-paper-plane"></i> Publish</a>
+        </div>
+    </div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-10 offset-lg-1 mb-4">
+            <form id="myform" method="POST" enctype="multipart/form-data" >
+                {% csrf_token %}
+                <div class="mt-3">
+                    <div style="background-color: rgb(243, 242, 239); height:180px;" id="upload" >
+                        <img src="{% static 'svg/upload.svg' %}" style="width:200px; margin-top:30px; position: absolute;  margin-left: auto; margin-right: auto; left: 0;
+                        right: 0; text-align: center;"  alt="Cover Picture">
+                        <input id="div_id_image" name="image" type="file" >
+                    </div>
+                     <input type="hidden" name="instance" value="{{id}}" id="hidden_instance">
+                    <div id="preview" style="display: none;" class="">
+                        <div class="d-flex justify-content-end">
+                            <a class="btn btn-sm" onclick="show()" style="position:absolute; right:2rem; top:2rem; color: white; border:1px solid white; border-radius: 50%; "><i class="fa fa-trash"></i></a>
+                        </div>
+                        <div  class="" style="width: 100%;">
+                            <img id="blah" src="/media/{{link}}/" alt="your image" style="display: none;  width:100%;" class="rounded" >
+                        </div>
+            
+                    </div>
+                   
+                </div>
+                <div class="mt-3">
+                    <textarea name="title" style="width:100%; height:60px;  border:none; resize: none; font-size: 28px; font-weight: 600;" placeholder="Title of your story" class="pt-2"></textarea>
+                </div>
+                <div class="">
+                  
+                    <div id="editor"></div>
+                
+                </div>
+                <div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</section>
+{% endblock %}
+
+{% block body1 %}
+<nav class="navbar navbar-expand-lg  fixed-top shadow-sm d-flex  align-items-center border-bottom" style="height:60px;background:white;">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <div style="color:#393E41; font-size: 20px; letter-spacing: 1px; font-weight: 600; font-family: cursive;">
+                <span style="font-size: 24px; font-weight: 1000;">C</span>oding<span style="color:#C9A56E;"><span style="font-size: 24px;">A</span>lphas</span>
+             </div>
+        </a>
+        
+       
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-flex align-items-center " id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+               
+                <li class="nav-item mt-1" style="font-size:13px;">
+                    <a class="nav-link" href="#" id="running"></a>
+                  </li>
+                 <li class="nav-item mt-1 " style="font-size:13px;">
+                   <a class="nav-link" href="#"> Draft in {{request.user.profile.first_name}} {{request.user.profile.last_name}}</a>
+                 </li>
+                
+                
+             
+            {% if request.user.is_authenticated %}
+            <li class="nav-item dropdown ml-2" style="font-size:13px;">
+                <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 <img src="/media/{{request.user.profile.avatar}}" style="width:30px; height:30px;" class="mr-1 rounded-circle">{{request.user}}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right border-0 shadow-sm" style="font-size: 13px; width:240px; " aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item pt-2 pb-2" href="/profile/{{request.user}}/"><i class="fa fa-user fa2"></i> Profile</a>
+                  <a class="dropdown-item pt-2 pb-2" href="/profile/{{request.user}}/?method=Articles"><i class="fa fa-rss" style="color: #C9A56E;"></i> Stories</a>
+                  <a class="dropdown-item pt-2 pb-2" href="/profile/{{request.user}}/?method=Stats"><i class="fa fa-bar-chart" style="color: #C9A56E;"></i> Stats</a>
+                  <a class="dropdown-item pt-2 pb-2" href="/profile/{{request.user}}/?method=Bookmarks"><i class="fa fa-bookmark-o" style="color: #C9A56E;"></i> Bookmarks</a>
+                  <a class="dropdown-item pt-2 pb-2" href="/profile/{{request.user}}/?method=Notifications"><i class="fa fa-bell fa2" ></i> Notifications</a>
+                  <a class="dropdown-item pt-2 pb-2" href="/settings/"><i class="fa fa-cog" style="color: #C9A56E;"></i> Settings and Privacy</a>
+              
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item d-flex justify-content-center" href="/logout/" style="color: #C9A56E;">Logout</a>
+                </div>
+              </li>
+            {% else %}
+
+            <li class="nav-item mt-1 d-flex justify-content-start ml-3 " style="font-size:12px;">
+                <a class="nav-link btn btn-sm rounded-0" href="/signin/" style="color:#C9A56E">Sign In</a>
+            </li>
+            
+            {% endif %}
+            
+
+        </ul>
+        </div>
+        
+
+     </div>
+</div>
+</nav>
+<div class="section" >
+    <form id="myform" method="POST" enctype="multipart/form-data" >
+        {% csrf_token %}
+        <div style="background: #C9A56E; min-height:300px; " class="pt-5" >
+            <div class="d-flex justify-content-center mt-5" >
+                        
+                <div style="width:100%;  position: absolute; padding-top:auto; margin-left:auto;  margin-right:auto; color:#202C33; font-size: 100px; font-weight: 600; left:0; right:0; text-align: center; ">
+                   <center>
+                    <img src="{% static 'svg/upload.svg' %}" style="width:200px;  {% if edit %}
+                    display:none;
+                  {% endif %}" id="upload" alt="Cover Picture">
+                   </center>
+
+                 </div>
+                 {{form.image|as_crispy_field}}
+                 <input type="hidden" name="instance" value="{{id}}" id="hidden_instance">
+            </div>
+            <div id="preview" style="display: none;" class="">
+                <div class="d-flex justify-content-end">
+                    <a class="btn btn-sm" onclick="show()" style="width:50px;"><i class="fa fa-close "></i></a>
+                </div>
+                <div  class="d-flex justify-content-center">
+                    <img id="blah" src="/media/{{link}}/" alt="your image" style="display: none;  width:100%;" >
+                </div>
+    
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="mt-5">
+                        {{form.title|as_crispy_field}}
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="d-flex justify-content-center">
+                    {{form.content|as_crispy_field}}
+                    {{form.media}}
+                </div>
+                </div>
+            </div>
+        </div>
+        </form>
+</div>
+
+{% endblock %}
+
+
+
+{% block script %}
+
+<script>
+    
+
+  
+
+    DecoupledEditor
+            .create( document.querySelector( '#editor' ) ,{
+                placeholder:"Write your story here. Add images or a video for visual impact.",
+               
+                ckfinder: {
+                    uploadUrl: 'http://localhost:8000/blogs/upload/body/',
+                   
+                },
+            })
+            .then( editor => {
+                const toolbarContainer = document.querySelector( '#toolbar-container' );
+
+                toolbarContainer.appendChild( editor.ui.view.toolbar.element );
+            } )
+            .catch( error => {
+                console.error( error );
+            } );
+        
+
+
+   $(function(){
+  $('#div_id_image').change(function(){
+    document.getElementById("blah").style.display="block";
+    document.getElementById("preview").style.display="block";
+    if (this.files && this.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+                    .css('width', '100%');
+                    
+            };
+
+            reader.readAsDataURL(this.files[0]);
+        }
+
+        document.getElementById("div_id_image").style.display = 'none';
+        document.getElementById("upload").style.display = 'none';
+        
+  });
+
+});
+
+function show(){
+    document.getElementById("blah").style.display="none";
+    document.getElementById("preview").style.display="none";
+    document.getElementById("div_id_image").style.display = 'block';
+        document.getElementById("upload").style.display = 'block';
+}
+
+function data_submit(){
+document.getElementById('running').innerHTML = "Saving...";
+var formdata = new FormData($('#myform')[0]);
+formdata.append("value",document.getElementById('editor').innerHTML);
+formdata.append("id",document.getElementById('hidden_instance').value);
+formdata.append("method","create");
+$.ajax({
+            type:'POST',
+            url: '/blogs/save/',
+            data:formdata,
+            processData: false,
+    contentType: false,
+            success:function(data){
+                data = JSON.parse(data);
+                if (data['status'] == 1){
+                    document.getElementById('running').innerHTML = 'Saved';
+                    $("#running").children().delay(5000).fadeOut(800); 
+                    document.getElementById('hidden_instance').value = data['id'];
+                    
+                } 
+                else{
+                    document.getElementById('running').innerHTML = 'Start Writing';
+                    $("#running").children().delay(5000).fadeOut(800);
+                }
+
+                
+                
+            },
+            error: function(data){
+                console.log("error");
+                console.log(data);
+            }
+        });
+
+    }
+    setInterval(function() {
+      data_submit();
+    }, 10000);
+    $(document).bind('keydown', function(e) {
+  if(e.ctrlKey && (e.which == 83)) {
+    e.preventDefault();
+    data_submit();
+    return false;
+  }
+});
+</script>
+
+{% endblock %}

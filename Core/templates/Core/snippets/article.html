@@ -1,0 +1,174 @@
+
+{% load static %}
+{% load shortcuts %}
+
+<div class="row">
+   
+    <div class="col-12">
+            
+<div class="row d-flex justify-content-between align-items-center  ">
+    <div class="d-flex justify-content-start">
+        <div class="mr-1 ml-2">
+            <a href="/profile/{{user}}/?method=Articles&type=Published" class="  p-1" style="color: rgb(0,0,0,0.3); font-size: 14px; border-radius: 0px;  {% if type == 'Published' %} border-bottom:2px solid #2EA8E6; color:#2EA8E6; {% endif %}">
+                {% if type == 'Published' %} {{count}}  {% else %} {{alter}} {% endif %} Published
+            </a>
+        </div>
+        {% if request.user == user %}
+        <div class="">
+            <a href="/profile/{{user}}/?method=Articles&type=Drafts"  class="p-1 ml-2" style="color: rgb(0,0,0,0.3); font-size: 14px; border-radius: 0px;  {% if type == 'Drafts' %} border-bottom:2px solid #2EA8E6; color:#2EA8E6; {% endif %}">
+             {% if type == 'Drafts' %} {{count}}  {% else %} {{alter}} {% endif %} Drafts
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    <div class="d-flex justify-content-start align-items-center">
+        <div class="mr-1 ml-1">
+            <a href="/blogs/create/new/"  class="btn btn-sm pl-2 pr-2" style="color: rgb(0,0,0,0.3); font-size: 14px; border-radius: 20px;  border:1px solid #2EA8E6; color:#2EA8E6; ">
+            <i class="fa fa-pencil"></i> Write Articles
+            </a>
+        </div>  
+        <div style="background-color: #F0F2F5; height:40px; width:280px; border-radius: 20px;" class="d-flex justify-content-start align-items-center pl-3">
+            <i class="fa fa-search"></i> 
+            <input  onkeyup="searchquery()" id="myFilter"  type="text" style="width:100%; border:none; background: none; font-size: 13px;" class="ml-2 mr-2" placeholder="Search Articles">
+           </div>
+       </div>
+    </div>
+</div> 
+    
+  </div>
+</div>
+<div class="row mt-4">
+<div class="col-12 col-md-12 col-lg-12 card p-0" id="myItems">
+    {% for i in data %}
+    <div id="activity_class{{i.id}}" class="carding ">
+    <div class="border-bottom p-3 d-flex justify-content-between align-items-center {% if i in counter.0.ins_act.all %} notification_new {% else %} notification_palette {% endif %}">
+        <div>
+            <img src="/media/{{i.image}}/" style="width:50px; height:50px; border-radius:50%;" alt="Upload Cover Image">
+        </div>
+        <div style="width:100%;" class="ml-3 content">
+            
+            <div style="font-size: 13px; font-weight: 500;" >
+                {% if i.status == 'Published' %}
+                <a href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/">{{i.title|safe}}</a>
+                {% else %}
+                {{i.title|safe}}
+                {% endif %}
+            </div>
+           
+            <div style="font-size: 13px; font-weight: 500; color: rgb(0,0,0,0.4);">
+                Created by {{i.user.profile.first_name}} {{i.user.profile.last_name}} edited on {{i.edited}} {{i.content|time}} min read ({{i.content|length}} words) <span style=" color:#2EA8E6; border-radius: 20px;" class="ml-2 p-1 pr-2 pl-2"><i class="fa fa-globe"></i> {{i.broadcast}}</span>
+            </div>
+        </div>
+        <div class="d-flex align-items-center"   style="color:rgb(0,0,0,0.3);">
+            {% if type == 'Published' %}
+            <div data-toggle="tooltip" title="Insights">
+                <a class="btn" href="/blogs/{{i.id}}/edit/" style="color: rgb(0,0,0,0.3);">
+                    <i class="fa fa-bar-chart"></i>
+                </a>
+            </div>
+
+            {% endif %}
+          
+        <div data-toggle="tooltip" title="Edit">
+            <a class="btn" href="/blogs/{{i.id}}/edit/" style="color: rgb(0,0,0,0.3);">
+                <i class="fa fa-pencil"></i>
+            </a>
+        </div>
+        
+           <div data-toggle="tooltip" title="Delete">
+            <a class="btn" onclick="delete_all('blog','{{i.id}}','activity_class{{i.id}}')">
+                <i class="fa fa-trash"></i>
+            </a>
+           </div>
+
+        </div>
+    </div>
+</div>
+    {% endfor %}
+</div>
+</div>
+<!--
+
+    
+<div class="row d-flex justify-content-between align-items-center mt-3 pr-4 ">
+    <div class="d-flex justify-content-start">
+        <div class="mr-1 ml-2">
+            <a href="/profile/{{user}}/?method=Articles&type=Published" class="btn btn-sm bg-light p-2 pr-3 pl-3" style="color: rgb(0,0,0,0.3); font-size: 14px; border-radius: 20px;  {% if type == 'Published' %} border:1px solid #2EA8E6; color:#2EA8E6; {% endif %}">
+                {% if type == 'Published' %} {{count}}  {% else %} {{alter}} {% endif %} Published
+            </a>
+        </div>
+        {% if request.user == user %}
+        <div class="mr-1 ml-1">
+            <a href="/profile/{{user}}/?method=Articles&type=Drafts"  class="btn btn-sm bg-light p-2 pr-3 pl-3" style="color: rgb(0,0,0,0.3); font-size: 14px; border-radius: 20px;  {% if type == 'Drafts' %} border:1px solid #2EA8E6; color:#2EA8E6; {% endif %}">
+             {% if type == 'Drafts' %} {{count}}  {% else %} {{alter}} {% endif %} Drafts
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    <div class="d-flex justify-content-start align-items-center">
+       
+        <div class="mr-1 ml-1">
+            <a href="/blogs/create/new/"  class="btn btn-sm p-2 pr-3 pl-3" style="color: rgb(0,0,0,0.3); font-size: 14px; border-radius: 20px;  background-color: #2EA8E6; color:white; ">
+            <i class="fa fa-plus"></i> Write Articles
+            </a>
+        </div>  
+    </div>
+</div> 
+<div class="mt-5 mr-2">
+    <canvas id="myChart" style="width:100%; height:400px;"></canvas>
+</div>
+
+
+<div class="mt-5">
+    <table id="example" class="ui celled table" style="width:100%" >
+        <thead>
+            <tr>
+                <th style="width:6%;">Sr.No</th>
+                <th style="width:88%">Title <span class="ml-2 " style="color:#2EA8E6; font-weight: 400;"> ( {{type}} )</span></th>
+                <th style="width: 6%;"></th>
+               
+            </tr>
+        </thead>
+        <tbody>
+           {% for i in data %}
+           <tr >
+            <td style="font-weight: 500;">{{forloop.counter}}.</td>
+            <td>
+                <div style="font-weight: 700;">
+                {% if i.status == 'Published' %}
+                <a href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/">{{i.title|safe}}</a>
+                {% else %}
+                {{i.title|safe}}
+                {% endif %}
+                </div>
+                <div style="font-weight: 500; color:rgb(0,0,0,0.4)" class="mt-1">
+                    {{i.content|safe|truncatechars:180}}
+                </div>
+                <div style="font-size: 13px; font-weight: 500; color:rgb(0,0,0,0.4)" class="mt-1">
+                    Created by {{i.user.profile.first_name}} {{i.user.profile.last_name}} edited on {{i.edited}} {{i.content|time}} min read ({{i.content|length}} words) <span style=" color:#2EA8E6; border-radius: 20px;" class="ml-2 p-1 pr-2 pl-2"><i class="fa fa-globe"></i> {{i.broadcast}}</span>
+                </div>
+            </td>
+            <td> {% if request.user == user %}
+                <div>
+                    <div class="dropdown show">
+                      
+                        <a class=" rounded-circle d-flex align-items-center justify-content-center" href="#" role="button"  style="font-size: 16px; color:#2EA8E6 ; border:none; outline:none;"id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-ellipsis-h"></i>
+                          </a>
+                      
+                      
+                        <div class="dropdown-menu dropdown-menu-right border-0 shadow-sm" style="font-size: 12px;" aria-labelledby="dropdownMenuLink">
+                          <a  href="/blogs/{{i.id}}/edit/" class="dropdown-item" href="#" style="color:#393E41"><i class="fa fa-edit mr-1" style="color: #E57851;"></i> Edit</a>
+                          <a class="dropdown-item" href="#" style="color:#393E41"><i class="fa fa-trash mr-1" style="color: #E57851;"></i> Delete</a>
+                         
+                        </div>
+                      </div>
+                </div>
+                {% endif %}</td>
+          
+        </tr>
+           {% endfor %}
+        </tbody>
+    </table>
+</div>
+-->

@@ -1,0 +1,674 @@
+{% extends 'Core/snippets/base.html' %}
+{% load static %}
+{% load shortcuts %}
+{% block title %}
+CodingAlphas - A community for developers
+{% endblock %}
+
+{% block style %}
+
+
+canvas {
+    display: block;
+    vertical-align: bottom;
+  }
+  
+  /* ---- particles.js container ---- */
+  
+  #particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  
+    background-image: url("");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+  }
+  
+  /* ---- stats.js ---- */
+  
+  .count-particles{
+    background: #000022;
+    position: absolute;
+    top: 48px;
+    left: 0;
+    width: 80px;
+    color: #13E8E9;
+    font-size: .8em;
+    text-align: left;
+    text-indent: 4px;
+    line-height: 14px;
+    padding-bottom: 2px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+  }
+  
+  .js-count-particles{
+    font-size: 1.1em;
+  }
+  
+  #stats,
+  .count-particles{
+    -webkit-user-select: none;
+  }
+  
+  #stats{
+    border-radius: 3px 3px 0 0;
+    overflow: hidden;
+  }
+  
+  .count-particles{
+    border-radius: 0 0 3px 3px;
+  }
+@keyframes myname{
+    0%{
+        width:400px;
+        height:450px;
+    }
+    50%{
+        width:420px;
+        height:450px;
+    }
+    100%{
+        width:400px;
+        height:450px;
+    }
+}
+.component3{
+    animation:myname 5s infinite;
+}
+.component{
+    width:330px; height:206px;
+}
+.component4:hover{
+    width:370px; 
+    height:220px;
+    transition :1s;
+} 
+.navbar-nav .nav-link{
+    font-size: 13.5px;
+    color: rgba(255, 255, 255, 0.75); font-weight: 400; font-style: normal;
+}
+.cont{
+    font-family: Segoe UI;
+font-size: 50px;
+font-style: normal;
+font-weight: 700;
+line-height: 67px;
+letter-spacing: 0.01em;
+text-align: left;
+color: rgba(0, 0, 0, 0.76);
+height: 142px;
+width: 468px;
+
+
+}
+.cont-child{
+    font-family: Segoe UI;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 27px;
+letter-spacing: 0.01em;
+text-align: left;
+color: rgba(0, 0, 0, 0.32);
+height: 100px;
+width: 520px;
+
+
+}
+.button{
+    font-family: Segoe UI;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 20px;
+    letter-spacing: 0.01em;
+    width: 150px;
+height: 40px;
+display:flex;
+justify-content:center;
+align-items:center;
+
+color: #FFFFFF;
+
+background: linear-gradient(90deg, #2C7DE4 0%, #2FB1EC 100%);
+border-radius: 30px;
+
+}
+.explore-content{
+    font-family: Segoe UI;
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 27px;
+                    letter-spacing: 0.01em;
+                   
+                    color: rgba(0, 0, 0, 0.4);
+                  
+                  
+}
+
+{% endblock %}
+
+{% block header %}
+<nav class="navbar navbar-expand-lg " style="height: 70px; background: none;z-index:100;">
+    <a class="navbar-brand ml-5" href="#">
+        <img src="{% static 'svg/CodingAlphas.svg' %}" style="width:190px;">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto" style="margin-top: -10px; ">
+        <li class="nav-item active mr-2">
+          <a class="nav-link" href="/explore/" style="color:rgb(0,0,0,1);">Explore <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item mr-2">
+          <a class="nav-link" href="/coding/">Coding</a>
+        </li>
+        <li class="nav-item mr-2">
+          <a class="nav-link" href="/discuss/">Discuss</a>
+        </li>
+        <li class="nav-item mr-2">
+            <a class="nav-link" href="#products">Products</a>
+          </li>
+          <li class="nav-item mr-2">
+            <a class="nav-link" href="#developer">Developer</a>
+          </li>
+          <li class="nav-item mr-5 ">
+            <a class="nav-link" href="/blogs/">Blogs</a>
+          </li>
+          <li class="nav-item mr-1 ml-4">
+            <a class="nav-link" style="border: 1px solid #FFFFFF;box-sizing: border-box;border-radius: 20px; width:100px; display: flex; justify-content: center; align-items: center;" href="{% url 'signup' %}" >
+                
+               
+                    Sign Up
+            
+            </a>
+          </li>
+          <li class="nav-item mr-3">
+            <a class="nav-link" href="/accounts/login/">Login</a>
+          </li>
+        
+      </ul>
+      
+    </div>
+  </nav>
+{% endblock %}
+{% block body %}
+
+<section style="margin-top: -70px;" >
+   
+
+    <div id="particles-js" style="z-index: -1;"></div>
+    <div style="z-index: 0;">
+        <img src="{% static 'svg/Component2.svg' %}" style="width:660px; height:720px; position: absolute; right:0;" >
+        <img class="component3" src="{% static 'svg/Component3.svg' %}" style=" position: absolute; top:120px; right:80px;" >
+        <div style="height:720px;" class="d-flex  align-items-center">
+           <div class="container-fluid">
+               <div class="ml-5">
+                <div style="color:rgba(24, 160, 251, 1); font-size: 20px;font-style: normal;font-weight: 600;line-height: 27px;letter-spacing: 0.01em; text-align: left;">
+                    Online community for Developers
+              </div>
+
+              <div class="cont">
+                  Connect.
+               Practice. Learn.
+               Share. Grow.
+              </div>
+              <div class="cont-child">
+               CodingAlphas is the best platform where you can share your ideas, knowledge, thoughts with people,  enhance your skills by learning and practicing coding questions and expand your knowledge by exploring.
+              </div>
+              <div style="z-index: 2;">
+                  <a class="btn button text-white" href="{% url 'login_user' %}" style="z-index: 1000;">
+                        Get Started
+                  </a>
+              </div>
+               </div>
+              
+           </div>
+        </div>
+    </div>
+ 
+</section>
+<section class="mt-5 pb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-6 pr-5">
+                <div  data-aos="fade-right">
+                <div class="d-flex ">
+                    <img src="{% static 'svg/undraw_education_f8ru 1.svg' %}" style="width:330px; height:206px;">
+                </div>
+                <div class="d-flex   mt-3">
+                    <div  class="explore-content">
+                        Explore is tool that help you to get most out of CodingAlphas. It provides you a quick access to our products and also gives you a structured pathway to guide your progress towards the next step in your programming career.
+                    </div>
+                </div>
+                <div class="d-flex  mt-3 ">
+                    <a class="btn button text-white" style="background: linear-gradient(90deg, #FC6681 0%, #FBBC85 100%);
+                    ">
+                        Explore
+                    </a>
+                </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-6 pl-5" style="">
+              <div data-aos="fade-left">
+              <div class="d-flex justify-content-end ">
+               <img src="{% static 'svg/undraw_Share_opinion_re_4qk7.svg' %}" class="ml-4" style="width:330px; height:206px;">
+              </div>
+              <div class="d-flex justify-content-end mt-2">
+                   <div style="font-size:25px; color:#158A7D; font-weight:600;">
+                       Share Text, Photos, Videos With Others
+                   </div>
+               </div>
+               <div class="d-flex justify-content-end  mt-1">
+                   <div  class="explore-content" style="font-size: 16px; text-align: end;">
+                      Share almost all type of content - text, photos, videos, files, code snippets with your peers and start interaction 
+                      and meaningful conversation with people.
+                  </div>    
+                  </div>
+               <div class="d-flex justify-content-end mt-2 ">
+                  <a class="btn  text-white pl-4 pr-4" style="background-color:#158A7D; border-radius: 20px;
+                  ">
+                  Start Building
+              </a>
+               </div>
+           </div>
+           </div>
+        </div>
+    </div>
+</section>
+
+<section class="mt-5 pb-5 " style="background-color:#F7F9FC; " id="products">
+    <!--
+      <img src="{% static 'svg/Vector.svg' %}" style="width:150px; height:150px; position:absolute;margin-top:70px; margin-left:70px;">
+    <img src="{% static 'svg/Vector.svg' %}" style="width:150px; height:150px; position:absolute;right:0; margin-right: 70px;margin-top:70px;">
+    <img src="{% static 'svg/Vector.svg' %}" style="width:150px; height:150px; position:absolute;right:0; margin-right: 70px;margin-top:870px;">
+    <img src="{% static 'svg/Vector.svg' %}" style="width:150px; height:150px; position:absolute;margin-top:1370px; margin-left:70px;">
+    -->
+<div class="container">
+    
+    <div class="row mb-5">
+        <div class="col-12">
+            
+            <div class="row pt-5 mt-5">
+                
+                <div class="col-12 col-md-12 col-lg-6 mb-5 pr-5" style="border-right:3px solid #fff;" >
+                   <div data-aos="fade-right">
+                   <div class="d-flex  ">
+                    <img src="{% static 'svg/blog.svg' %}" class=" " style="width:330px; height:206px;">
+                   </div>
+                   <div class="d-flex  mt-2">
+                        <div style="font-size:25px; color:#2FAAEB; font-weight:600;">
+                            Start A Developer Blog Today
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center  mt-1">
+                        <div  class="explore-content" style="font-size: 16px;">
+                            We provide a platform where readers come to find insightful and dynamic thinking. Anyone can write on CodingAlphas and can share their knowledge, thoughts, opinions with other.   </div>
+                    </div>
+                    <div class="d-flex  mt-2 ">
+                        <a class="btn button text-white" >
+                        Start Today
+                    </a>
+                    </div>
+                    </div>
+                </div>
+                
+
+                <div class="col-12 col-md-12 col-lg-6 mb-5 pl-5" >
+                    <div data-aos="fade-left">
+                    <div class="d-flex justify-content-end ">
+                     <img src="{% static 'svg/undraw_programming_2svr.svg' %}" class="" style="width:330px; height:206px;">
+                    </div>
+                    <div class="d-flex justify-content-end mt-2">
+                         <div style="font-size:25px; color:#B45181; font-weight:600;">
+                             Practice Coding Question With Us
+                         </div>
+                     </div>
+                     <div class="d-flex justify-content-center  mt-1">
+                         <div  class="explore-content" style="font-size: 16px; text-align: end;">
+                            We provide 100+ coding questions for you to practice. Come and join us to compete with thousands of active users
+                            and participate in our contest to polish your skills and earn rewards.
+                            </div>
+                     </div>
+                     <div class="d-flex justify-content-end mt-2 ">
+                         <a class="btn button text-white" style="background: linear-gradient(90deg, #B45181 0%, #FF6584 100%);
+                         ">
+                         View Questions
+                     </a>
+                     </div>
+                     </div>
+                 </div>
+
+                 
+                <div class="col-12 col-md-12 col-lg-6 mt-5 mb-5 pt-5 pb-5 " style=" border-right:3px solid #fff;">
+                    <div data-aos="fade-right" class="mt-5 pr-5">
+                    <div class="d-flex  ">
+                     <img src="{% static 'svg/undraw_Firmware_jw6u.svg' %}" class="ml-4" style="width:330px; height:206px;">
+                    </div>
+                    <div class="d-flex  mt-2">
+                         <div style="font-size:25px; color:#97E947; font-weight:600;">
+                             Community, Contest, Mock Test
+                         </div>
+                     </div>
+                     <div class="d-flex   mt-1">
+                         <div  class="explore-content" style="font-size: 16px;">
+                            We provide 100+ coding questions for you to practice. Come and join us to compete with thousands of active users
+                            and participate in our contest to polish your skills and earn rewards.
+                            </div>
+                     </div>
+                     <div class="d-flex  mt-2 ">
+                         <a class="btn  text-white pl-4 pr-4" style="background-color:#97E947; border-radius: 20px;
+                         ">
+                         Give Contest
+                     </a>
+                     </div>
+                     </div>
+                 </div>
+
+                
+ 
+                 <div class="col-12 col-md-12 col-lg-6 mb-5 mt-5 pt-5 pb-5 " style="">
+                    <div data-aos="fade-left" class="mt-5 pl-5">
+                     <div class="d-flex justify-content-end ">
+                      <img src="{% static 'svg/undraw_Code_review_re_woeb.svg' %}" class="ml-4" style="width:330px; height:206px;">
+                     </div>
+                     <div class="d-flex justify-content-end mt-2">
+                          <div style="font-size:25px; color:#CCA747; font-weight:600; text-align: end;">
+                              Showcase User-Created HTML, CSS, Javascript Code Snippets
+                          </div>
+                      </div>
+                      <div class="d-flex justify-content-end  mt-1">
+                          <div  class="explore-content" style="font-size: 16px; text-align: end;">
+                            We provide online code editor and open source learning environment, where anyone can create and share 
+                            code snippets also one can design their portfolios to showoff your work.
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-end mt-2 ">
+                        <a class="btn  text-white pl-4 pr-4" style="background-color:#CCA747; border-radius: 20px;
+                        ">
+                        Start Building
+                    </a>
+                      </div>
+                  </div>
+                  </div>
+
+                     
+                <div class="col-12 col-md-12 col-lg-12 mt-5  pt-5 pb-5" style="border-top:3px solid #fff; ">
+                  <div data-aos="fade-up" class="mt-5">
+                  <div class="d-flex justify-content-center ">
+                   <img src="{% static 'svg/undraw_searching_p5ux.svg' %}" class="ml-4" style="width:330px; height:206px;">
+                  </div>
+                  <div class="d-flex justify-content-center mt-2">
+                       <div style="font-size:25px; color:#97E947; font-weight:600;">
+                          Ask Questions and Anwser To Resolve Your Doubts.   
+                       </div>
+                   </div>
+                   <div class="d-flex justify-content-center  mt-1">
+                       <div  class="explore-content" style="font-size: 16px; text-align: center;">
+                        Question and anwser technical questions on a wide range of topics in computer science.
+                        CodingAlphas is a website that helps you to resolve all of your doubts and enable you to resolve doubts of others.
+                          </div>
+                   </div>
+                   <div class="d-flex justify-content-center mt-2 ">
+                       <a class="btn  text-white pl-4 pr-4" style="background-color:#97E947; border-radius: 20px;
+                       ">
+                       Ask Questions
+                   </a>
+                   </div>
+                   </div>
+               </div>
+
+               
+            </div>
+        </div>
+      
+    </div>
+</div>
+</section>
+<section class="pb-5" id="developer">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mb-5  mt-5 pt-5">
+                <div data-aos="fade-up">
+                <div style="font-size: 34px; font-weight: 700; color: #E57851;">
+                    <center>
+                        Developer
+                    </center>
+                </div>
+                <div class="d-flex justify-content-center  mt-3">
+                    <div  class="explore-content" style="text-align: center;">
+                        Embed our code editor of both front-end and back-end in your website. We support 5 popular coding languages as of now and soon going to integerate many more.
+                        Our powerful developement tools such as playground help you to test, share, write your projects online and helps you to collaborate with others. 
+                        </div>
+                </div>
+                </div>
+            </div>
+                <div class="col-12">
+
+                    <div class="d-flex justify-content-center" data-aos="fade-up">
+                        <embed class="p-1" type="text/html" src="http://127.0.0.1:8000/playground/embed/eyJpZCI6MSwibWV0aG9kIjoiRnJvbnRlbmQiLCJzaGFyZSI6dHJ1ZSwiZW1iZWQiOnRydWV9.QKQee1RQb3Wsb6G9A3tcm-etZDg/"  style="width:60%; height:410px; border:1px solid rgb(0,0,0,0.1);border-radius:5px; padding:3px; box-shadow:2px 2px 10px rgb(0,0,0,0.1); ">
+                 
+                    </div>
+           
+               </div>
+
+
+        </div>
+    </div>
+</section>
+<section class="mt-5 pt-5 " style="background-color:#fff;">
+  <div class="container ">
+    <div class="row mt-5 mb-5">
+      <div class="col-12 mb-4 d-flex justify-content-between">
+        <div style="font-size: 22px; font-weight: 600; color: #2FABEB;">
+          <i class="fa fa-bar-chart" style="font-size: 26px;"></i> Trending on CodingAlphas
+        </div>
+        <div>
+          <a href="/blogs/" class="p-2 pl-3 pr-3" style="border:1px solid #2C82E5; color: #2C82E5; font-size: 13px; border-radius:20px; background-color:rgb(46, 168, 230,0.1) ;" >Read More...</a>
+        </div>
+      </div>
+   
+      {% for i in blogs %}
+          <div class="col-12 col-md-12 col-lg-4 mb-3 mt-3">
+              <div class="" data-aos="fade-up">
+                <div style="">
+                  <img src="/media/{{i.image}}" style="width:100%; border-radius: 10px; max-height: 220px;" >
+                </div>
+                <div style="" class=" mt-2">
+                   <a href="/blogs/read/{{i.user}}/{{i.title|replace}}/{{i.id}}/">
+                    <div style="font-size: 16px; font-weight: 700; color: rgb(0,0,0,0.7);">
+                      {{i.title|truncatechars:80 }}
+                    </div>
+                   </a>
+                    <div style="font-size: 14px;   color: rgba(0, 0, 0, 0.5);">
+                      {{i.content|safe|truncatechars:150 }}
+                    </div>
+                    <div class="d-flex justify-content-start align-items-center">
+                      <div>
+                        <img src="/media/{{i.user.profile.avatar}}" style="width:40px; height:40px; border-radius: 50%;">
+                      </div>
+                      <div class="d-flex justify-content-between" style="width:100%;">
+                        <div class="ml-2" style="color: rgb(0,0,0,0.5); font-size: 14px;">
+                        <a href="/profile/{{i.user}}/">{{i.user.profile.first_name}} {{i.user.profile.last_name}} </a> <span style="font-size: 13px; color: rgb(0,0,0,0.5);" class="ml-2">{{i.content|time}} min read</span>
+                        </div>
+                        <div class="mr-2">
+                          <a class="mr-2"><i class="fa fa-bookmark fa2"></i></a>
+                          <a><i class="fa fa-heart fa2"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+               
+              </div>
+          </div>
+      {% endfor %}
+    </div>
+  </div>
+  </section>
+<section class="mt-5 pt-5 mb-5 pb-5">
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class=" " style="font-size: 34px; font-weight: 700; color: #C62828;" data-aos="fade-up">
+        <center>Made with <i class="fa fa-heart"></i> in india. </center>
+      </div>
+      <div class="d-flex justify-content-center  mt-3">
+        <div  class="" style="text-align: center; color: rgb(0,0,0,0.5);" data-aos="fade-up">
+        At CodingAlphas, our mission is to create a community of the developers that are known for their skills.
+        We help you to improve yourself in every aspect of your dream job requirements. We have variety of products that will help you to 
+        connect, learn, share, practice, collaborate, question and anwser, grow. We work so that you can connect with others to build your connections, learn and practice the questions of your own choices, take contest to challenge yourself, use code editors of both frontend and backend for 
+        writing, testing  and collaboration, use features of social media platform to share content that you want, ask question and anwser to resolve your doubts, and tools for developers.
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+</section>
+{% endblock %}
+{% block footer %}
+{% include 'Core/snippets/footer.html' %}
+{% endblock %}
+{% block script %}
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+/* ---- particles.js config ---- */
+
+particlesJS("particles-js", {
+  "particles": {
+    "number": {
+      "value": 50,
+      "density": {
+        "enable": true,
+        "value_area": 800
+      }
+    },
+    "color": {
+      "value": "#18275D"
+    },
+    "shape": {
+      "type": "circle",
+      "stroke": {
+        "width": 0,
+        "color": "#18275D"
+      },
+      "polygon": {
+        "nb_sides": 5
+      },
+      "image": {
+        "src": "img/github.svg",
+        "width": 100,
+        "height": 100
+      }
+    },
+    "opacity": {
+      "value": 0.7,
+      "random": false,
+      "anim": {
+        "enable": false,
+        "speed": 1,
+        "opacity_min": 0.1,
+        "sync": false
+      }
+    },
+    "size": {
+      "value": 3,
+      "random": true,
+      "anim": {
+        "enable": false,
+        "speed": 40,
+        "size_min": 0.1,
+        "sync": false
+      }
+    },
+    "line_linked": {
+      "enable": true,
+      "distance": 150,
+      "color": "#000",
+      "opacity": 0.1,
+      "width": 1
+    },
+    "move": {
+      "enable": true,
+      "speed": 6,
+      "direction": "none",
+      "random": false,
+      "straight": false,
+      "out_mode": "out",
+      "bounce": false,
+      "attract": {
+        "enable": false,
+        "rotateX": 600,
+        "rotateY": 1200
+      }
+    }
+  },
+  "interactivity": {
+    "detect_on": "canvas",
+    "events": {
+      "onhover": {
+        "enable": true,
+        "mode": "grab"
+      },
+      "onclick": {
+        "enable": true,
+        "mode": "push"
+      },
+      "resize": true
+    },
+    "modes": {
+      "grab": {
+        "distance": 140,
+        "line_linked": {
+          "opacity": 1
+        }
+      },
+      "bubble": {
+        "distance": 400,
+        "size": 40,
+        "duration": 2,
+        "opacity": 8,
+        "speed": 3
+      },
+      "repulse": {
+        "distance": 200,
+        "duration": 0.4
+      },
+      "push": {
+        "particles_nb": 4
+      },
+      "remove": {
+        "particles_nb": 2
+      }
+    }
+  },
+  "retina_detect": true
+});
+
+
+/* ---- stats.js config ---- */
+
+var count_particles, stats, update;
+stats = new Stats;
+stats.setMode(0);
+stats.domElement.style.position = 'absolute';
+stats.domElement.style.left = '0px';
+stats.domElement.style.top = '0px';
+document.body.appendChild(stats.domElement);
+count_particles = document.querySelector('.js-count-particles');
+update = function() {
+  stats.begin();
+  stats.end();
+  if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
+    count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
+  }
+  requestAnimationFrame(update);
+};
+requestAnimationFrame(update);
+</script>
+{% endblock %}

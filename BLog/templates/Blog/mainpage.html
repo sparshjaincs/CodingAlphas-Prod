@@ -1,0 +1,345 @@
+{% extends 'Core/snippets/base.html' %}
+{% load shortcuts %}
+{% block header %}
+{% include 'Core/snippets/header.html' %}
+{% endblock %}
+{% block style %}
+path , svg{
+    display:none;
+}
+{% endblock %} 
+
+{% block body %}
+
+<div class="section" style="background-color: white;">
+    <div class="container">
+        <div class="row mt-5 pt-5">
+            <div class="col-12 col-md-12 col-lg-8 offset-lg-2  pb-3 mb-5">
+               
+              <h2 style="font-weight: 700; ">
+                  {{data.title}}
+              </h2>
+              <div class="mt-3" data-aos="fade-up">
+                <span style="font-size: 14px; font-weight: 600;" class="ml-2 text-color">
+                  <i class="fa fa-paper-plane"></i> Published by  <a href="/profile/{{data.user}}/">{{data.user.profile.first_name}} {{data.user.profile.last_name}}</a>  on {{data.edited}} , {{data.content|safe|time}} min read ( {{data.content|safe|length}} words ) | {{data.countview}} Views
+                </span>
+            </div>
+
+                <div class="mt-3" data-aos="fade-up">
+                    <img src="/media/{{data.image}}" style="width:100%; " class="rounded">
+                </div>
+                
+                <div class="mt-3 border-top border-bottom pt-2 pb-2" data-aos="fade-up">
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-start align-items-center">
+                            <div>
+                                <img class="p-1" src="/media/{{data.user.profile.avatar}}" style="width: 60px; height:60px; border-radius: 50%; border:1px solid #2EA8E6;">
+                            </div>
+                            <div class="ml-2">
+                                <a href="/profile/{{data.user}}/">{{data.user.profile.first_name}} {{data.user.profile.last_name}}</a> <span style="font-size: 14px; font-weight: 500;" class="ml-2">{{side}} Article</span>
+                               <div style="font-size: 13px;">
+                                {{data.user.profile.headline}}
+                               </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-start align-items-center">
+                            <a onclick="like1('blog','{{data.id}}','heart{{data.id}}','heartsec{{data.id}}')" style="cursor: pointer;">
+                                <div class=" mr-3" style="font-size: 20px;">
+                                    <i class="fa fa-heart fa2" style="{% if request.user in data.like.all %} color:#E57851; -webkit-text-stroke-color:#E57851; {% endif %}" id="heart{{data.id}}"></i> 
+                                </div>
+                                </a>
+                                <a onclick="bookmark('blog','{{data.id}}','bookmark{{data.id}}','bookmarksec{{data.id}}')" style="cursor: pointer;">
+                                    <div class=" mr-3" style="font-size: 20px;">
+                                        <i class="fa fa-bookmark fa2" style="{% if data in request.user.bookmarkuser.all.0.article_instance.all %} color:#E57851; -webkit-text-stroke-color:#E57851; {% endif %}" id="bookmark{{data.id}}"></i> 
+                                    </div>
+                                    </a>
+                            <div class=" mr-3" style="font-size: 20px;">
+                                <i class="fa fa-paper-plane fa2"></i> 
+                            </div>
+                            <a href="#comment_class">
+                            <div class=" mr-3" style="font-size: 20px;">
+                                <i class="fa fa-comment fa2"></i> 
+                            </div>
+                            </a>
+                            {% if data.user != request.user %}
+                            <div class=" mr-3" style="font-size: 20px;">
+                                <a onclick="follow('{{data.user}}','follow{{data.id}}','follow_class')" class="btn btn-sm follow_class"  style="border-color:#2EA8E6; color:#2EA8E6; border-radius:20px; " id="follow{{data.id}}">{% if data.user in request.user.profile.following.all %} Unfollow {% else %}  Follow{% endif %}</a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3" data-aos="fade-up">
+                    {{data.content|safe|linebreaks}}
+                </div>
+                <div class="border-top border-bottom pt-2 pb-2" data-aos="fade-up">
+                    <div style="font-size: 14px;">
+                        Published on {{data.edited}}
+                    </div>
+                    <div class="d-flex justify-content-between mt-2" >
+                        <div class="d-flex justify-content-start align-items-center">
+                            <div>
+                                <img class="p-1" src="/media/{{data.user.profile.avatar}}" style="width: 60px; height:60px; border-radius: 50%; border:1px solid #2EA8E6;">
+                            </div>
+                            <div class="ml-2">
+                                <a href="/profile/{{data.user}}/">{{data.user.profile.first_name}} {{data.user.profile.last_name}}</a> <span style="font-size: 14px; font-weight: 500;" class="ml-2">{{side}} Article</span>
+                               <div style="font-size: 13px;">
+                                {{data.user.profile.headline}}
+                               </div>
+                            </div>
+                        </div>
+                        {% if data.user != request.user %}
+                        <div>
+                            <div class=" mr-3" style="font-size: 20px;">
+                                <a onclick="follow('{{data.user}}','follow{{data.id}}','follow_class')" class="btn btn-sm follow_class" style="border-color:#2EA8E6; color:#2EA8E6; border-radius:20px; " id="follow2{{data.id}}">{% if data.user in request.user.profile.following.all %} Unfollow {% else %} <i class="fa fa-plus fa2"></i> Follow{% endif %}</a>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                       
+                    </div>
+                </div>
+                <div id="comment_class" class="border-bottom pt-3 pb-3 d-flex justify-content-between align-items-center" data-aos="fade-up">
+                    <div class="d-flex justify-content-start align-items-center">
+                        <a onclick="like1('blog','{{data.id}}','heartsec{{data.id}}','heart{{data.id}}')" style="cursor: pointer;">
+                            <div class=" mr-3" style="font-size: 20px;">
+                                <i class="fa fa-heart fa2" style="{% if request.user in data.like.all %} color:#E57851; -webkit-text-stroke-color:#E57851; {% endif %}" id="heartsec{{data.id}}"></i> 
+                            </div>
+                            </a>
+                            <a onclick="bookmark('blog','{{data.id}}','bookmarksec{{data.id}}','bookmark{{data.id}}')" style="cursor: pointer;">
+                                <div class=" mr-3" style="font-size: 20px;">
+                                    <i class="fa fa-bookmark fa2" style="{% if data in request.user.bookmarkuser.all.0.article_instance.all %} color:#E57851; -webkit-text-stroke-color:#E57851; {% endif %}" id="bookmarksec{{data.id}}"></i> 
+                                </div>
+                                </a>
+                       
+                        <div class=" mr-3" style="font-size: 20px;">
+                            <i class="fa fa-paper-plane fa2"></i> 
+                        </div>
+                        <a href="#comment_class">
+                            <div class=" mr-3" style="font-size: 20px;">
+                                <i class="fa fa-comment fa2"></i> 
+                            </div>
+                        </a>
+                       
+                        
+                    </div> 
+                    <div style="font-size: 13px;">
+                     {% if request.user in data.like.all %} 
+                                {% if data.like.all.count == 1%}
+                                    You liked this article.
+                                {% else %}
+                                    You, and {{data.like.all.count|add:"-1"}} other liked this article. 
+                                {% endif %}
+
+                    {% else %}
+                    {{data.like.all.count}} likes 
+                     {% endif %},   {{data.blog_comment_ques.all.count}} comments
+                    </div>
+                </div>
+                <div class="mt-5" data-aos="fade-up" >
+                    {% if request.user.is_authenticated %}
+                    <a href="/logout/" >Logged in as {{request.user}}. Log out?</a>
+                      {% else %}
+                      <a href="/signin/" >SignIn to comment?</a>
+                    {% endif %}
+                </div>
+  
+                <div class="mt-3 d-flex justify-content-start align-items-center" data-aos="fade-up" >
+                   
+                        {% csrf_token %}
+                      {% if request.user.is_authenticated %}
+                      <img src="/media/{{request.user.profile.avatar}}" style="width:40px; height:40px;" class="rounded-circle">
+                      {% else %}
+                      <img src="/media/users/images/default.jpg" style="width:40px; height:40px;" class="rounded-circle">
+                      {% endif %}
+                        <input id="comment_input" required placeholder="Write comment here..." type="text" class="form-control ml-2 " style="border-top-left-radius:20px; border-bottom-left-radius:20px; font-size: 14px;">
+                          <button onclick = "Comment_Submit('blog','comment_input','{{data.id}}','comment_wrapper','parent')" class="btn ml-2" style="font-size:14px; background-color:#2EA8E6; color: white; border-top-right-radius:20px; border-bottom-right-radius:20px; "><i class="fa fa-paper-plane"></i> Post</button>
+                    
+                </div>
+                <div id="comment_wrapper" class="mt-4">
+                    
+                    {% for i in data.blog_comment_ques.all %}
+                        {% if i.is_parent %}
+                        <div data-aos="fade-up" class="mb-3 d-flex justify-content-start" id="commentparent{{i.id}}">
+                            <div>
+                                <img src="/media/{{i.user.profile.avatar}}" style="width:40px; height:40px; border-radius:50%;">
+                            </div>
+                           <div style="width: 100%;">
+                                <div style="background-color: #F2F2F2; width: 100%;" class="ml-2 rounded p-2">
+                                    <div class="d-flex justify-content-between">
+                                       <div > 
+                                        <div style="font-size: 13px; font-weight: 600;">
+                                           <a href="/profile/{{i.user}}/"> {{i.user.profile.first_name}} {{i.user.profile.last_name}} </a> {% if request.user == i.user %}<span class="badge badge-sm badge-dark">Author</span>{% endif %}
+                                           </div>
+                                           <div style="font-size: 13px;" class="text-muted">
+                                               {{i.user.profile.headline}}
+                                           </div>
+                                       </div>
+                                       <div style="font-size: 13px;" class="text-muted d-flex justify-content-end">
+                                        <div>
+                                           {{i.created}}  
+                                           </div>
+                                           
+                                        </div>
+
+                                    </div>
+                                    <div style="font-size: 13px; font-weight: 500;" class="mt-1">
+                                        {{i.body|safe}}
+                                    </div>
+                                </div>
+                                <div data-aos="fade-up" class="d-flex justify-content-start">
+                                    <a onclick="like1('blog_comment','{{i.id}}','heartseccom{{i.id}}','heartcom{{i.id}}')" style="cursor: pointer;" class="ml-2">
+                                        <div class=" mr-3" style="font-size: 13px;">
+                                            <i class="fa fa-heart fa2" style="{% if request.user in i.like.all %} color:#E57851; -webkit-text-stroke-color:#E57851; {% endif %}" id="heartseccom{{i.id}}"></i> 
+                                        </div>
+                                        </a>
+                                        {% if request.user == i.user %}
+                                        <a onclick="delete_all('comment_delete','{{i.id}}','commentparent{{i.id}}')" class="mr-3 " style="font-size: 13px; color:#2EA8E6;" data-toggle="collapse" href="#multiCollapseExample1{{i.id}}" role="button" aria-expanded="false" aria-controls="multiCollapseExample1{{i.id}}">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                        {% endif %}
+                                    <a class="mr-2" style="font-size: 13px;" data-toggle="collapse" href="#multiCollapseExample1{{i.id}}" role="button" aria-expanded="false" aria-controls="multiCollapseExample1{{i.id}}">
+                                        Reply
+                                    </a>
+                                   
+                                    
+                                       
+                                       
+        
+                                </div>
+                                <div class="collapse multi-collapse mt-1 ml-2" id="multiCollapseExample1{{i.id}}">
+                                    <div class="mt-3 d-flex justify-content-start align-items-center" data-aos="fade-up">
+                   
+                                        {% csrf_token %}
+                                      {% if request.user.is_authenticated %}
+                                      <img src="/media/{{request.user.profile.avatar}}" style="width:40px; height:40px;" class="rounded-circle">
+                                      {% else %}
+                                      <img src="/media/users/images/default.jpg" style="width:40px; height:40px;" class="rounded-circle">
+                                      {% endif %}
+                                        <input id="comment_input_child{{i.id}}" required placeholder="Write comment here..." type="text" class="form-control ml-2" style="border-top-left-radius:20px; border-bottom-left-radius:20px; font-size: 14px;">
+                                          <button onclick = "Comment_Submit('blog','comment_input_child{{i.id}}','{{data.id}}','child_wrapper{{i.id}}','child','{{i.id}}')" class="btn ml-2" style="font-size:14px; background-color:#2EA8E6; color: white; border-top-right-radius:20px; border-bottom-right-radius:20px; "><i class="fa fa-paper-plane"></i> Post</button>
+                                    
+                                </div>
+                                  </div>
+
+                                  <div id="child_wrapper{{i.id}}" class="ml-2 mt-2">
+                                        {% for j in i.children %}
+
+
+
+
+                                        <div data-aos="fade-up" class="mb-3 d-flex justify-content-start" id="commentchild{{j.id}}">
+                                            <div>
+                                                <img src="/media/{{j.user.profile.avatar}}" style="width:40px; height:40px; border-radius:50%;">
+                                            </div>
+                                           <div style="width: 100%;">
+                                                <div style="background-color: #F2F2F2; width: 100%;" class="ml-2 rounded p-2">
+                                                    <div class="d-flex justify-content-between">
+                                                       <div > 
+                                                        <div style="font-size: 13px; font-weight: 600;">
+                                                           <a href="/profile/{{j.user}}/"> {{j.user.profile.first_name}} {{j.user.profile.last_name}}</a>{% if request.user == i.user %} <span class="badge badge-sm badge-dark">Author</span>{% endif %}
+                                                           </div>
+                                                           <div style="font-size: 13px;" class="text-muted">
+                                                               {{j.user.profile.headline}}
+                                                           </div>
+                                                       </div>
+                                                       <div style="font-size: 13px;" class="text-muted">
+                                                           {{j.created}}
+                                                        </div>
+                
+                                                    </div>
+                                                    <div style="font-size: 13px; font-weight: 500;" class="mt-1">
+                                                        {{j.body|safe}}
+                                                    </div>
+                                                </div>
+                                                <div data-aos="fade-up" class="d-flex justify-content-start">
+                                                    <a onclick="like1('blog_comment','{{j.id}}','heartseccom{{j.id}}','heartcom{{j.id}}')" style="cursor: pointer;" class="ml-2">
+                                                        <div class=" mr-3" style="font-size: 13px;">
+                                                            <i class="fa fa-heart fa2" style="{% if request.user in j.like.all %} color:#E57851; -webkit-text-stroke-color:#E57851; {% endif %}" id="heartseccom{{j.id}}"></i> 
+                                                        </div>
+                                                        </a>
+                                                        {% if request.user == j.user %}
+                                                        <a onclick="delete_all('comment_delete','{{j.id}}','commentchild{{j.id}}')" class="mr-3 " style="font-size: 13px; color:#2EA8E6;" data-toggle="collapse" href="#multiCollapseExample1{{i.id}}" role="button" aria-expanded="false" aria-controls="multiCollapseExample1{{i.id}}">
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
+                                                        {% endif %}
+                                                    <a class="" style="font-size: 13px;" data-toggle="collapse" href="#multiCollapseExample1{{j.id}}" role="button" aria-expanded="false" aria-controls="multiCollapseExample1{{j.id}}">
+                                                        Reply
+                                                    </a>
+                        
+                                                </div>
+                                                <div class="collapse multi-collapse mt-1 ml-2" id="multiCollapseExample1{{j.id}}">
+                                                    <div class="mt-3 d-flex justify-content-start align-items-center" data-aos="fade-up">
+                                   
+                                                        {% csrf_token %}
+                                                      {% if request.user.is_authenticated %}
+                                                      <img src="/media/{{request.user.profile.avatar}}" style="width:40px; height:40px;" class="rounded-circle">
+                                                      {% else %}
+                                                      <img src="/media/users/images/default.jpg" style="width:40px; height:40px;" class="rounded-circle">
+                                                      {% endif %}
+                                                        <input id="comment_input_child{{j.id}}" required placeholder="Write comment here..." type="text" class="form-control ml-2" style="border-top-left-radius:20px; border-bottom-left-radius:20px; font-size: 14px;">
+                                                          <button onclick = "Comment_Submit('blog','comment_input_child{{j.id}}','{{data.id}}','child_wrapper{{i.id}}','child','{{i.id}}')" class="btn ml-2" style="font-size:14px; background-color:#2EA8E6; color: white; border-top-right-radius:20px; border-bottom-right-radius:20px; "><i class="fa fa-paper-plane"></i> Post</button>
+                                                    
+                                                </div>
+                                                  </div>
+                
+                                                 
+                
+                
+                                                </div>
+                                            
+                                        </div>
+
+                                        {% endfor %}
+                                  </div>
+
+
+                                </div>
+                            
+                        </div>
+                        {% endif %}
+                    {% endfor%}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block footer %}
+{% include 'Core/snippets/footer.html' %}
+{% endblock %}
+
+{% block script %}
+<script>
+    function Comment_Submit(type,text,instance,prependid,method,comment_instance=null){
+       
+        var data = document.getElementById(text).value;
+        $.ajax({
+            type:"POST",
+            url:"/comment_submit/",
+            data:{
+                "type":type,
+                "text":data,
+                "instance":instance,
+                "method":method,
+                "comment_instance":comment_instance,
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success:function(json){
+                json = JSON.parse(json);
+                var notify = new Notyf();
+                if (json == 1){
+                    
+                    notify.success("Commented successfully");
+                }
+                else{
+                    notify.error("Comment failed");
+                }
+            }
+        })
+    }
+</script>
+{% endblock %}
